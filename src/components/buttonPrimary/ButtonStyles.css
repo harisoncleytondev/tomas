@@ -1,0 +1,28 @@
+.buttonsHome {
+  > button {
+      background: #2463EB;
+      color: #FFFFFF;
+      display: flex;
+      min-width: 173px;
+      height: 51px;
+      max-width: 300px;
+      padding: 10px;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      border: none;
+      border-radius: 9px;
+      font-size: 18px;
+      font-family: "Baloo 2", sans-serif;
+      font-size: 28px;
+      font-style: normal;
+      font-weight: 400;
+      transition: 0.6s ease;
+      cursor: pointer;
+    
+  
+      &:hover {
+        background: #2463EB9E;
+      }
+  }
+}
