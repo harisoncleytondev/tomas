@@ -11,7 +11,7 @@ export default function About() {
     <div>
       <NavBar active="about" />
 
-      <section id="about_container">
+      <section id="about_section_container">
         <div id="about_div_texts">
           <h1>Olá, Quem somos?</h1>
           <p>
@@ -62,10 +62,9 @@ export default function About() {
               </div>
 
               <div id="about_div_form_body_button">
-                <ButtonBlue
-                  divName="about_button_one"
-                  name="Entrar em contato"
-                />
+                <ButtonBlue id="about_button_one">
+                  Entrar em contato
+                </ButtonBlue>
               </div>
             </div>
           </form>

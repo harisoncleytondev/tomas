@@ -1,4 +1,4 @@
-#about_container {
+#about_section_container {
   display: flex;
   gap: 5rem;
   justify-content: center;
@@ -35,7 +35,7 @@
 
   & > #about_div_form {
     & > form > #about_div_form_header > h3 {
-      color: #2463eb;
+      color: var(--text-color-blue);
       font-family: "Lexend Deca";
       font-size: 20px;
       font-weight: 400px;
@@ -66,17 +66,17 @@
       }
     }
 
-    & .about_button_one {
+    & #about_button_one {
       min-width: 530px;
     }
 
     & .about_label {
-        padding-left: 38px;
+      padding-left: 38px;
 
-        color: #000;
-        font-family: "Lexend Deca";
-        font-size: 12px;
-        font-weight: 400px;
+      color: #000;
+      font-family: "Lexend Deca";
+      font-size: 12px;
+      font-weight: 400px;
     }
 
     & .about_form_input_container {
@@ -84,7 +84,7 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      padding-top: .3rem;
+      padding-top: 0.3rem;
       gap: 0.6rem;
 
       & > .about_input {

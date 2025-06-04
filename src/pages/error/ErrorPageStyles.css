@@ -11,7 +11,7 @@
     cursor: pointer;
 
     &:hover {
-        scale: 130%;
+      scale: 130%;
     }
   }
 
@@ -28,7 +28,8 @@
     color: var(--text-color-gray);
   }
 
-  & > h2, h4 {
+  & > h2,
+  h4 {
     font-family: "Baloo 2", sans-serif;
   }
 
@@ -55,12 +56,12 @@
     flex-direction: column;
 
     & > ul {
-        display: flex;
-        flex-direction: column;
-        gap: .6rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
 
-        text-align: center;
-        list-style: none;
+      text-align: center;
+      list-style: none;
     }
   }
 }

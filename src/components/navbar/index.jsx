@@ -1,11 +1,14 @@
-import ButtonBlue from "../buttonPrimary";
+/* CSS */
 import "./NavBarStyles.css";
 
-export default function NavBar( {active} ) {
+/* COMPONENTS */
+import ButtonBlue from "../buttonPrimary";
+
+export default function NavBar({ active }) {
   return (
     <div>
-      <div id="navbar">
-        <div id="logo">
+      <div id="component_navbar_div_container">
+        <div id="component_navbar_div_logo">
           <img
             src="/public/assets/icons/favicon/TomasOFC.png"
             id="TomasOFC"
@@ -14,12 +17,33 @@ export default function NavBar( {active} ) {
         </div>
 
         <ul>
-          <li><a href="/" id={active == "home" ? "active" : ""}>Inicio</a></li>
-          <li><a href="/sobre" id={active == "about" ? "active" : ""}>Sobre Nós</a></li>
-          <li><a href="" id={active == "books" ? "active" : ""}>Livros</a></li>
+          <li>
+            <a
+              href="/"
+              id={active == "home" ? "component_navbar_li_active" : ""}
+            >
+              Inicio
+            </a>
+          </li>
+          <li>
+            <a
+              href="/sobre"
+              id={active == "about" ? "component_navbar_li_active" : ""}
+            >
+              Sobre Nós
+            </a>
+          </li>
+          <li>
+            <a
+              href=""
+              id={active == "books" ? "component_navbar_li_active" : ""}
+            >
+              Livros
+            </a>
+          </li>
         </ul>
 
-        <ButtonBlue className="component_footer_button_one">Iniciar Chat</ButtonBlue>
+        <ButtonBlue id="component_navbar_button_one">Iniciar Chat</ButtonBlue>
       </div>
     </div>
   );

@@ -7,8 +7,9 @@ import ButtonBlue from "../../components/buttonPrimary";
 /* REACT ICONS */
 import { FaHouseChimney } from "react-icons/fa6";
 
-/* REACT ROUTER */
+/* REACT ROUTER DOM */
 import { useNavigate } from "react-router-dom";
+import Footer from "../../components/footer";
 
 export default function ErrorPage({ errorId, description }) {
   const navigate = useNavigate();

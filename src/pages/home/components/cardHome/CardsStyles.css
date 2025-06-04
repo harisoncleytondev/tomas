@@ -1,4 +1,4 @@
-#containerCard {
+#home_component_cardhome_div_container {
   border-radius: 9px;
   padding: 20px 20px;
   background: #FFF;
@@ -6,7 +6,7 @@
   height: 190px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 
-  & #title {
+  & > #home_component_cardhome_div_title {
     display: flex;
     gap: 20px;
     justify-content: left;
@@ -18,15 +18,15 @@
       font-size: 26px;
       font-weight: 400;
     }
+
+    & > img {
+      width: 48px;
+      height: 48px;
+      border-radius: 25px;
+    }
   }
 
-  & #title > img {
-    width: 48px;
-    height: 48px;
-    border-radius: 25px;
-  }
-
-  & #space {
+  & #home_component_cardhome_div_space {
     width: 379px;
     height: 0.8px;
     margin-block: 15px;
@@ -34,7 +34,7 @@
   }
 
   & > p {
-    color: #4B5563;
+    color: var(--text-color-gray);
     font-family: Roboto;
     font-size: 16px;
     font-weight: 400;
