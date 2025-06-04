@@ -1,5 +1,7 @@
+/* CSS */
 import "./AboutStyles.css";
 
+/* COMPONENTS */
 import NavBar from "../../components/navbar";
 import Footer from "../../components/footer";
 import ButtonBlue from "../../components/buttonPrimary";

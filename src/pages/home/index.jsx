@@ -1,14 +1,13 @@
-/* Components */
+/* CSS */
+import './HomeStyles.css';
+
+/* COMPONENTS */
 import ButtonBlue from '../../components/buttonPrimary';
 import CardHome from './components/cardHome';
-import './HomeStyles.css';
 import NavBar from '../../components/navbar';
 import Footer from '../../components/footer';
 
-/* React */
-import { Outlet } from "react-router-dom"
-
-// Imgs
+/* ASSETS */
 import bot from '../../../public/assets/icons/home/icon_bot.png';
 import book from '../../../public/assets/icons/home/icon_book.png';
 import chat from '../../../public/assets/icons/home/icon_chat.png';
@@ -27,7 +26,7 @@ export default function Home() {
       </div>
       
        <div id='buttons'>
-          <ButtonBlue name={"Começar Agora \u2192"} />
+          <ButtonBlue>Começar Agora \u2192</ButtonBlue>
        </div>
 
       <div id='cards'>
@@ -54,8 +53,6 @@ export default function Home() {
       </div>
 
       <Footer />
-
-      <Outlet />
       
     </div>
   )

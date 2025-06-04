@@ -1,0 +1,66 @@
+#error_div_container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  & > #error_div_robot {
+    padding-top: 2rem;
+    scale: 120%;
+    transition: scale 0.6s ease;
+    cursor: pointer;
+
+    &:hover {
+        scale: 130%;
+    }
+  }
+
+  & > h1 {
+    font-family: "Baloo 2", sans-serif;
+    color: var(--text-color-blue);
+    font-size: 60px;
+  }
+
+  & > h2,
+  p,
+  li,
+  h4 {
+    color: var(--text-color-gray);
+  }
+
+  & > h2, h4 {
+    font-family: "Baloo 2", sans-serif;
+  }
+
+  & > p {
+    opacity: 0.9;
+    max-width: 400px;
+    text-align: center;
+    font-size: 16px;
+  }
+
+  & > #error_div_button {
+    padding-block: 1.5rem;
+  }
+
+  & #error_button_exit {
+    font-size: 18px;
+    padding: 20px;
+  }
+
+  & > #error_div_list {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    & > ul {
+        display: flex;
+        flex-direction: column;
+        gap: .6rem;
+
+        text-align: center;
+        list-style: none;
+    }
+  }
+}

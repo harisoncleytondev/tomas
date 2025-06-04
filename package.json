@@ -2,7 +2,7 @@
   "name": "thomaz",
   "version": "1.0.0",
   "type": "module",
-  "description": "Thomaz project",
+  "description": "Tomas project",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

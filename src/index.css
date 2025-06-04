@@ -8,6 +8,12 @@ body {
   background-color: #F9F9F9;
 }
 
+/* Variaveis */
+:root {
+  --text-color-blue: #2463eb;
+  --text-color-gray: #4B5563;
+}
+
 /* Scrollbar para Chrome, Edge e Safari */
 ::-webkit-scrollbar {
   width: 8px;

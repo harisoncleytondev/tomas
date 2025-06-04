@@ -1,4 +1,4 @@
-import ButtonHome from "../buttonPrimary";
+import ButtonBlue from "../buttonPrimary";
 import "./NavBarStyles.css";
 
 export default function NavBar( {active} ) {
@@ -19,7 +19,7 @@ export default function NavBar( {active} ) {
           <li><a href="" id={active == "books" ? "active" : ""}>Livros</a></li>
         </ul>
 
-        <ButtonHome divName="component_footer_button_one" name="Iniciar Chat" />
+        <ButtonBlue className="component_footer_button_one">Iniciar Chat</ButtonBlue>
       </div>
     </div>
   );

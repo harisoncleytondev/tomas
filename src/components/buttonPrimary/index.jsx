@@ -1,9 +1,9 @@
 import './ButtonStyles.css';
 
-export default function ButtonBlue( { divName, name } ) {
+export default function ButtonBlue({ children, ...props }) {
   return (
     <div className='buttonsHome'>
-      <button className={divName}>{name}</button>
+      <button {...props}>{children}</button>
     </div>
   )
 }
