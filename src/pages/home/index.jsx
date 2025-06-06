@@ -11,9 +11,9 @@ import Footer from "../../components/footer";
 import { FaLongArrowAltRight } from "react-icons/fa";
 
 /* ASSETS */
-import bot from "../../../public/assets/icons/home/icon_bot.png";
-import book from "../../../public/assets/icons/home/icon_book.png";
-import chat from "../../../public/assets/icons/home/icon_chat.png";
+import bot from "./assets/icon_bot.png";
+import book from "./assets/icon_book.png";
+import chat from "./assets/icon_chat.png";
 
 export default function Home() {
   return (

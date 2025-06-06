@@ -41,3 +41,9 @@
     margin-top: 30px;
   }
 }
+
+@media (max-width: 480px) {
+  #home_component_cardhome_div_container {
+    scale: 85%;
+  }
+}

@@ -23,9 +23,10 @@
   }
 
   & > #home_div_cards {
-    display: flex;
-    justify-content: center;
-    gap: 1.6rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+    gap: 0.8rem;
+    justify-items: center;
     padding-bottom: 0.6rem;
   }
 
@@ -36,5 +37,30 @@
     line-height: 35px;
     font-weight: 400px;
     padding-bottom: 25px;
+  }
+}
+
+@media (max-width: 480px) {
+  #home_div_container {
+    & > #home_div_texts {
+      & > h1 {
+        font-size: 40px;
+      }
+
+      & > p {
+        font-size: 12px;
+      }
+    }
+    & > #home_div_button_start {
+      scale: 80%;
+    }
+
+    & > #home_div_cards {
+      display: flex;
+      flex-direction: column;
+      justify-items: center;
+      align-items: center;
+      gap: 0;
+    }
   }
 }

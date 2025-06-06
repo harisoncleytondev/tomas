@@ -3,9 +3,6 @@
       background: var(--text-color-blue);
       color: #FFFFFF;
       display: flex;
-      min-width: 173px;
-      height: 51px;
-      max-width: 300px;
       padding: 10px;
       justify-content: center;
       align-items: center;

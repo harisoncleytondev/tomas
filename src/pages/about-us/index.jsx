@@ -23,51 +23,51 @@ export default function About() {
           </p>
         </div>
 
-        <div id="about_div_form">
-          <form>
-            <div id="about_div_form_header">
-              <h3>Precisa de ajuda? Fale com a gente!</h3>
-            </div>
+        <div id="about_div_contact">
+          <div id="about_div_form">
+            <form>
+              <div id="about_div_form_header">
+                <h3>Precisa de ajuda? Fale com a gente!</h3>
+              </div>
 
-            <div id="about_div_form_body">
-              <div>
-                <label htmlFor="email" className="about_label">
-                  Email:
-                </label>
-                <div className="about_form_input_container">
-                  <input
-                    type="email"
-                    name="email"
-                    className="about_input"
-                    id="about_input_email"
-                    placeholder="seuemail@gmail.com"
-                    required
-                  />
+              <div id="about_div_form_body">
+                <div>
+                  <label htmlFor="about_input_email" className="about_label">
+                    Email:
+                  </label>
+                  <div className="about_form_input_container">
+                    <input
+                      type="email"
+                      className="about_input"
+                      id="about_input_email"
+                      placeholder="seuemail@gmail.com"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label htmlFor="about_input_text" className="about_label">
+                    Assunto:
+                  </label>
+                  <div className="about_form_input_container">
+                    <textarea
+                      className="about_input"
+                      id="about_input_text"
+                      placeholder="Sobre o que deseja falar?"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div id="about_div_form_body_button">
+                  <ButtonBlue id="about_button_one">
+                    Entrar em contato
+                  </ButtonBlue>
                 </div>
               </div>
-
-              <div>
-                <label htmlFor="text" className="about_label">
-                  Assunto:
-                </label>
-                <div className="about_form_input_container">
-                  <textarea
-                    name="text"
-                    className="about_input"
-                    id="about_input_text"
-                    placeholder="Sobre o que deseja falar?"
-                    required
-                  />
-                </div>
-              </div>
-
-              <div id="about_div_form_body_button">
-                <ButtonBlue id="about_button_one">
-                  Entrar em contato
-                </ButtonBlue>
-              </div>
-            </div>
-          </form>
+            </form>
+          </div>
         </div>
       </section>
 
