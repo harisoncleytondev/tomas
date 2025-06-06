@@ -41,7 +41,7 @@ export default function NavBar({ active }) {
       <div id="component_navbar_div_container">
         <div id="component_navbar_div_logo">
           <img
-            src="/public/assets/icons/favicon/TomasOFC.png"
+            src={bot}
             id="TomasOFC"
           ></img>
           <h2>Tomas</h2>
