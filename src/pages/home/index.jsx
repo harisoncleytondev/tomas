@@ -25,9 +25,9 @@ export default function Home() {
           Bem-vindo ao seu <br></br>Assistente IA
         </h1>
         <p>
-          Uma inteligência feita para entender você. Converse com nosso chatbot{" "}
+          Uma inteligência feita para entender você. Converse com nosso chatbot, 
           <br></br>
-          pensado tire dúvidas, organize ideias e receba ajuda do seu jeito.
+          pensado para tirar dúvidas, organizar ideias e receber ajuda do seu jeito.
         </p>
       </div>
 
