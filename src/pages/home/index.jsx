@@ -11,12 +11,22 @@ import BackgroundDecor from "../../components/backgroundDecor";
 /* REACT ICONS */
 import { FaLongArrowAltRight } from "react-icons/fa";
 
+/* REACT ROUTER DOM */
+import { Navigate, useNavigate } from "react-router-dom";
+
 /* ASSETS */
 import bot from "./assets/icon_bot.png";
 import book from "./assets/icon_book.png";
 import chat from "./assets/icon_chat.png";
 
 export default function Home() {
+
+  const navigate = useNavigate();
+
+  const goTo = ( to ) => {
+    navigate(to);
+  }
+
   return (
     <div id="home_div_container">
       <NavBar active="home" />
@@ -34,7 +44,7 @@ export default function Home() {
       </div>
 
       <div id="home_div_button_start">
-        <ButtonBlue>
+        <ButtonBlue onClick={() => goTo("/login")}>
           Começar Agora <FaLongArrowAltRight />
         </ButtonBlue>
       </div>
