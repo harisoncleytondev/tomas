@@ -1,15 +1,18 @@
 /* CSS */
 import "./NavBarStyles.css";
 
-/* REACT */
-import { useRef, useState } from "react";
-
 /* COMPONENTS */
 import ButtonBlue from "../buttonPrimary";
+
+/* REACT */
+import { useRef, useState } from "react";
 
 /* REACT ICONS */
 import { IoMenu } from "react-icons/io5";
 import { IoMdClose } from "react-icons/io";
+
+/* REACT DOM */
+import { Link } from "react-router-dom";
 
 /* ASSETS */
 import bot from "./assets/icons/TomasOFC.png";
@@ -36,35 +39,38 @@ export default function NavBar({ active }) {
     });
   };
 
+  const links = (
+    <ul>
+      <li>
+        <Link
+          className="component_navbar_link"
+          to="/"
+          id={active == "home" ? "component_navbar_li_active" : ""}
+        >
+          Inicio
+        </Link>
+      </li>
+      <li>
+        <Link
+          className="component_navbar_link"
+          to="/sobre"
+          id={active == "about" ? "component_navbar_li_active" : ""}
+        >
+          Sobre Nós
+        </Link>
+      </li>
+    </ul>
+  );
+
   return (
     <div>
       <div id="component_navbar_div_container">
         <div id="component_navbar_div_logo">
-          <img
-            src={bot}
-            id="TomasOFC"
-          ></img>
+          <img src={bot} id="TomasOFC"></img>
           <h2>Tomas</h2>
         </div>
 
-        <ul>
-          <li>
-            <a
-              href="/"
-              id={active == "home" ? "component_navbar_li_active" : ""}
-            >
-              Inicio
-            </a>
-          </li>
-          <li>
-            <a
-              href="/sobre"
-              id={active == "about" ? "component_navbar_li_active" : ""}
-            >
-              Sobre Nós
-            </a>
-          </li>
-        </ul>
+        {links}
 
         <div id="component_navbar_div_menu_mobile_icon">
           <button onClick={() => openMenuMobile()}>
@@ -77,27 +83,12 @@ export default function NavBar({ active }) {
           id="component_navbar_div_menu_mobile"
           ref={menu}
         >
-          <ul>
-            <li>
-              <a
-                href="/"
-                id={active == "home" ? "component_navbar_li_active" : ""}
-              >
-                Inicio
-              </a>
-            </li>
-            <li>
-              <a
-                href="/sobre"
-                id={active == "about" ? "component_navbar_li_active" : ""}
-              >
-                Sobre Nós
-              </a>
-            </li>
-          </ul>
+          {links}
 
           <div id="component_navbar_div_menu_mobile_btn">
-            <ButtonBlue id="component_navbar_button_two">Iniciar Chat</ButtonBlue>
+            <ButtonBlue id="component_navbar_button_two">
+              Iniciar Chat
+            </ButtonBlue>
           </div>
         </div>
 
