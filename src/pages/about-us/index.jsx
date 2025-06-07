@@ -5,11 +5,13 @@ import "./AboutStyles.css";
 import NavBar from "../../components/navbar";
 import Footer from "../../components/footer";
 import ButtonBlue from "../../components/buttonPrimary";
+import BackgroundDecor from "../../components/backgroundDecor";
 
 export default function About() {
   return (
     <div>
       <NavBar active="about" />
+      <BackgroundDecor />
 
       <section id="about_section_container">
         <div id="about_div_texts">

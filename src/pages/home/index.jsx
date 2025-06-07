@@ -6,6 +6,7 @@ import ButtonBlue from "../../components/buttonPrimary";
 import CardHome from "./components/cardHome";
 import NavBar from "../../components/navbar";
 import Footer from "../../components/footer";
+import BackgroundDecor from "../../components/backgroundDecor";
 
 /* REACT ICONS */
 import { FaLongArrowAltRight } from "react-icons/fa";
@@ -19,6 +20,7 @@ export default function Home() {
   return (
     <div id="home_div_container">
       <NavBar active="home" />
+      <BackgroundDecor />
 
       <div id="home_div_texts">
         <h1>
