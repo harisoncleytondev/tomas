@@ -15,9 +15,16 @@ import { Link } from "react-router-dom";
 
 /* REACT ICONS */
 import { FiEye, FiEyeOff } from "react-icons/fi";
+import TermsAndPrivacy from "../../components/termsandprivacy";
 
 export default function Register() {
   const [showPassword, setShowPassword] = useState(false);
+  const [modalTermsOpen, setModalTermsOpen] = useState(false);
+  const [modalTermsOpenType, setModalTermsOpenType] = useState(false);
+
+  const exitModalTerms = () => {
+    return setModalTermsOpen(false);
+  }
 
   return (
     <div id="register_div_container">
@@ -119,13 +126,15 @@ export default function Register() {
         <div id="register_helpers">
           <div id="register_div_remember">
             <input type="checkbox" id="register_input_checkbox" />
-            <label htmlFor="register_input_checkbox">Aceito os <span>termos de uso</span> e <span>política de privacidade</span></label>
+            <label htmlFor="register_input_checkbox">Aceito os <span onClick={() => {setModalTermsOpen(true); setModalTermsOpenType("term")}}>termos de uso</span> e <span onClick={() => {setModalTermsOpen(true); setModalTermsOpenType("poli")}}>política de privacidade</span></label>
           </div>
         </div>
 
         <div id="register_div_button_join">
           <ButtonBlue id="register_button_join">Entrar</ButtonBlue>
         </div>
+
+        <TermsAndPrivacy type={modalTermsOpenType} isOpen={modalTermsOpen} onClose={exitModalTerms}/>
 
         <span id="register_text_span_createaccount">
           Já tem uma conta?{" "}
