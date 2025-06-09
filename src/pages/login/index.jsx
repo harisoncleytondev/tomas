@@ -7,10 +7,19 @@ import ButtonBlue from "../../components/buttonPrimary";
 import Footer from "../../components/footer";
 import BackgroundDecor from "../../components/backgroundDecor";
 
+/* REACT */
+import { useState } from "react";
+
 /* REACT ROUTER DOM */
 import { Link } from "react-router-dom";
 
+/* REACT ICONS */
+import { FiEye, FiEyeOff } from "react-icons/fi";
+
 export default function Login() {
+
+  const [showPassword, setShowPassword] = useState(false);
+
   return (
     <div id="login_div_container">
       <BackgroundDecor />
@@ -32,7 +41,7 @@ export default function Login() {
               type="email"
               placeholder="seuemail@gmail.com"
               id="login_input_email"
-              className="login_input_text"
+              className="login_input_text login_common_input"
               required
             />
           </div>
@@ -44,13 +53,18 @@ export default function Login() {
             >
               Senha
             </label>
-            <input
-              type="password"
-              placeholder="****************"
-              id="login_input_password"
-              className="login_input_text"
-              required
-            />
+            <div id="login_div_input_password">
+              <input
+                type={showPassword == false ? "password" : "text"}
+                placeholder="****************"
+                id="login_input_password"
+                className="login_input_text login_common_input"
+                required
+              />
+              <button onClick={() => {showPassword == false ? setShowPassword(true) : setShowPassword(false)}}>
+                <FiEye/>
+              </button>
+            </div>
           </div>
         </div>
 
@@ -92,7 +106,7 @@ export default function Login() {
         </div>
       </form>
 
-      <Footer className="login_footer"/>
+      <Footer className="login_footer" />
     </div>
   );
 }

@@ -55,7 +55,23 @@
         font-weight: 400;
       }
 
-      & > div > .login_input_text {
+      & > div > #login_div_input_password {
+        display: flex;
+        position: relative;
+
+        & > button {
+          position: absolute;
+          top: 35%;
+          left: 95%;
+          scale: 120%;
+          border: none;
+          background: none;
+          cursor: pointer;
+          color: var(--text-color-gray);
+        }
+      }
+
+      & .login_input_text {
         display: flex;
         min-width: 50vw;
         max-width: 80vw;
@@ -63,7 +79,6 @@
         align-items: center;
         gap: 10px;
         border-radius: 9px;
-        border: 1px solid rgba(121, 121, 121, 0.58);
         outline: none;
       }
     }
@@ -209,6 +224,13 @@
 @media (max-width: 600px) {
   #login_div_container {
     & > #login_form {
+      & > #login_div_inputs {
+        & > div > #login_div_input_password {
+          & > button {
+            left: 90%;
+          }
+        }
+      }
       & > #login_helpers {
         gap: 2rem;
 
@@ -227,4 +249,12 @@
   .login_div_space {
     width: 60px;
   }
+}
+
+.login_common_input {
+  border: 1px solid rgba(121, 121, 121, 0.58);
+}
+
+.login_incorrect_input {
+  border: 1px solid red;
 }
