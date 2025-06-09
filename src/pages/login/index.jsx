@@ -87,7 +87,7 @@ export default function Login() {
 
         <span id="login_text_span_createaccount">
           Não tem uma conta?{" "}
-          <Link id="login_text_link_createaccount" to={""}>
+          <Link id="login_text_link_createaccount" to={"/cadastrar"}>
             {" "}
             Cadastre-se
           </Link>

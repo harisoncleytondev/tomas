@@ -44,7 +44,7 @@ export default function Home() {
       </div>
 
       <div id="home_div_button_start">
-        <ButtonBlue onClick={() => goTo("/login")}>
+        <ButtonBlue onClick={() => goTo("/entrar")}>
           Começar Agora <FaLongArrowAltRight />
         </ButtonBlue>
       </div>

@@ -14,6 +14,7 @@ import Home from "./pages/home";
 import About from "./pages/about-us";
 import Error from "./pages/error";
 import Login from "./pages/login";
+import Register from "./pages/register";
 
 /* APP */
 import App from "./App";
@@ -32,8 +33,12 @@ let router = createBrowserRouter([
         Component: About,
       },
       {
-        path: "login",
+        path: "entrar",
         Component: Login,
+      },
+      {
+        path: "cadastrar",
+        Component: Register,
       },
     ],
   },
