@@ -62,7 +62,7 @@ export default function Login() {
                 required
               />
               <button onClick={() => {showPassword == false ? setShowPassword(true) : setShowPassword(false)}}>
-                <FiEye/>
+                {showPassword == false ? <FiEye /> : <FiEyeOff/>}
               </button>
             </div>
           </div>

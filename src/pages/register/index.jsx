@@ -90,7 +90,7 @@ export default function Register() {
                     : setShowPassword(false);
                 }}
               >
-                <FiEye />
+                {showPassword == false ? <FiEye /> : <FiEyeOff/>}
               </button>
             </div>
           </div>
@@ -117,7 +117,7 @@ export default function Register() {
                     : setShowPassword(false);
                 }}
               >
-                <FiEye />
+                {showPassword == false ? <FiEye /> : <FiEyeOff/>}
               </button>
             </div>
           </div>
