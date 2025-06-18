@@ -12,7 +12,7 @@ import BackgroundDecor from "../../components/backgroundDecor";
 import { FaLongArrowAltRight } from "react-icons/fa";
 
 /* REACT ROUTER DOM */
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 /* ASSETS */
 import bot from "./assets/icon_bot.png";

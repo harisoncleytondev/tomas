@@ -15,6 +15,8 @@ import About from "./pages/about-us";
 import Error from "./pages/error";
 import Login from "./pages/login";
 import Register from "./pages/register";
+import Costumization from "./pages/register/customization";
+import Terms from "./pages/terms";
 
 /* APP */
 import App from "./App";
@@ -39,6 +41,16 @@ let router = createBrowserRouter([
       {
         path: "cadastrar",
         Component: Register,
+        children: [
+          {
+            path: "prefs",
+            Component: Costumization,
+          },
+        ],
+      },
+      {
+        path: "termos-e-politica",
+        Component: Terms,
       },
     ],
   },
