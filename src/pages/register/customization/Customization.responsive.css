@@ -1,0 +1,123 @@
+@media (max-width: 890px) {
+  #costumization_div {
+    & > #costumization_div_content {
+      & .costumization_div_select_typography {
+        & > select {
+          width: 12rem;
+        }
+      }
+
+      & > #costumization_div_content_typography {
+        & .costumization_div_content_typography_input {
+          & > label {
+            font-size: 12px;
+          }
+          & > input {
+            width: 12rem;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 810px) {
+  #costumization_div {
+    & > #costumization_div_content {
+      & > #costumization_div_content_color {
+        padding: 10px 10px;
+      }
+
+      & .costumization_div_select_typography {
+        & > select {
+          width: 10rem;
+        }
+      }
+
+      & > #costumization_div_content_typography {
+        & .costumization_div_content_typography_input {
+          & > input {
+            width: 10rem;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 755px) {
+  #costumization_div {
+    & > #costumization_div_content {
+      & > #costumization_div_content_color {
+        padding: 10px 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      }
+    }
+  }
+}
+
+@media (max-width: 640px) {
+  #costumization_div {
+    & > #costumization_div_header {
+    & > h2 {
+      font-size: 20px;
+    }
+
+    & > p {
+      font-size: 10px;
+    }
+  }
+    & > #costumization_div_content {
+      & > #costumization_div_content_title {
+        & #costumization_div_content_title_btn {
+          scale: 100%;
+          width: 120px;
+          font-size: 20px;
+        }
+      }
+
+      & > #costumization_div_content_typography {
+        & .costumization_div_select_typography {
+          & > select {
+            width: 80vw;
+          }
+        }
+
+        & .costumization_div_content_typography_input {
+          & > input {
+            width: 80vw;
+          }
+        }
+
+        & > #costumization_div_content_typography_one,
+        #costumization_div_content_typography_two {
+          flex-direction: column;
+          justify-content: center;
+          padding-block: 20px;
+          gap: 2rem;
+        }
+      }
+    }
+  }
+
+  .costumization_div_space {
+    width: 300px;
+  }
+}
+
+@media (max-width: 375px) {
+    #costumization_div {
+    & > #costumization_div_content {
+
+        & > #costumization_div_content_color {
+            & > .costumization_color_selected {
+                scale: 80%;
+            }
+        }
+        
+      }
+    }
+}

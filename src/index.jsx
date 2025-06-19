@@ -41,12 +41,10 @@ let router = createBrowserRouter([
       {
         path: "cadastrar",
         Component: Register,
-        children: [
-          {
-            path: "prefs",
-            Component: Costumization,
-          },
-        ],
+      },
+      {
+        path: "cadastrar/prefs",
+        Component: Costumization,
       },
       {
         path: "termos-e-politica",

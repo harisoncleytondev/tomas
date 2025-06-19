@@ -1,0 +1,221 @@
+#costumization_div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  /* Titulo da pagina */
+  & > #costumization_div_header {
+    & > h2 {
+      color: var(--text-color-blue);
+      font-family: 'Baloo 2', sans-serif;
+      font-size: 50px;
+      font-weight: 800;
+    }
+
+    & > p {
+      text-align: center;
+      color: var(--text-color-gray);
+      font-family: 'Roboto';
+      font-size: 18px;
+      font-weight: 400;
+    }
+  }
+
+  /* Fundo do menu */
+  & > #costumization_div_content {
+    min-width: 65vw;
+    max-width: 95vw;
+    border-radius: 9px;
+    background: #fff;
+    box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.25);
+    padding: 30px;
+
+    /* Escolha das cores */
+    & > #costumization_div_content_title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      & > div {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        & > p {
+          color: var(--text-color-gray);
+          font-family: 'Lexend Deca';
+          font-size: 12px;
+          font-weight: 400;
+        }
+
+        & > h4 {
+          display: flex;
+          align-items: center;
+          gap: 5px;
+          color: var(--text-color-gray);
+          font-family: 'Baloo 2', sans-serif;
+          font-size: 20px;
+          font-weight: 600;
+
+          & > span {
+            color: var(--text-color-blue);
+            font-size: 20px;
+          }
+        }
+      }
+
+      & #costumization_div_content_title_btn {
+        scale: 65%;
+        width: 200px;
+      }
+    }
+    & > #costumization_div_content_color {
+      padding: 10px 50px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+
+      /* Fundo */
+      & > .costumization_color_selected {
+        padding-top: 20px;
+
+        & > h5 {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          color: var(--text-color-gray);
+          font-family: 'Lexend Deca';
+          font-size: 16px;
+          font-weight: 600;
+
+          & > span {
+            font-size: 20px;
+          }
+        }
+
+        & > section {
+          display: flex;
+          align-items: center;
+          gap: 1.5rem;
+        }
+      }
+    }
+
+    /* Escolha dos textos */
+    & > #costumization_div_content_title2 {
+      & > div {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        & > p {
+          color: var(--text-color-gray);
+          font-family: 'Lexend Deca';
+          font-size: 12px;
+          font-weight: 400;
+        }
+
+        & > h4 {
+          display: flex;
+          align-items: center;
+          gap: 5px;
+          color: var(--text-color-gray);
+          font-family: 'Baloo 2', sans-serif;
+          font-size: 20px;
+          font-weight: 600;
+
+          & > span {
+            color: var(--text-color-blue);
+            font-size: 20px;
+          }
+        }
+      }
+    }
+    & .costumization_div_select_typography {
+      display: flex;
+      flex-direction: column;
+
+      & > label {
+        color: var(--text-color-gray);
+        font-family: 'Lexend Deca';
+        font-size: 12px;
+        font-weight: 600;
+      }
+
+      & > select {
+        width: 15rem;
+        font-weight: 600;
+        height: 5vh;
+        border-radius: 8px;
+        color: var(--text-color-blue);
+        border: 1px solid var(--text-color-blue);
+        background: var(--White, #fff);
+        cursor: pointer;
+        outline: none;
+
+        &:hover {
+          border: 1px solid var(--text-color-gray);
+          color: var(--text-color-gray);
+        }
+      }
+    }
+    & > #costumization_div_content_typography {
+      padding-block: 10px;
+      padding: 10px;
+      & .costumization_div_content_typography_input {
+        display: flex;
+        flex-direction: column;
+
+        & > label {
+          color: var(--text-color-gray);
+          font-family: 'Lexend Deca';
+          font-size: 14px;
+          font-weight: 600;
+        }
+
+        & > input {
+          width: 15rem;
+          padding: 8px 12px;
+          font-size: 14px;
+          border: 1px solid var(--text-color-blue);
+          border-radius: 8px;
+          background-color: white;
+          outline: none;
+          transition: border 0.4s ease;
+
+          &:focus {
+            outline: none;
+            border-color: var(--text-color-gray);
+          }
+        }
+      }
+
+      /* Fontes */
+      & > #costumization_div_content_typography_one,
+      #costumization_div_content_typography_two {
+        padding-block: 10px;
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+      }
+    }
+  }
+}
+
+.costumization_div_palette {
+    display: flex;
+    flex-wrap: wrap;
+    width: 260px;
+    gap: 5px;
+
+    & > div {
+        cursor: pointer;
+        transition: all ease .4s;
+
+        &:hover {
+            scale: 105%;
+            opacity: .8;
+        }
+    }
+}
