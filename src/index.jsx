@@ -1,6 +1,3 @@
-/* REACT */
-import React from "react";
-
 /* REACT ROUTER DOM */
 import { createRoot } from "react-dom/client";
 
@@ -11,7 +8,6 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 /* PAGES */
 import Home from "./pages/home";
-import About from "./pages/about-us";
 import Error from "./pages/error";
 import Login from "./pages/login";
 import Register from "./pages/register";
@@ -29,10 +25,6 @@ let router = createBrowserRouter([
       {
         path: "/",
         Component: Home,
-      },
-      {
-        path: "sobre",
-        Component: About,
       },
       {
         path: "entrar",

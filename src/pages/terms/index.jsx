@@ -3,10 +3,11 @@ import './TermsStyles.css';
 
 /* COMPONENTS */
 import BackgroundDecor from '../../components/backgroundDecor';
-import NavBar from '../../components/navbar';
 
 /* REACT ICONS */
 import { IoShieldOutline, IoDocumentTextOutline } from 'react-icons/io5';
+
+/* REACT */
 import { useState } from 'react';
 
 export default function Terms() {
@@ -27,7 +28,6 @@ export default function Terms() {
 
   return (
     <div id="terms_div_container">
-      <NavBar />
       <BackgroundDecor />
 
       <h1>Termos e Políticas</h1>
