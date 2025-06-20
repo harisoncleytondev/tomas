@@ -1,3 +1,4 @@
+import { FaPencil } from "react-icons/fa6";
 
 export const fontOptions = {
   lexend: "'Lexend Deca', sans-serif",
@@ -14,7 +15,12 @@ export function getColorPalette(type, click) {
   return (
     <div className="costumization_div_palette">
       {/* Parte de cima */}
-      <div onClick={(e) => click(e)}>{getColor('#fff', type)}</div>
+      <div
+        onClick={(e) => click(e)}
+        title="Escolha sua própia cor clicando no quadrado maior."
+      >
+        {getColor('#fff', type)}
+      </div>
       <div onClick={(e) => click(e)}>{getColor('#f8f9fa', type)}</div>
       <div onClick={(e) => click(e)}>{getColor('#e9ecef', type)}</div>
       <div onClick={(e) => click(e)}>{getColor('#dee2e6', type)}</div>
@@ -31,7 +37,52 @@ export function getColorPalette(type, click) {
       <div onClick={(e) => click(e)}>{getColor('#06d6a0', type)}</div>
       <div onClick={(e) => click(e)}>{getColor('#10b981', type)}</div>
       <div onClick={(e) => click(e)}>{getColor('#3b82f6', type)}</div>
-      <div onClick={(e) => click(e)}>{getColor('#8B5CF6', type)}</div>
+      <div
+        style={{
+          height: '26px',
+          width: '26px',
+          borderRadius: '5px',
+          boxShadow: '0 1px 3px rgba(0, 0, 0, 0.8)',
+          padding: 0,
+          margin: 0,
+          overflow: 'hidden',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          position: 'relative',
+          cursor: 'pointer',
+          backgroundColor: '#ffffff',
+        }}
+        title="Adicionar nova cor personalizada"
+      >
+        <span
+          style={{
+            fontSize: '12px',
+            color: 'black',
+            zIndex: 2,
+            pointerEvents: 'none', 
+            opacity: .7,
+          }}
+        >
+          <FaPencil />
+        </span>
+
+        <input
+          type="color"
+          onChange={(e) => click(e)}
+          defaultValue="#ffffff"
+          style={{
+            position: 'absolute',
+            left: 0,
+            top: 0,
+            width: '100%',
+            opacity: 0, 
+            height: '100%',
+            cursor: 'pointer',
+            border: 'none',
+          }}
+        />
+      </div>
     </div>
   );
 }

@@ -83,23 +83,39 @@ export default function Costumization() {
   };
 
   const changeColorBackground = (e) => {
-    setBackground(e.target.style.backgroundColor);
+    if (e.target.tagName === 'INPUT') {
+      setBackground(e.target.value);
+    } else if (e.target.tagName === 'DIV') {
+      setBackground(e.target.style.backgroundColor);
+    }
   };
   const changeColorText = (e) => {
-    setText(e.target.style.backgroundColor);
+    if (e.target.tagName === 'INPUT') {
+      setText(e.target.value);
+    } else if (e.target.tagName === 'DIV') {
+      setText(e.target.style.backgroundColor);
+    }
   };
   const changeColorButton = (e) => {
-    setButton(e.target.style.backgroundColor);
+    if (e.target.tagName === 'INPUT') {
+      setButton(e.target.value);
+    } else if (e.target.tagName === 'DIV') {
+      setButton(e.target.style.backgroundColor);
+    }
   };
   const changeColorEmphasis = (e) => {
-    setEmphasis(e.target.style.backgroundColor);
+    if (e.target.tagName === 'INPUT') {
+      setEmphasis(e.target.value);
+    } else if (e.target.tagName === 'DIV') {
+      setEmphasis(e.target.style.backgroundColor);
+    }
   };
 
   return (
     <div id="costumization_div">
       <div id="costumization_div_header">
         <h2>Personalize sua Experiência</h2>
-        <p>Ajuste a interface para que ela funcione melhor para você.</p>
+        <p>As modificações só serão aplicadas no chat. Você poderá mudar isso depois</p>
       </div>
 
       <div id="costumization_div_content">
