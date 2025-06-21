@@ -5,7 +5,6 @@ import "./css/RegisterStyles.responsive.css";
 /* COMPONENTS */
 import ButtonGoogle from "../../components/buttonGoogle";
 import ButtonBlue from "../../components/buttonPrimary";
-import Footer from "../../components/footer";
 import BackgroundDecor from "../../components/backgroundDecor";
 
 /* REACT */
@@ -158,7 +157,6 @@ export default function Register() {
         </div>
       </form>
 
-      <Footer className="register_footer" />
     </div>
   );
 }

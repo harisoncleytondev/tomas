@@ -5,7 +5,6 @@ import "./css/LoginStyles.responsive.css"
 /* COMPONENTS */
 import ButtonGoogle from "../../components/buttonGoogle";
 import ButtonBlue from "../../components/buttonPrimary";
-import Footer from "../../components/footer";
 import BackgroundDecor from "../../components/backgroundDecor";
 
 /* REACT */
@@ -111,8 +110,6 @@ export default function Login() {
           </ButtonGoogle>
         </div>
       </form>
-
-      <Footer className="login_footer" />
     </div>
   );
 }

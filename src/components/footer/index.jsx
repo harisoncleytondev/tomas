@@ -1,13 +1,10 @@
 /* CSS */
-import "./FooterStyles.css";
+import "./css/FooterStyles.css";
 
-export default function Footer( {...props} ) {
+export default function Footer({ ...props }) {
   return (
-    <div {...props} id="component_footer_div_container">
-      <p>
-        © {" " + new Date().getFullYear() + " "} Thomas.{" "}
-        <span>Todos os direitos</span> reservados.
-      </p>
-    </div>
+    <footer {...props} id="component_footer_container">
+      <p>🤖 Tomas IA, feito com muito amor para ajudar você <br/> &copy; {new Date().getFullYear()} Tomas. Todos os direitos reservados.</p>
+    </footer>
   );
 }

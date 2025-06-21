@@ -1,0 +1,16 @@
+#component_footer_container {
+  background: var(--text-color-blue);
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.60);
+  opacity: .8;
+  position: absolute;
+  width: 100%;
+  margin-top: 1.5rem;
+
+  & > p {
+    font-family: "Baloo2", sans-serif;
+    text-align: center;
+    color: #d1d5db;
+    padding: 1.5rem;
+    font-size: 0.95rem;
+  }
+}
