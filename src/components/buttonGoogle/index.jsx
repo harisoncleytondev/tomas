@@ -1,5 +1,5 @@
 /* CSS */
-import './ButtonStyles.css';
+import './css/ButtonStyles.css';
 
 /* ASSETS */
 import google_icon from "./assets/google-icon.svg";

@@ -1,0 +1,25 @@
+@media (max-width: 600px) {
+  #register_div_container {
+    & > #register_form {
+      & > #register_div_inputs {
+        & > div > #register_div_input_password {
+          & > button {
+            left: 90%;
+          }
+        }
+      }
+      & > #register_helpers {
+
+        & > #register_div_remember {
+          & > label {
+            font-size: 8px;
+          }
+        }
+      }
+    }
+  }
+
+  .register_div_space {
+    width: 60px;
+  }
+}

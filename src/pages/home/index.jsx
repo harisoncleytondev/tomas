@@ -12,8 +12,8 @@ import brain from './assets/brain.png';
 
 /* COMPONENTS */
 import ButtonBlue from '../../components/buttonPrimary';
-import CardHome from './components/cardHome';
-import PlansCard from './components/plans';
+import CardHome from '../../components/home/cardHome';
+import PlansCard from '../../components/home/plans';
 
 /* REACT ICONS */
 import { GrFormNextLink } from 'react-icons/gr';

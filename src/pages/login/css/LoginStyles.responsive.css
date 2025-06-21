@@ -1,0 +1,60 @@
+@media (max-width: 905px) {
+  #login_div_container {
+    & > #login_form {
+      & > #login_helpers {
+        gap: 10rem;
+      }
+    }
+  }
+}
+
+@media (max-width: 750px) {
+  #login_div_container {
+    & > #login_form {
+      & > #login_helpers {
+        gap: 5rem;
+      }
+    }
+  }
+}
+
+@media (max-width: 700px) {
+  #login_div_container {
+    & > #login_form {
+      & > #login_div_spaces {
+        & > span {
+          font-size: 8px;
+        }
+      }
+    }
+  }
+}
+@media (max-width: 600px) {
+  #login_div_container {
+    & > #login_form {
+      & > #login_div_inputs {
+        & > div > #login_div_input_password {
+          & > button {
+            left: 90%;
+          }
+        }
+      }
+      & > #login_helpers {
+        gap: 2rem;
+
+        & > #login_div_remember {
+          & > label {
+            font-size: 8px;
+          }
+        }
+        & > span > #login_text_link_forgotpassword {
+          font-size: 10px;
+        }
+      }
+    }
+  }
+
+  .login_div_space {
+    width: 60px;
+  }
+}

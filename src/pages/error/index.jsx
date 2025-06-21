@@ -1,5 +1,5 @@
 /* CSS */
-import "./ErrorPageStyles.css";
+import "./css/ErrorPageStyles.css";
 
 /* COMPONENTS */
 import ButtonBlue from "../../components/buttonPrimary";
@@ -9,7 +9,6 @@ import { FaHouseChimney } from "react-icons/fa6";
 
 /* REACT ROUTER DOM */
 import { useNavigate } from "react-router-dom";
-import Footer from "../../components/footer";
 
 export default function ErrorPage({ errorId, description }) {
   const navigate = useNavigate();

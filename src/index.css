@@ -1,8 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400..800&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400..800&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400..800&family=Lexend+Deca:wght@100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400..800&family=Roboto:ital,wght@0,100..900;1,100..900&family=Lexend+Deca:wght@100..900&display=swap');
 
 body {
   background-color: #f9f9f9;

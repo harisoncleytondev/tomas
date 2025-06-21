@@ -1,5 +1,5 @@
 /* CSS */
-import './TermsStyles.css';
+import './css/TermsStyles.css';
 
 /* COMPONENTS */
 import BackgroundDecor from '../../components/backgroundDecor';

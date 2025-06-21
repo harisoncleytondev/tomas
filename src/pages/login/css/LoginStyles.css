@@ -1,24 +1,25 @@
-#register_div_container {
+#login_div_container {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 
-  & > #register_div_texts {
+  /* Titulo e descrição */
+  & > #login_div_texts {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     padding-bottom: 0.6rem;
 
-    & > #register_text_h1 {
+    & > #login_text_h1 {
       color: var(--text-color-blue);
       font-family: "Baloo 2", sans-serif;
       font-size: 62px;
       font-weight: 400px;
     }
 
-    & > #register_text_h3 {
+    & > #login_text_h3 {
       color: var(--text-color-gray);
       font-family: Roboto;
       font-size: 16px;
@@ -28,7 +29,8 @@
     }
   }
 
-  & > #register_form {
+  /* Formulário */
+  & > #login_form {
     border-radius: 16px;
     background: #fff;
     box-shadow: 0px 20px 25px -5px rgba(0, 0, 0, 0.1),
@@ -40,7 +42,7 @@
     flex-direction: column;
     padding: 30px 30px;
 
-    & > #register_div_inputs {
+    & > #login_div_inputs {
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -48,15 +50,14 @@
       padding-block: 20px;
       gap: 1.8rem;
 
-      & > div > .register_input_label_text {
+      & > div > .login_input_label_text {
         color: var(--text-color-gray);
         font-family: "Lexend Deca";
         font-size: 14px;
         font-weight: 400;
       }
 
-      & > div > #register_div_input_password,
-      #register_div_input_confirmpassword {
+      & > div > #login_div_input_password {
         display: flex;
         position: relative;
 
@@ -72,7 +73,7 @@
         }
       }
 
-      & .register_input_text {
+      & .login_input_text {
         display: flex;
         min-width: 50vw;
         max-width: 80vw;
@@ -84,13 +85,14 @@
       }
     }
 
-    & > #register_helpers {
+    & > #login_helpers {
       display: flex;
       justify-content: center;
       align-items: center;
+      gap: 15rem;
       padding-bottom: 2rem;
 
-      & > #register_div_remember {
+      & > #login_div_remember {
         display: flex;
         align-items: center;
         gap: 0.4rem;
@@ -105,22 +107,25 @@
           font-family: "Lexend Deca";
           font-size: 12px;
           font-weight: 400px;
-
-          & > span {
-            color: var(--text-color-blue);
-            cursor: pointer;
-          }
         }
+      }
+
+      & > span > #login_text_link_forgotpassword {
+        color: var(--text-color-blue);
+        text-decoration: none;
+        font-family: "Lexend Deca";
+        font-size: 12px;
+        font-weight: 400px;
       }
     }
 
-    & > #register_div_button_join {
+    & > #login_div_button_join {
       display: flex;
       justify-content: center;
       align-items: center;
       padding-bottom: 20px;
 
-      & #register_button_join {
+      & #login_button_join {
         font-family: "Baloo 2", sans-serif;
         font-weight: 600;
         min-width: 50vw;
@@ -129,7 +134,7 @@
       }
     }
 
-    & > #register_text_span_createaccount {
+    & > #login_text_span_createaccount {
       display: flex;
       justify-content: center;
       align-items: center;
@@ -139,14 +144,14 @@
       font-weight: 400;
       padding-bottom: 20px;
 
-      & > #register_text_link_createaccount {
+      & > #login_text_link_createaccount {
         margin-left: 4px;
         color: var(--text-color-blue);
         text-decoration: none;
       }
     }
 
-    & > #register_div_spaces {
+    & > #login_div_spaces {
       display: flex;
       align-items: center;
       justify-content: center;
@@ -161,12 +166,12 @@
       }
     }
 
-    & > #register_div_button_google {
+    & > #login_div_button_google {
       display: flex;
       justify-content: center;
       align-items: center;
 
-      & #register_button_join_google {
+      & #login_button_join_google {
         min-width: 50vw;
         max-width: 80vw;
         height: 51px;
@@ -175,7 +180,8 @@
   }
 }
 
-.register_div_space {
+/* Div que contém um espaçamento */
+.login_div_space {
   display: flex;
 
   width: 165px;
@@ -183,41 +189,11 @@
   background: #cacaca;
 }
 
-.register_footer {
-  bottom: -28%;
-}
-
-
-@media (max-width: 600px) {
-  #register_div_container {
-    & > #register_form {
-      & > #register_div_inputs {
-        & > div > #register_div_input_password {
-          & > button {
-            left: 90%;
-          }
-        }
-      }
-      & > #register_helpers {
-
-        & > #register_div_remember {
-          & > label {
-            font-size: 8px;
-          }
-        }
-      }
-    }
-  }
-
-  .register_div_space {
-    width: 60px;
-  }
-}
-
-.register_common_input {
+/* Detalhes nos inputs */
+.login_common_input {
   border: 1px solid rgba(121, 121, 121, 0.58);
 }
 
-.register_incorrect_input {
+.login_incorrect_input {
   border: 1px solid red;
 }

@@ -1,5 +1,5 @@
 /* CSS */
-import ButtonBlue from '../../../../components/buttonPrimary';
+import ButtonBlue from '../../buttonPrimary';
 import './PlansStyles.css';
 
 /* REACT ICONS */

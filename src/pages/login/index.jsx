@@ -1,5 +1,6 @@
 /* CSS */
-import "./LoginStyles.css";
+import "./css/LoginStyles.css";
+import "./css/LoginStyles.responsive.css"
 
 /* COMPONENTS */
 import ButtonGoogle from "../../components/buttonGoogle";
@@ -17,7 +18,6 @@ import { Link } from "react-router-dom";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 
 export default function Login() {
-
   const [showPassword, setShowPassword] = useState(false);
 
   return (
@@ -61,8 +61,14 @@ export default function Login() {
                 className="login_input_text login_common_input"
                 required
               />
-              <button onClick={() => {showPassword == false ? setShowPassword(true) : setShowPassword(false)}}>
-                {showPassword == false ? <FiEye /> : <FiEyeOff/>}
+              <button
+                onClick={() => {
+                  showPassword == false
+                    ? setShowPassword(true)
+                    : setShowPassword(false);
+                }}
+              >
+                {showPassword == false ? <FiEye /> : <FiEyeOff />}
               </button>
             </div>
           </div>

@@ -1,5 +1,6 @@
 /* CSS */
-import "./RegisterStyles.css";
+import "./css/RegisterStyles.css";
+import "./css/RegisterStyles.responsive.css";
 
 /* COMPONENTS */
 import ButtonGoogle from "../../components/buttonGoogle";
@@ -21,15 +22,20 @@ export default function Register() {
   let navigate = useNavigate();
 
   const handleTerms = () => {
-    navigate('/termos-e-politica');
-  }
+    navigate("/termos-e-politica");
+  };
+
+  const handleEye = (e) => {
+    e.preventDefault();
+    setShowPassword(!showPassword);
+  };
 
   return (
     <div id="register_div_container">
       <BackgroundDecor />
       <div id="register_div_texts">
         <h1 id="register_text_h1">Tomas</h1>
-        <h3 id="register_text_h3">Entre na sua conta</h3>
+        <h3 id="register_text_h3">Crie uma conta</h3>
       </div>
 
       <form action="" id="register_form">
@@ -82,13 +88,11 @@ export default function Register() {
                 required
               />
               <button
-                onClick={() => {
-                  showPassword == false
-                    ? setShowPassword(true)
-                    : setShowPassword(false);
+                onClick={(e) => {
+                  handleEye(e);
                 }}
               >
-                {showPassword == false ? <FiEye /> : <FiEyeOff/>}
+                {showPassword == false ? <FiEye /> : <FiEyeOff />}
               </button>
             </div>
           </div>
@@ -109,13 +113,11 @@ export default function Register() {
                 required
               />
               <button
-                onClick={() => {
-                  showPassword == false
-                    ? setShowPassword(true)
-                    : setShowPassword(false);
+                onClick={(e) => {
+                  handleEye(e);
                 }}
               >
-                {showPassword == false ? <FiEye /> : <FiEyeOff/>}
+                {showPassword == false ? <FiEye /> : <FiEyeOff />}
               </button>
             </div>
           </div>
@@ -124,7 +126,10 @@ export default function Register() {
         <div id="register_helpers">
           <div id="register_div_remember">
             <input type="checkbox" id="register_input_checkbox" />
-            <label htmlFor="register_input_checkbox">Aceito os <span onClick={handleTerms}>termos de uso</span> e <span onClick={handleTerms}>política de privacidade</span></label>
+            <label htmlFor="register_input_checkbox">
+              Aceito os <span onClick={handleTerms}>termos de uso</span> e{" "}
+              <span onClick={handleTerms}>política de privacidade</span>
+            </label>
           </div>
         </div>
 
