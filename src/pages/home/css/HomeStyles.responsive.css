@@ -1,14 +1,52 @@
-@media (max-width: 850px) {
-  #home_plans {
-  & > #home_plans_div_cards {
-    flex-direction: column;
+@media (min-width: 1600px) {
+  #home_index {
+    & > #home_index_div_cards {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6rem;
+      scale: 120%;
+    }
   }
 }
 
+@media (max-width: 1000px) {
+  #home_index {
+    & > #home_index_div_cards {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+      scale: 60%;
+    }
+  }
+}
+
+@media (min-width: 850px) {
+  #home_index {
+    min-height: initial; 
+    max-height: 100vh;
+  }
+}
+
+@media (max-width: 850px) {
+  #home_plans {
+    & > #home_plans_div_cards {
+      flex-direction: column;
+    }
+  }
 }
 
 @media (max-width: 740px) {
+  #home_index {
+    min-height: 100vh;
+    height: auto; 
+  }
+
   #home_technology {
+    min-height: 100vh; 
+    height: auto;
+    
     & > section > #home_technology_div_info {
       & > div > img {
         display: none;
@@ -28,6 +66,14 @@
         min-width: 100%;
         max-width: 100%;
         font-size: 16px;
+      }
+    }
+  }
+
+  #home_plans {
+    & > #home_plans_div_cards {
+      & .home_plans_components {
+        scale: 90%;
       }
     }
   }
@@ -65,6 +111,10 @@
       }
     }
   }
+
+  #home_goTop {
+    left: 85%;
+  }
 }
 
 @media (max-width: 430px) {
@@ -74,7 +124,6 @@
       & > h4 {
         font-size: 16px;
       }
-      
     }
   }
 }

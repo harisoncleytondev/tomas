@@ -3,8 +3,8 @@ import "./css/LoginStyles.css";
 import "./css/LoginStyles.responsive.css"
 
 /* COMPONENTS */
-import ButtonGoogle from "../../components/buttonGoogle";
-import ButtonBlue from "../../components/buttonPrimary";
+import ButtonGoogle from "../../components/buttons/buttonGoogle";
+import ButtonBlue from "../../components/buttons/buttonPrimary";
 import BackgroundDecor from "../../components/backgroundDecor";
 
 /* REACT */

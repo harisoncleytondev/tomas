@@ -3,8 +3,8 @@ import "./css/RegisterStyles.css";
 import "./css/RegisterStyles.responsive.css";
 
 /* COMPONENTS */
-import ButtonGoogle from "../../components/buttonGoogle";
-import ButtonBlue from "../../components/buttonPrimary";
+import ButtonGoogle from "../../components/buttons/buttonGoogle";
+import ButtonBlue from "../../components/buttons/buttonPrimary";
 import BackgroundDecor from "../../components/backgroundDecor";
 
 /* REACT */

@@ -2,7 +2,7 @@
 import "./css/ErrorPageStyles.css";
 
 /* COMPONENTS */
-import ButtonBlue from "../../components/buttonPrimary";
+import ButtonBlue from "../../components/buttons/buttonPrimary";
 
 /* REACT ICONS */
 import { FaHouseChimney } from "react-icons/fa6";

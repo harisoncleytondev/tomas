@@ -3,7 +3,7 @@ import './CustomizationStyles.css';
 import './Customization.responsive.css';
 
 /* COMPONENTS */
-import ButtonBlue from '../../../components/buttonPrimary';
+import ButtonBlue from '../../../components/buttons/buttonPrimary';
 
 /* UTILS */
 import { fontOptions, getColorPalette } from '../../../utils/costumization.jsx';

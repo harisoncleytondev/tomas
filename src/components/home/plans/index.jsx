@@ -1,13 +1,13 @@
 /* CSS */
-import ButtonBlue from '../../buttonPrimary';
+import ButtonBlue from '../../buttons/buttonPrimary';
 import './PlansStyles.css';
 
 /* REACT ICONS */
 import { FaCheck } from 'react-icons/fa6';
 
-export default function PlansCard({ name, desc, price, benefits }) {
+export default function PlansCard({  name, desc, price, benefits, ...props }) {
   return (
-    <div id="home_component_plans">
+    <div id="home_component_plans" {...props}>
       <div>
         <h5>{name}</h5>
         <h6>{desc}</h6>

@@ -11,7 +11,7 @@ import chat from './assets/icon_chat.png';
 import brain from './assets/brain.png';
 
 /* COMPONENTS */
-import ButtonBlue from '../../components/buttonPrimary';
+import ButtonBlue from '../../components/buttons/buttonPrimary';
 import CardHome from '../../components/home/cardHome';
 import PlansCard from '../../components/home/plans';
 
@@ -210,6 +210,7 @@ export default function Home() {
           <PlansCard
             name="Gratuito"
             price="0"
+            className="home_plans_components"
             desc="Perfeito para testes."
             benefits={[
               'Teste grátis por 7 dias — explore sem custo.',
@@ -223,6 +224,7 @@ export default function Home() {
           <PlansCard
             name="Mente Livre"
             price="50"
+            className="home_plans_components"
             benefits={[
               'Curta tudo por um mês inteiro.',
               'Consultas ilimitadas.',
