@@ -17,7 +17,7 @@
       align-items: center;
       justify-content: center;
       gap: 2rem;
-      scale: 60%;
+      scale: 70%;
     }
   }
 }
@@ -33,6 +33,16 @@
   #home_plans {
     & > #home_plans_div_cards {
       flex-direction: column;
+    }
+  }
+
+  #home_index {
+    & > #home_index_div_cards {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      scale: 90%;
     }
   }
 }

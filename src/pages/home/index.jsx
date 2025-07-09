@@ -213,7 +213,7 @@ export default function Home() {
             className="home_plans_components"
             desc="Perfeito para testes."
             benefits={[
-              'Teste grátis por 7 dias — explore sem custo.',
+              'Teste grátis por 7 dias',
               'Consultas ilimitadas.',
               'Respostas adaptadas e pensadas em você.',
               'Respostas multimodais.',
