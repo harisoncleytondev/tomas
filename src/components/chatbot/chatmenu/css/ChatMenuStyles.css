@@ -1,0 +1,25 @@
+#chatbot_component_menu {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 95%;
+    background: var(--extra-color);
+    padding: 10px 15px;
+    color: var(--text-color);
+    font-size: 18px;
+    font-family: var(--font-two);
+    border-radius: 9px;
+    cursor: pointer;
+
+    & > button {
+        border: none;
+        background: transparent;
+        color: var(--text-color);
+        cursor: pointer;
+        transition: scale .6s ease;
+
+        &:hover {
+            scale: 110%;
+        }
+    }
+}

@@ -101,3 +101,33 @@ function getColor(hex, type) {
     ></div>
   );
 }
+
+/*export function applyPreferencesToCSS(preferences) {
+  const root = document.documentElement;
+
+  root.style.setProperty('--background-color', preferences.backgroundColor);
+  root.style.setProperty('--button-color', preferences.buttonColor);
+  root.style.setProperty('--extra-color', preferences.extraColor);
+  root.style.setProperty('--font-one', preferences.fontOne);
+  root.style.setProperty('--font-one-size', `${preferences.fontOneSize}px`);
+  root.style.setProperty('--font-one-spacing', `${preferences.fontOneSpacing}px`);
+  root.style.setProperty('--font-two', preferences.fontTwo);
+  root.style.setProperty('--font-two-size', `${preferences.fontTwoSize}px`);
+  root.style.setProperty('--font-two-spacing', `${preferences.fontTwoSpacing}px`);
+  root.style.setProperty('--text-color', preferences.textColor);
+}*/
+
+export function applyPreferencesToCSS(preferences) {
+  const root = document.documentElement;
+
+  root.style.setProperty('--background-color', '#F9F9F9');
+  root.style.setProperty('--button-color', '#425989ff');
+  root.style.setProperty('--extra-color', '#2463EB');
+  root.style.setProperty('--font-one', `'Baloo 2', sans-serif`);
+  root.style.setProperty('--font-one-size', '45px');
+  root.style.setProperty('--font-one-spacing', '1px');
+  root.style.setProperty('--font-two', `'Lexend Deca', sans-serif`);
+  root.style.setProperty('--font-two-size', '16px');
+  root.style.setProperty('--font-two-spacing', '1px');
+  root.style.setProperty('--text-color', '#fff');
+}

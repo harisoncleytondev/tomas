@@ -13,9 +13,11 @@ import Login from "./pages/login";
 import Register from "./pages/register";
 import Costumization from "./pages/register/customization";
 import Terms from "./pages/terms";
+import ChatBot from "./pages/chatbot";
 
 /* APP */
 import App from "./App";
+import ProtectRouter from "./ProtectRouter.jsx";
 
 let router = createBrowserRouter([
   {
@@ -43,6 +45,16 @@ let router = createBrowserRouter([
         Component: Terms,
       },
     ],
+  },
+  {
+    path: "assistente",
+    Component: ProtectRouter,
+    children: [
+      {
+        path: "chat/:chatId?",
+        Component: ChatBot,
+      },
+    ]
   },
   {
     path: "*",
