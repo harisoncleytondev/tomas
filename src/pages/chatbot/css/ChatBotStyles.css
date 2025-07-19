@@ -54,6 +54,7 @@
   border-radius: 9px;
   left: 5%;
   top: 5%;
+  z-index: 300;
 
   & > button {
     padding-top: 2.5px;

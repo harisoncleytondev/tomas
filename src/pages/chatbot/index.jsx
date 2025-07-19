@@ -44,6 +44,9 @@ export default function ChatBot() {
           Authorization: `Bearer ${getToken()}`,
         },
       });
+      if (response.status === 402) {
+        return navigate('/assistente/pagamento', { replace: true });
+      }
       if (response.status === 404)
         return navigate('/assistente/chat', { replace: true });
       if (response.status === 401)
@@ -63,7 +66,14 @@ export default function ChatBot() {
     }
   });
 
+  const payload = getPayload();
+
   useEffect(() => {
+    if (payload == null) {
+      navigate('/entrar', { replace: true });
+      return;
+    }
+
     applyPreferencesToCSS(getPayload().preferences);
   }, []);
 
@@ -99,25 +109,26 @@ function LoadingChat() {
 
 function ShowMenu() {
   const [isMenuActive, setMenuActive] = useState(false);
-  const handleButtonMenu = () => {
-    setMenuActive(!isMenuActive);
-  };
   const navigate = useNavigate();
   const [chats, setChats] = useState([]);
 
-  useEffect(() => {
-    async function getChats() {
-      const response = await fetch(`${getURL()}chat/`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${getToken()}`,
-        },
-      }).then((data) => data.json());
-      setChats(response.chat);
+  const getChats = async () => {
+    const response = await fetch(`${getURL()}chat/`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${getToken()}`,
+      },
+    }).then((data) => data.json());
+    setChats(response.chat);
+  }
+
+  const handleButtonMenu = () => {
+    if (!isMenuActive) {
+      getChats();
     }
-    getChats();
-  }, [chats]);
+    setMenuActive(!isMenuActive);
+  };
 
   return isMenuActive == false ? (
     <div id="chatbot_div_menu">
@@ -159,8 +170,8 @@ function ShowMenu() {
 
         <section id="chatbot_menu_open_content">
           <div id="chatbot_div_menu_open_chats">
-            {chats.lenght == 0
-              ? 'opa'
+            {chats.length === 0 
+              ? ''
               : chats.map((chat) => (
                   <ChatMenu
                     key={chat.chat_id}

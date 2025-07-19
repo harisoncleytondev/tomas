@@ -21,6 +21,7 @@ import { TbTextSize } from 'react-icons/tb';
 
 /* CONTEXT */
 import { RegisterContext } from '../../../contexts/RegisterContext.jsx';
+import toast, { Toaster } from 'react-hot-toast';
 
 export default function Costumization() {
   const [fontOne, setFontOne] = useState(fontOptions.baloo);
@@ -60,7 +61,7 @@ export default function Costumization() {
 
   const MIN_FONT_SIZE = 1;
   const MAX_FONT_SIZE = 100;
-  const MIN_FONT_SPACE = 0;
+  const MIN_FONT_SPACE = 0.1;
   const MAX_FONT_SPACE = 10;
 
   /* Eventos input */
@@ -154,7 +155,6 @@ export default function Costumization() {
       exitPage();
       return;
     }
-    console.log('cheguei aqui')
 
     if (
       fontSizeOne < MIN_FONT_SIZE ||
@@ -162,7 +162,7 @@ export default function Costumization() {
       fontSizeOne > MAX_FONT_SIZE ||
       fontSizeTwo > MAX_FONT_SIZE
     ) {
-      // toast depois
+      toast.error('Corrija todas os campos antes de continuar');
       return;
     }
 
@@ -172,7 +172,7 @@ export default function Costumization() {
       fontSpaceOne > MAX_FONT_SPACE ||
       fontSpaceTwo > MAX_FONT_SPACE
     ) {
-      // toast depois
+      toast.error('Corrija todas os campos antes de continuar');
       return;
     }
 
@@ -194,17 +194,17 @@ export default function Costumization() {
           fontTwoSpacing: fontSpaceTwo,
         },
       };
-       const response = await fetch(`${getURL()}user/create`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(object),
-        });
+      const response = await fetch(`${getURL()}user/create`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(object),
+      });
 
-        if (response.ok) {
-          return true;
-        }
+      if (response.ok) {
+        return true;
+      }
     }
 
     const res = await createAccount();
@@ -279,6 +279,7 @@ export default function Costumization() {
       setBackground(e.target.style.backgroundColor);
     }
   };
+
   const changeColorText = (e) => {
     if (e.target.tagName === 'INPUT') {
       setText(e.target.value);
@@ -286,6 +287,7 @@ export default function Costumization() {
       setText(e.target.style.backgroundColor);
     }
   };
+
   const changeColorButton = (e) => {
     if (e.target.tagName === 'INPUT') {
       setButton(e.target.value);
@@ -293,6 +295,7 @@ export default function Costumization() {
       setButton(e.target.style.backgroundColor);
     }
   };
+
   const changeColorEmphasis = (e) => {
     if (e.target.tagName === 'INPUT') {
       setEmphasis(e.target.value);
@@ -303,6 +306,7 @@ export default function Costumization() {
 
   return (
     <div id="costumization_div">
+      <Toaster position="top-center" reverseOrder={false} />
       <div id="costumization_div_header">
         <h2>Personalize sua Experiência</h2>
         <p>
@@ -432,9 +436,9 @@ export default function Costumization() {
                   setFontOne(e.target.value);
                 }}
               >
-                {Object.entries(fontOptions).map(([key, font]) => (
-                  <option key={key} value={font}>
-                    {key.charAt(0).toUpperCase() + key.slice(1)}
+                {Object.entries(fontOptions).map(([key, option]) => (
+                  <option key={key} value={option.value}>
+                    {option.label}
                   </option>
                 ))}
               </select>
@@ -502,9 +506,9 @@ export default function Costumization() {
                   setFontTwo(e.target.value);
                 }}
               >
-                {Object.entries(fontOptions).map(([key, font]) => (
-                  <option key={key} value={font}>
-                    {key.charAt(0).toUpperCase() + key.slice(1)}
+                {Object.entries(fontOptions).map(([key, option]) => (
+                  <option key={key} value={option.value}>
+                    {option.label}
                   </option>
                 ))}
               </select>

@@ -1,21 +1,36 @@
-import { jwtDecode } from 'jwt-decode'
+import {jwtDecode} from 'jwt-decode';
 
 export function getToken() {
-    if (localStorage.getItem('token') == null) {
-        return null;
-    } 
+  let token = sessionStorage.getItem('token');
+  
+  if (token) return token;
 
-    return localStorage.getItem('token');
+  token = localStorage.getItem('token');
+  return token || null;
 }
 
-export function setToken(token) {
-    return localStorage.setItem('token', token);
+export function setTokenLocal(token) {
+  localStorage.setItem('token', token);
+}
+
+export function setTokenSession(token) {
+  sessionStorage.setItem('token', token);
 }
 
 export function getPayload() {
-    return jwtDecode(getToken());
+  const token = getToken();
+  if (!token || typeof token !== 'string') {
+    return null;
+  }
+
+  try {
+    return jwtDecode(token);
+  } catch (error) {
+    return null;
+  }
 }
 
 export function deleteToken() {
-    return localStorage.removeItem('token');
+  localStorage.removeItem('token');
+  sessionStorage.removeItem('token');
 }

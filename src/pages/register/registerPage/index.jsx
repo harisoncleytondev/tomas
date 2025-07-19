@@ -23,6 +23,8 @@ import { RegisterContext } from '../../../contexts/RegisterContext';
 /* UTILS */
 import { getURL } from '../../../utils/api';
 
+import toast, { Toaster } from 'react-hot-toast';
+
 export default function Register() {
   const [showPassword, setShowPassword] = useState(false);
   const [errorPassword, setErrorPassword] = useState(false);
@@ -48,6 +50,7 @@ export default function Register() {
     const formData = new FormData(event.target);
     const formObject = Object.fromEntries(formData.entries());
 
+    // Verifica se a senha é válida
     function verifyPassword(password, confirmPassword) {
       if (password !== confirmPassword) {
         setErrorPasswordStatus('As senhas não conferem. Tente novamente.');
@@ -81,6 +84,7 @@ export default function Register() {
       return true;
     }
 
+    // Verifica se o e-mail já está em uso
     async function verifyEmail(email) {
       try {
         const response = await fetch(`${getURL()}user/${email}`, {
@@ -100,18 +104,31 @@ export default function Register() {
       }
     }
 
-    if (await verifyEmail(formObject.email)) {
-      if (
-        verifyPassword(formObject.password, formObject.confirmPassword) === true
-      ) {
-        setData(formObject);
-        navigate('/criar-conta/prefs');
-      } 
-    }
+    const validationPromise = async () => {
+      const isEmailValid = await verifyEmail(formObject.email);
+      const isPasswordValid = verifyPassword(
+        formObject.password,
+        formObject.confirmPassword
+      );
+
+      if (!isEmailValid || !isPasswordValid) {
+        throw new Error('Criação cancelada.');
+      }
+
+      setData(formObject);
+      navigate('/criar-conta/prefs');
+    };
+    console.log('opa')
+    toast.promise(validationPromise, {
+      loading: 'Verificando informações...',
+      success: <b>Verificações concluídas com sucesso!</b>,
+      error: <b>Falha na verificação de e-mail ou senha.</b>,
+    });
   };
 
   return (
     <div id="register_div_container">
+      <Toaster position="top-center" reverseOrder={false} />
       <BackgroundDecor />
       <div id="register_div_texts">
         <h1 id="register_text_h1">Tomas</h1>
@@ -142,7 +159,11 @@ export default function Register() {
               className="register_input_label_text"
               htmlFor="register_input_email"
             >
-              {errorEmail === true ? <span>Este e-mail não pode ser utilizado.</span> : 'Email'}
+              {errorEmail === true ? (
+                <span>Este e-mail não pode ser utilizado.</span>
+              ) : (
+                'Email'
+              )}
             </label>
             <input
               type="email"

@@ -25,7 +25,7 @@ export function LoadChat({ chatId, messages }) {
 
   useEffect(() => {
     setMessageLoad(messages);
-  }, []);
+  }, [messages]);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -42,9 +42,8 @@ export function LoadChat({ chatId, messages }) {
     textarea.style.height = `${textarea.scrollHeight}px`;
   };
 
-  const handleSendMessage = async (event) => {
-    event.preventDefault();
-    if (textareaRef.current.value.length == 0) return;
+  const handleSendMessage = async () => {
+    if (textareaRef.current.value.length === 0) return;
 
     async function reload() {
       const response = await fetch(`${getURL()}chat/${chatId}`, {
@@ -98,6 +97,14 @@ export function LoadChat({ chatId, messages }) {
 
     await newMessageUser();
     textareaRef.current.value = '';
+    textareaRef.current.style.height = 'auto';
+  };
+
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault();
+      handleSendMessage();
+    }
   };
 
   return (
@@ -120,15 +127,16 @@ export function LoadChat({ chatId, messages }) {
       </div>
 
       <section>
-        <form>
+        <form onSubmit={(e) => e.preventDefault()}>
           <textarea
             ref={textareaRef}
             onInput={handleInput}
+            onKeyDown={handleKeyDown}
             name="question"
             placeholder="Sobre o que deseja conversar?"
             rows={1}
           ></textarea>
-          <button onClick={async (e) => await handleSendMessage(e)}>
+          <button onClick={handleSendMessage}>
             <FaRegPaperPlane />
           </button>
         </form>
@@ -148,8 +156,8 @@ export function NoChat() {
     textarea.style.height = `${textarea.scrollHeight}px`;
   };
 
-  const handleButtonSend = async (event) => {
-    event.preventDefault();
+  const handleButtonSend = async () => {
+    if (textareaRef.current.value.length === 0) return;
 
     async function cretaMessageReply(chatId) {
       const reponse = await fetch(`${getURL()}chat/message/${chatId}`, {
@@ -187,6 +195,15 @@ export function NoChat() {
     }
 
     await createChatAndMessage();
+    textareaRef.current.value = '';
+    textareaRef.current.style.height = 'auto';
+  };
+
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault();
+      handleButtonSend();
+    }
   };
 
   return (
@@ -195,20 +212,22 @@ export function NoChat() {
         <div id="chatbot_div_title">
           <img src={tomasIcon} alt="Tomas" />
           <h1>
-            Olá, {getPayload().username}.
+            Olá, {getPayload() == null ? '' : getPayload().username}.
             <br />
             Como posso ajudar?
           </h1>
         </div>
 
-        <form>
+        <form onSubmit={(e) => e.preventDefault()}>
           <textarea
             ref={textareaRef}
-            onChange={handleInput}
+            onInput={handleInput}
+            onKeyDown={handleKeyDown}
             name="question"
             placeholder="Sobre o que deseja conversar?"
+            rows={1}
           ></textarea>
-          <button onClick={async (e) => handleButtonSend(e)}>
+          <button onClick={handleButtonSend}>
             <FaRegPaperPlane />
           </button>
         </form>

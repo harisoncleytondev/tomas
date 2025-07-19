@@ -1,14 +1,58 @@
 import { FaPencil } from "react-icons/fa6";
 
 export const fontOptions = {
-  lexend: "'Lexend Deca', sans-serif",
-  baloo: "'Baloo 2', cursive",
-  atkinson: "'Atkinson Hyperlegible', sans-serif",
-  opendyslexic: "'OpenDyslexic', sans-serif",
-  inter: "'Inter', sans-serif",
-  poppins: "'Poppins', sans-serif",
-  comic: "'Comic Neue', cursive",
-  nunito: "'Nunito', sans-serif",
+  atkinson: {
+    label: "Fonte de alta legibilidade (Atkinson Hyperlegible)",
+    value: "'Atkinson Hyperlegible', sans-serif",
+  },
+  opendyslexic: {
+    label: "Fonte para dislexia (Open Dyslexic)",
+    value: "'Open-Dyslexic', sans-serif",
+  },
+  dyslexic: {
+    label: "Fonte didática para dislexia (Dyslexic English Teacher)",
+    value: "'Dyslexic English Teacher', sans-serif",
+  },
+  lexend: {
+    label: "Fonte para leitura fluida (Lexend Deca)",
+    value: "'Lexend Deca', sans-serif",
+  },
+  inter: {
+    label: "Fonte moderna e limpa (Inter)",
+    value: "'Inter', sans-serif",
+  },
+  verdana: {
+    label: "Fonte clássica e fácil de ler (Verdana)",
+    value: "'Verdana', sans-serif",
+  },
+  arial: {
+    label: "Fonte padrão simples (Arial)",
+    value: "Arial, sans-serif",
+  },
+  baloo: {
+    label: "Fonte amigável e arredondada (Baloo 2)",
+    value: "'Baloo 2', sans-serif",
+  },
+  roboto: {
+    label: "Fonte moderna e popular (Roboto)",
+    value: "'Roboto', sans-serif",
+  },
+  openSans: {
+    label: "Fonte clara e acessível (Open Sans)",
+    value: "'Open Sans', sans-serif",
+  },
+  lato: {
+    label: "Fonte equilibrada e suave (Lato)",
+    value: "'Lato', sans-serif",
+  },
+  montserrat: {
+    label: "Fonte geométrica e estilosa (Montserrat)",
+    value: "'Montserrat', sans-serif",
+  },
+  poppins: {
+    label: "Fonte arredondada e moderna (Poppins)",
+    value: "'Poppins', sans-serif",
+  },
 };
 
 export function getColorPalette(type, click) {

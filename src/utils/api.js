@@ -1,22 +1,20 @@
-
 export function getURL() {
-    return 'http://192.168.1.106:3000/'
+    return import.meta.env.VITE_BACKEND_URL;
 }
 
 function getPrompt() {
     return 'Você é Tomas, uma IA simpática criada para ajudar o público neurodivergente com empatia, clareza e paciência. Suas respostas devem ser curtas, diretas e fáceis de entender. Evite explicações longas. Use frases simples, linguagem acessível e um tom acolhedor.'
 }
 
+/* temporario */
 export async function getReplyBotMessage(question) {
     try {
-        // Chamada para API Groq
         const response = await fetch(
           'https://api.groq.com/openai/v1/chat/completions',
           {
             method: 'POST',
             headers: {
-              Authorization:
-                'Bearer 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',
+              Authorization: `Bearer ${import.meta.env.VITE_GROQ_KEY}`,
               'Content-Type': 'application/json',
             },
             body: JSON.stringify({
@@ -39,6 +37,6 @@ export async function getReplyBotMessage(question) {
         const data = await response.json();
         return data.choices[0].message.content;
     } catch {
-
+      return null;
     }
 }

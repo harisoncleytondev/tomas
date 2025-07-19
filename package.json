@@ -12,17 +12,15 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@types/react": "^18.2.37",
-    "@types/react-dom": "^18.2.15",
     "@vitejs/plugin-react": "^4.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "typescript": "^5.2.2",
     "vite": "^5.0.0"
   },
   "dependencies": {
     "framer-motion": "^12.18.1",
     "jwt-decode": "^4.0.0",
+    "react-hot-toast": "^2.5.2",
     "react-icons": "^5.5.0",
     "react-router-dom": "^7.6.0"
   }

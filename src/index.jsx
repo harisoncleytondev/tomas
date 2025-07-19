@@ -14,11 +14,13 @@ import Register from './pages/register/registerPage';
 import Costumization from './pages/register/customization';
 import Terms from './pages/terms';
 import ChatBot from './pages/chatbot';
-import RegisterWrapper from './pages/register/RegisterWrapper.jsx';
+
+/* WRAPPERS */
+import RegisterWrapper from './wrappers/RegisterWrapper.jsx';
+import ProtectRouterWrapper from './wrappers/ProtectRouterWrapper.jsx';
 
 /* APP */
 import App from './App';
-import ProtectRouter from './ProtectRouter.jsx';
 
 let router = createBrowserRouter([
   {
@@ -55,7 +57,7 @@ let router = createBrowserRouter([
   },
   {
     path: 'assistente',
-    Component: ProtectRouter,
+    Component: ProtectRouterWrapper,
     children: [
       {
         path: 'chat/:chatId?',

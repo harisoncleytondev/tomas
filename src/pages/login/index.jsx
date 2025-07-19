@@ -18,9 +18,15 @@ import { FiEye, FiEyeOff } from 'react-icons/fi';
 import { getURL } from '../../utils/api';
 
 /* UTILS */
-import { setToken } from '../../utils/auth.js';
+import {
+  deleteToken,
+  setTokenLocal,
+  setTokenSession,
+} from '../../utils/auth.js';
 
 export default function Login() {
+  const [error, setError] = useState(false);
+  const [rememberMe, setRememberMe] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   let navigate = useNavigate();
 
@@ -40,8 +46,15 @@ export default function Login() {
       });
       if (response.ok) {
         const { token } = await response.json();
-        setToken(token);
+        deleteToken();
+        if (rememberMe) {
+          setTokenLocal(token);
+        } else {
+          setTokenSession(token);
+        }
         navigate('/assistente/chat', { replace: true });
+      } else {
+        setError(true);
       }
     } catch (err) {
       response = null;
@@ -64,7 +77,16 @@ export default function Login() {
               className="login_input_label_text"
               htmlFor="login_input_email"
             >
-              Email
+              {error === false ? (
+                'Email'
+              ) : (
+                <>
+                  Email -{' '}
+                  <span style={{ color: 'red' }}>
+                    Email ou senha inválidos.
+                  </span>
+                </>
+              )}
             </label>
             <input
               type="email"
@@ -72,6 +94,7 @@ export default function Login() {
               name="email"
               id="login_input_email"
               className="login_input_text login_common_input"
+              style={error === false ? {} : { borderColor: 'red' }}
               required
             />
           </div>
@@ -81,7 +104,16 @@ export default function Login() {
               className="login_input_label_text"
               htmlFor="login_input_password"
             >
-              Senha
+              {error === false ? (
+                'Senha'
+              ) : (
+                <>
+                  Senha -{' '}
+                  <span style={{ color: 'red' }}>
+                    Email ou senha inválidos.
+                  </span>
+                </>
+              )}
             </label>
             <div id="login_div_input_password">
               <input
@@ -89,6 +121,7 @@ export default function Login() {
                 name="password"
                 placeholder="****************"
                 id="login_input_password"
+                style={error === false ? {} : { borderColor: 'red' }}
                 className="login_input_text login_common_input"
                 required
               />
@@ -107,7 +140,12 @@ export default function Login() {
 
         <div id="login_helpers">
           <div id="login_div_remember">
-            <input type="checkbox" id="login_input_checkbox" />
+            <input
+              type="checkbox"
+              id="login_input_checkbox"
+              checked={rememberMe}
+              onChange={() => setRememberMe(!rememberMe)}
+            />
             <label htmlFor="login_input_checkbox">Lembrar de mim</label>
           </div>
 
@@ -124,7 +162,7 @@ export default function Login() {
 
         <span id="login_text_span_createaccount">
           Não tem uma conta?{' '}
-          <Link id="login_text_link_createaccount" to={'/cadastrar'}>
+          <Link id="login_text_link_createaccount" to={'/criar-conta'}>
             {' '}
             Cadastre-se
           </Link>

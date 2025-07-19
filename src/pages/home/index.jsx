@@ -14,6 +14,7 @@ import brain from './assets/brain.png';
 import ButtonBlue from '../../components/buttons/buttonPrimary';
 import CardHome from '../../components/home/cardHome';
 import PlansCard from '../../components/home/plans';
+import { ScrollBar } from '../../components/scrollbar';
 
 /* REACT ICONS */
 import { GrFormNextLink } from 'react-icons/gr';
@@ -55,6 +56,7 @@ export default function Home() {
 
   return (
     <div id="home_container">
+      <ScrollBar />
       <div id="home_goTop">
         <button
           onClick={goTop}
@@ -94,7 +96,7 @@ export default function Home() {
           </button>
           <ButtonBlue
             id="home_navbar_button_register"
-            onClick={() => navigate('/cadastrar')}
+            onClick={() => navigate('/criar-conta')}
           >
             Começar Grátis
           </ButtonBlue>
@@ -113,7 +115,7 @@ export default function Home() {
             chatbot, pensado para tirar dúvidas, organizar ideias e receber
             ajuda do seu jeito.
           </p>
-          <ButtonBlue onClick={() => navigate('/cadastrar')}>
+          <ButtonBlue onClick={() => navigate('/criar-conta')}>
             Começar agora <GrFormNextLink />
           </ButtonBlue>
         </motion.div>
