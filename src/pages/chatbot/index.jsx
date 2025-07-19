@@ -103,7 +103,7 @@ function ShowMenu() {
     setMenuActive(!isMenuActive);
   };
   const navigate = useNavigate();
-  const [chats, setChats] = useState({});
+  const [chats, setChats] = useState([]);
 
   useEffect(() => {
     async function getChats() {

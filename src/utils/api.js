@@ -1,6 +1,6 @@
 
 export function getURL() {
-    return 'http://192.168.1.104:3000/'
+    return 'http://192.168.1.106:3000/'
 }
 
 function getPrompt() {

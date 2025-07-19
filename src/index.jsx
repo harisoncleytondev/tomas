@@ -1,63 +1,70 @@
 /* REACT ROUTER DOM */
-import { createRoot } from "react-dom/client";
+import { createRoot } from 'react-dom/client';
 
 /* CSS */
-import "./index.css";
+import './index.css';
 
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 /* PAGES */
-import Home from "./pages/home";
-import Error from "./pages/error";
-import Login from "./pages/login";
-import Register from "./pages/register";
-import Costumization from "./pages/register/customization";
-import Terms from "./pages/terms";
-import ChatBot from "./pages/chatbot";
+import Home from './pages/home';
+import Error from './pages/error';
+import Login from './pages/login';
+import Register from './pages/register/registerPage';
+import Costumization from './pages/register/customization';
+import Terms from './pages/terms';
+import ChatBot from './pages/chatbot';
+import RegisterWrapper from './pages/register/RegisterWrapper.jsx';
 
 /* APP */
-import App from "./App";
-import ProtectRouter from "./ProtectRouter.jsx";
+import App from './App';
+import ProtectRouter from './ProtectRouter.jsx';
 
 let router = createBrowserRouter([
   {
-    path: "/",
+    path: '/',
     Component: App,
     children: [
       {
-        path: "/",
+        path: '/',
         Component: Home,
       },
       {
-        path: "entrar",
+        path: 'entrar',
         Component: Login,
       },
       {
-        path: "cadastrar",
-        Component: Register,
+        path: 'criar-conta',
+        Component: RegisterWrapper,
+        children: [
+          {
+            index: true,
+            Component: Register,
+          },
+          {
+            path: 'prefs',
+            Component: Costumization,
+          },
+        ],
       },
       {
-        path: "cadastrar/prefs",
-        Component: Costumization,
-      },
-      {
-        path: "termos-e-politica",
+        path: 'termos-e-politica',
         Component: Terms,
       },
     ],
   },
   {
-    path: "assistente",
+    path: 'assistente',
     Component: ProtectRouter,
     children: [
       {
-        path: "chat/:chatId?",
+        path: 'chat/:chatId?',
         Component: ChatBot,
       },
-    ]
+    ],
   },
   {
-    path: "*",
+    path: '*',
     element: (
       <Error
         errorId="404"
@@ -67,6 +74,6 @@ let router = createBrowserRouter([
   },
 ]);
 
-createRoot(document.getElementById("root")).render(
+createRoot(document.getElementById('root')).render(
   <RouterProvider router={router} />
 );

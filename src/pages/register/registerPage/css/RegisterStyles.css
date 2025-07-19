@@ -14,7 +14,7 @@
 
     & > #register_text_h1 {
       color: var(--text-color-blue);
-      font-family: "Baloo 2", sans-serif;
+      font-family: 'Baloo 2', sans-serif;
       font-size: 62px;
       font-weight: 400px;
     }
@@ -52,9 +52,23 @@
 
       & > div > .register_input_label_text {
         color: var(--text-color-gray);
-        font-family: "Lexend Deca";
+        font-family: 'Lexend Deca';
         font-size: 14px;
         font-weight: 400;
+
+        & > span {
+          display: inline-flex;
+          align-items: center;
+          padding: 2px;
+          color: red;
+          gap: 8px;
+
+          & > p {
+            margin: 0;
+            font-size: 14px;
+            line-height: 1;
+          }
+        }
       }
 
       & > div > #register_div_input_password,
@@ -104,7 +118,7 @@
 
         & > label {
           color: var(--text-color-gray);
-          font-family: "Lexend Deca";
+          font-family: 'Lexend Deca';
           font-size: 12px;
           font-weight: 400px;
 
@@ -123,7 +137,7 @@
       padding-bottom: 20px;
 
       & #register_button_join {
-        font-family: "Baloo 2", sans-serif;
+        font-family: 'Baloo 2', sans-serif;
         font-weight: 600;
         min-width: 50vw;
         max-width: 80vw;
@@ -136,7 +150,7 @@
       justify-content: center;
       align-items: center;
       color: var(--text-color-gray);
-      font-family: "Lexend Deca";
+      font-family: 'Lexend Deca';
       font-size: 14px;
       font-weight: 400;
       padding-bottom: 20px;
@@ -157,7 +171,7 @@
 
       & > span {
         color: var(--text-color-gray);
-        font-family: "Lexend Deca";
+        font-family: 'Lexend Deca';
         font-size: 14px;
         font-weight: 400px;
       }
