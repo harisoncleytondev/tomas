@@ -22,16 +22,20 @@ export function LoadChat({ chatId, messages }) {
   const textareaRef = useRef(null);
   const messagesEndRef = useRef(null);
   const [messageLoad, setMessageLoad] = useState([]);
+  const [isMessage, setNewMessage] = useState(false);
 
   useEffect(() => {
     setMessageLoad(messages);
   }, [messages]);
 
   useEffect(() => {
+    if (isMessage == false) return;
+
     const timeout = setTimeout(() => {
       messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
     }, 0);
 
+    setNewMessage(false);
     return () => clearTimeout(timeout);
   }, [messageLoad]);
 
@@ -44,6 +48,8 @@ export function LoadChat({ chatId, messages }) {
 
   const handleSendMessage = async () => {
     if (textareaRef.current.value.length === 0) return;
+    const message = textareaRef.current.value;
+    textareaRef.current.value = '';
 
     async function reload() {
       const response = await fetch(`${getURL()}chat/${chatId}`, {
@@ -70,7 +76,7 @@ export function LoadChat({ chatId, messages }) {
           Authorization: `Bearer ${getToken()}`,
         },
         body: JSON.stringify({
-          content: await getReplyBotMessage(textareaRef.current.value),
+          content: await getReplyBotMessage(messageLoad, message),
           isBot: true,
         }),
       });
@@ -84,7 +90,7 @@ export function LoadChat({ chatId, messages }) {
           Authorization: `Bearer ${getToken()}`,
         },
         body: JSON.stringify({
-          content: textareaRef.current.value,
+          content: message,
           isBot: false,
         }),
       });
@@ -96,8 +102,8 @@ export function LoadChat({ chatId, messages }) {
     }
 
     await newMessageUser();
-    textareaRef.current.value = '';
     textareaRef.current.style.height = 'auto';
+    setNewMessage(true);
   };
 
   const handleKeyDown = (event) => {
@@ -167,7 +173,7 @@ export function NoChat() {
           Authorization: `Bearer ${getToken()}`,
         },
         body: JSON.stringify({
-          content: await getReplyBotMessage(textareaRef.current.value),
+          content: await getReplyBotMessage(null, textareaRef.current.value),
           isBot: true,
         }),
       });

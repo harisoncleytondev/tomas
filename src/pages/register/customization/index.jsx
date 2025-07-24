@@ -57,7 +57,7 @@ export default function Costumization() {
 
   useEffect(() => {
     exitPage();
-  });
+  }, []);
 
   const MIN_FONT_SIZE = 1;
   const MAX_FONT_SIZE = 100;

@@ -4,10 +4,10 @@ import { IoIosSearch, IoIosMenu } from 'react-icons/io';
 import { IoCreateOutline, IoCloseSharp } from 'react-icons/io5';
 
 /* REACT */
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 /* REACT ROUTER DOM */
-import { useParams, useNavigate, replace } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 /* CSS */
 import './css/ChatBotStyles.css';
