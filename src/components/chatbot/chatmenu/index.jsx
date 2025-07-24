@@ -25,7 +25,8 @@ export default function ChatMenu({ id, name }) {
       });
 
       if (response.ok) {
-        window.location.href = window.location.href;
+        navigate('/assistente/temp', { replace: true });
+        setTimeout(() => navigate(`/assistente/chat/`), 0);
       }
     } catch (error) {
       console.log('Erro ' + error);
