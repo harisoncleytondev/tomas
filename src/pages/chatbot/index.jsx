@@ -121,7 +121,7 @@ function ShowMenu() {
       },
     }).then((data) => data.json());
     setChats(response.chat);
-  }
+  };
 
   const handleButtonMenu = () => {
     if (!isMenuActive) {
@@ -145,7 +145,15 @@ function ShowMenu() {
       <div id="chatbot_div_menu_open">
         <section id="chatbot_menu_open_header">
           <div id="chatbot_div_menu_button_close">
-            <span>{getPayload().username.charAt(0).toUpperCase()}</span>
+            {getPayload().icon ? (
+              <img
+                src={getPayload().icon}
+                alt={getPayload().username}
+                style={{ width: 40, height: 40, borderRadius: '50%' }}
+              />
+            ) : (
+              <span>{getPayload().username.charAt(0).toUpperCase() || '?'}</span>
+            )}
             <button onClick={handleButtonMenu}>
               <IoCloseSharp />
             </button>
@@ -170,7 +178,7 @@ function ShowMenu() {
 
         <section id="chatbot_menu_open_content">
           <div id="chatbot_div_menu_open_chats">
-            {chats.length === 0 
+            {chats.length === 0
               ? ''
               : chats.map((chat) => (
                   <ChatMenu

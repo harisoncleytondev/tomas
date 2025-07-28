@@ -55,6 +55,12 @@ export const fontOptions = {
   },
 };
 
+export const findFontKeyByValue = (value) => {
+  const entries = Object.entries(fontOptions);
+  const found = entries.find(([key, font]) => font.value === value);
+  return found?.[0] || null;
+};
+
 export function getColorPalette(type, click) {
   return (
     <div className="costumization_div_palette">

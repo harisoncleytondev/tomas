@@ -3,12 +3,12 @@ import './css/RegisterStyles.css';
 import './css/RegisterStyles.responsive.css';
 
 /* COMPONENTS */
-import ButtonGoogle from '../../../components/buttons/buttonGoogle';
-import ButtonBlue from '../../../components/buttons/buttonPrimary';
-import BackgroundDecor from '../../../components/backgroundDecor';
+import ButtonGoogle from '../../components/buttons/buttonGoogle';
+import ButtonBlue from '../../components/buttons/buttonPrimary';
+import BackgroundDecor from '../../components/backgroundDecor';
 
 /* REACT */
-import { useState, useContext, useEffect } from 'react';
+import { useState } from 'react';
 
 /* REACT ROUTER DOM */
 import { Link, useNavigate } from 'react-router-dom';
@@ -17,13 +17,11 @@ import { Link, useNavigate } from 'react-router-dom';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 import { MdInfoOutline } from 'react-icons/md';
 
-/* CONTEXT */
-import { RegisterContext } from '../../../contexts/RegisterContext';
-
 /* UTILS */
-import { getURL } from '../../../utils/api';
+import { getURL } from '../../utils/api';
 
 import toast, { Toaster } from 'react-hot-toast';
+import { setTokenLocal } from '../../utils/auth';
 
 export default function Register() {
   const [showPassword, setShowPassword] = useState(false);
@@ -43,7 +41,10 @@ export default function Register() {
     setShowPassword(!showPassword);
   };
 
-  const { setData } = useContext(RegisterContext);
+  const handleGoogle = async (e) => {
+    e.preventDefault();
+    window.location.href = `${getURL()}auth/google`;
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -65,16 +66,8 @@ export default function Register() {
         return false;
       }
 
-      if (!/[a-zA-Z]/.test(password)) {
-        setErrorPasswordStatus('A senha deve conter pelo menos uma letra');
-        setErrorPassword(true);
-        return false;
-      }
-
-      if (!/[$*&@#]/.test(password)) {
-        setErrorPasswordStatus(
-          'A senha deve conter pelo menos um caractere especial ($*&@#)'
-        );
+      if (password.length > 16) {
+        setErrorPasswordStatus('A senha deve conter no maximo 16 caracteres');
         setErrorPassword(true);
         return false;
       }
@@ -84,41 +77,61 @@ export default function Register() {
       return true;
     }
 
-    // Verifica se o e-mail já está em uso
-    async function verifyEmail(email) {
+    async function createAccount(username, email, password) {
+      let object = {
+        verify: false,
+        token: '',
+      };
+
       try {
-        const response = await fetch(`${getURL()}user/${email}`, {
-          method: 'GET',
+        const response = await fetch(`${getURL()}user/create`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            email: email,
+            password: password,
+            username: username,
+          }),
         });
 
-        if (response.ok) {
+        if (response.status == 409) {
           setErrorEmail(true);
-          return false;
+          object.verify = false;
+          return object;
         }
 
+        const data = await response.json();
+
         setErrorEmail(false);
-        return true;
+        object.verify = true;
+        object.token = data.token;
+        return object;
       } catch (error) {
         setErrorEmail(true);
-        return false;
+        return object;
       }
     }
 
     const validationPromise = async () => {
-      const isEmailValid = await verifyEmail(formObject.email);
+      const isEmailValid = await createAccount(
+        formObject.name,
+        formObject.email,
+        formObject.password
+      );
       const isPasswordValid = verifyPassword(
         formObject.password,
         formObject.confirmPassword
       );
 
-      if (!isEmailValid || !isPasswordValid) {
+      if (!isEmailValid.verify || !isPasswordValid) {
         throw new Error('Criação cancelada.');
       }
 
-      setData(formObject);
-      navigate('/criar-conta/prefs');
+      setTokenLocal(isEmailValid.token);
+      navigate('/assistente/preferencias');
     };
-    console.log('opa')
     toast.promise(validationPromise, {
       loading: 'Verificando informações...',
       success: <b>Verificações concluídas com sucesso!</b>,
@@ -271,7 +284,7 @@ export default function Register() {
         </div>
 
         <div id="register_div_button_google">
-          <ButtonGoogle id="register_button_join_google">
+          <ButtonGoogle id="register_button_join_google" onClick={handleGoogle}>
             Entrar com o google
           </ButtonGoogle>
         </div>

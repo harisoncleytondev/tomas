@@ -62,6 +62,11 @@ export default function Login() {
     }
   };
 
+  const handleGoogle = async (e) => {
+    e.preventDefault();
+    window.location.href = `${getURL()}auth/google`;
+  };
+
   return (
     <div id="login_div_container">
       <BackgroundDecor />
@@ -175,7 +180,7 @@ export default function Login() {
         </div>
 
         <div id="login_div_button_google">
-          <ButtonGoogle id="login_button_join_google">
+          <ButtonGoogle id="login_button_join_google" onClick={(e) => handleGoogle(e)}>
             Entrar com o google
           </ButtonGoogle>
         </div>

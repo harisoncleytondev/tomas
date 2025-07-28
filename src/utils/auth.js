@@ -9,6 +9,12 @@ export function getToken() {
   return token || null;
 }
 
+export function isTokenInLocalStorage() {
+  const tokenInLocal = localStorage.getItem('token');
+  return !!tokenInLocal;
+}
+
+
 export function setTokenLocal(token) {
   localStorage.setItem('token', token);
 }

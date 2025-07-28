@@ -10,13 +10,13 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Home from './pages/home';
 import Error from './pages/error';
 import Login from './pages/login';
-import Register from './pages/register/registerPage';
-import Costumization from './pages/register/customization';
+import Register from './pages/register';
+import Costumization from './pages/chatbot/customization/index.jsx';
 import Terms from './pages/terms';
 import ChatBot from './pages/chatbot';
+import AuthGoogleCallback from './pages/google';
 
 /* WRAPPERS */
-import RegisterWrapper from './wrappers/RegisterWrapper.jsx';
 import ProtectRouterWrapper from './wrappers/ProtectRouterWrapper.jsx';
 
 /* APP */
@@ -37,17 +37,7 @@ let router = createBrowserRouter([
       },
       {
         path: 'criar-conta',
-        Component: RegisterWrapper,
-        children: [
-          {
-            index: true,
-            Component: Register,
-          },
-          {
-            path: 'prefs',
-            Component: Costumization,
-          },
-        ],
+        Component: Register,
       },
       {
         path: 'termos-e-politica',
@@ -56,12 +46,20 @@ let router = createBrowserRouter([
     ],
   },
   {
+    path: 'auth/google/callback/:action/:token',
+    Component: AuthGoogleCallback,
+  },
+  {
     path: 'assistente',
     Component: ProtectRouterWrapper,
     children: [
       {
         path: 'chat/:chatId?',
         Component: ChatBot,
+      },
+      {
+        path: 'preferencias',
+        Component: Costumization,
       },
     ],
   },

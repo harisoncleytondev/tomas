@@ -3,14 +3,18 @@ import './css/CustomizationStyles.css';
 import './css/Customization.responsive.css';
 
 /* COMPONENTS */
-import ButtonBlue from '../../../components/buttons/buttonPrimary';
+import ButtonBlue from '../../../components/buttons/buttonPrimary/index.jsx';
 
 /* UTILS */
-import { fontOptions, getColorPalette } from '../../../utils/costumization.jsx';
+import {
+  findFontKeyByValue,
+  fontOptions,
+  getColorPalette,
+} from '../../../utils/costumization.jsx';
 import { getURL } from '../../../utils/api.js';
 
 /* REACT */
-import { useState, useContext, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 /* REACT ROUTER DOM */
 import { replace, useNavigate } from 'react-router-dom';
@@ -19,17 +23,32 @@ import { replace, useNavigate } from 'react-router-dom';
 import { MdOutlineColorLens } from 'react-icons/md';
 import { TbTextSize } from 'react-icons/tb';
 
-/* CONTEXT */
-import { RegisterContext } from '../../../contexts/RegisterContext.jsx';
+/* TOAST */
 import toast, { Toaster } from 'react-hot-toast';
+import { getPayload, getToken, isTokenInLocalStorage, setTokenLocal, setTokenSession } from '../../../utils/auth.js';
 
 export default function Costumization() {
-  const [fontOne, setFontOne] = useState(fontOptions.baloo);
-  const [fontTwo, setFontTwo] = useState(fontOptions.lexend);
-  const [fontSizeOne, setFontSizeOne] = useState('45');
-  const [fontSpaceOne, setFontSpaceOne] = useState('0.8');
-  const [fontSizeTwo, setFontSizeTwo] = useState('16');
-  const [fontSpaceTwo, setFontSpaceTwo] = useState('0.8');
+  const payload = getPayload();
+  const preferences = payload.preferences;
+  const [fontOne, setFontOne] = useState('');
+  const [fontTwo, setFontTwo] = useState('');
+
+  const [fontSizeOne, setFontSizeOne] = useState('');
+  const [fontSpaceOne, setFontSpaceOne] = useState('');
+
+  const [fontSizeTwo, setFontSizeTwo] = useState('');
+  const [fontSpaceTwo, setFontSpaceTwo] = useState('');
+
+  useEffect(() => {
+    if (preferences) {
+      setFontOne(findFontKeyByValue(preferences.fontOne) || 'baloo');
+      setFontTwo(findFontKeyByValue(preferences.fontTwo) || 'lexend');
+      setFontSizeOne(preferences.fontOneSize || 45);
+      setFontSpaceOne(preferences.fontOneSpacing || 0.8);
+      setFontSizeTwo(preferences.fontTwoSize || 16);
+      setFontSpaceTwo(preferences.fontTwoSpacing || 0.8);
+    }
+  }, []);
 
   const [fontSizeOneError, setFontSizeOneError] = useState('Tamanho da Fonte');
   const [fontSpaceOneError, setFontSpaceOneError] = useState(
@@ -40,24 +59,18 @@ export default function Costumization() {
     'Espaçamento entre Letras'
   );
 
-  const [colorBackground, setBackground] = useState('#F9F9F9');
-  const [colorText, setText] = useState('#fff');
-  const [colorButton, setButton] = useState('#425989ff');
-  const [colorEmphasis, setEmphasis] = useState('#2463EB');
+  const [colorBackground, setBackground] = useState(
+    getPayload().preferences.backgroundColor
+  );
+  const [colorText, setText] = useState(getPayload().preferences.textColor);
+  const [colorButton, setButton] = useState(
+    getPayload().preferences.buttonColor
+  );
+  const [colorEmphasis, setEmphasis] = useState(
+    getPayload().preferences.extraColor
+  );
 
-  const { data } = useContext(RegisterContext);
   const navigate = useNavigate();
-
-  const exitPage = () => {
-    if (data.name == null) {
-      navigate('/criar-conta/');
-      return;
-    }
-  };
-
-  useEffect(() => {
-    exitPage();
-  }, []);
 
   const MIN_FONT_SIZE = 1;
   const MAX_FONT_SIZE = 100;
@@ -151,11 +164,6 @@ export default function Costumization() {
 
   /* Botão continuar */
   const handleButtonContinue = async () => {
-    if (data.name == null) {
-      exitPage();
-      return;
-    }
-
     if (
       fontSizeOne < MIN_FONT_SIZE ||
       fontSizeTwo < MIN_FONT_SIZE ||
@@ -178,9 +186,6 @@ export default function Costumization() {
 
     async function createAccount() {
       const object = {
-        email: data.email,
-        password: data.password,
-        username: data.name,
         preferences: {
           backgroundColor: colorBackground,
           textColor: colorText,
@@ -194,15 +199,24 @@ export default function Costumization() {
           fontTwoSpacing: fontSpaceTwo,
         },
       };
-      const response = await fetch(`${getURL()}user/create`, {
-        method: 'POST',
+      const response = await fetch(`${getURL()}user/edit/preferences`, {
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${getToken()}`
         },
         body: JSON.stringify(object),
       });
 
       if (response.ok) {
+        const data = await response.json();
+
+        if (isTokenInLocalStorage) {
+          setTokenLocal(data.token);
+        } else {
+          setTokenSession(data.token);
+        }
+
         return true;
       }
     }
@@ -210,10 +224,9 @@ export default function Costumization() {
     const res = await createAccount();
 
     if (res) {
-      navigate('/entrar', { replace: true });
+      navigate('/assistente/chat', { replace: true });
     } else {
-      //toast
-      navigate('/criar-conta', { replace: true });
+      navigate('/assistente/chat', { replace: true });
     }
   };
 
@@ -437,7 +450,7 @@ export default function Costumization() {
                 }}
               >
                 {Object.entries(fontOptions).map(([key, option]) => (
-                  <option key={key} value={option.value}>
+                  <option key={key} value={key}>
                     {option.label}
                   </option>
                 ))}
@@ -501,13 +514,13 @@ export default function Costumization() {
               </label>
               <select
                 id="costumization_select_typography_two"
-                value={fontTwo}
+                value={fontTwo} 
                 onChange={(e) => {
-                  setFontTwo(e.target.value);
+                  setFontTwo(e.target.value); 
                 }}
               >
                 {Object.entries(fontOptions).map(([key, option]) => (
-                  <option key={key} value={option.value}>
+                  <option key={key} value={key}>
                     {option.label}
                   </option>
                 ))}
