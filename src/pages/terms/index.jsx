@@ -3,7 +3,6 @@ import './css/TermsStyles.css';
 
 /* COMPONENTS */
 import BackgroundDecor from '../../components/backgroundDecor';
-import { ScrollBar } from '../../components/scrollbar';
 
 /* REACT ICONS */
 import { IoShieldOutline, IoDocumentTextOutline } from 'react-icons/io5';
@@ -29,7 +28,6 @@ export default function Terms() {
 
   return (
     <div id="terms_div_container">
-      <ScrollBar />
       <BackgroundDecor />
 
       <h1>Termos e Políticas</h1>

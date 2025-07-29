@@ -1,4 +1,13 @@
-@media (min-width: 1600px) {
+@media (min-width: 1920px) {
+  #home_index {
+    & > #home_index_div_cards {
+      gap: 8rem;
+      scale: 130%;
+    }
+  }
+}
+
+@media (min-width: 1600px) and (max-width: 1919px) {
   #home_index {
     & > #home_index_div_cards {
       display: flex;
@@ -7,6 +16,30 @@
       gap: 6rem;
       scale: 120%;
     }
+  }
+}
+
+@media (min-width: 1200px) and (max-width: 1599px) {
+  #home_index {
+    & > #home_index_div_cards {
+      gap: 4rem;
+      scale: 100%;
+    }
+  }
+  #home_technology > section > #home_technology_div_info {
+    padding: 0 5%;
+  }
+}
+
+@media (min-width: 1001px) and (max-width: 1199px) {
+  #home_index {
+    & > #home_index_div_cards {
+      gap: 3rem;
+      scale: 90%;
+    }
+  }
+  #home_technology > section > #home_technology_div_info {
+    padding: 0 4%;
   }
 }
 
@@ -20,12 +53,29 @@
       scale: 70%;
     }
   }
+  #home_technology > section > #home_technology_div_info {
+    flex-direction: column;
+    align-items: center;
+    padding: 0 3%;
+  }
+  #home_technology > section > #home_technology_div_info > div > img {
+    max-width: 80%;
+    height: auto;
+    margin-bottom: 2rem;
+  }
 }
 
-@media (min-width: 850px) {
+@media (min-width: 851px) and (max-width: 999px) {
   #home_index {
-    min-height: initial; 
+    min-height: initial;
     max-height: 100vh;
+  }
+  #home_index > #home_index_div_title {
+    padding: 2rem;
+  }
+  #home_index > #home_index_div_cards {
+    scale: 80%;
+    flex-wrap: wrap;
   }
 }
 
@@ -33,6 +83,7 @@
   #home_plans {
     & > #home_plans_div_cards {
       flex-direction: column;
+      align-items: center;
     }
   }
 
@@ -43,25 +94,37 @@
       justify-content: center;
       align-items: center;
       scale: 90%;
+      gap: 1rem;
     }
+  }
+  #home_index_div_title {
+    padding: 1rem;
   }
 }
 
-@media (max-width: 740px) {
+@media (max-width: 768px) {
   #home_index {
     min-height: 100vh;
-    height: auto; 
+    height: auto;
+    padding-bottom: 2rem;
   }
 
   #home_technology {
-    min-height: 100vh; 
+    min-height: 100vh;
     height: auto;
-    
+    padding-bottom: 2rem;
+
     & > section > #home_technology_div_info {
-      & > div > img {
-        display: none;
-      }
+      flex-direction: column;
+      align-items: center;
+      padding: 1rem;
     }
+    & > section > #home_technology_div_info > div > img {
+      display: none;
+    }
+  }
+  #home_plans {
+    padding-bottom: 2rem;
   }
 }
 
@@ -69,6 +132,7 @@
   #home_technology {
     & > #home_technology_div_title > h2 {
       text-align: center;
+      font-size: 1.8rem;
     }
 
     & > section > #home_technology_div_info {
@@ -76,6 +140,7 @@
         min-width: 100%;
         max-width: 100%;
         font-size: 16px;
+        text-align: center;
       }
     }
   }
@@ -86,6 +151,12 @@
         scale: 90%;
       }
     }
+  }
+  #home_index_div_title h1 {
+    font-size: 2.5rem;
+  }
+  #home_index_div_title p {
+    font-size: 1rem;
   }
 }
 
@@ -123,18 +194,26 @@
   }
 
   #home_goTop {
-    left: 85%;
+    left: 80%;
+    bottom: 5%;
   }
 }
 
 @media (max-width: 430px) {
   #home_technology {
     & > section > #home_technology_div_info {
-      padding: 30px;
+      padding: 20px;
       & > h4 {
         font-size: 16px;
+        text-align: center;
       }
     }
+  }
+  #home_index_div_title h1 {
+    font-size: 2rem;
+  }
+  #home_index_div_title p {
+    font-size: 0.9rem;
   }
 }
 

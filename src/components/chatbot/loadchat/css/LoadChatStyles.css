@@ -38,7 +38,7 @@
 
       & > h1 {
         text-align: center;
-        color: var(--extra-color);
+        color: var(--text-color);
         font-family: var(--font-one);
         font-size: var(--font-one-size);
         letter-spacing: var(--font-one-spacing);

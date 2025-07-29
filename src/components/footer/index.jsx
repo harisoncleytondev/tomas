@@ -1,5 +1,6 @@
 /* CSS */
 import "./css/FooterStyles.css";
+import "./css/FooterStyles.responsive.css";
 
 export default function Footer({ ...props }) {
   return (

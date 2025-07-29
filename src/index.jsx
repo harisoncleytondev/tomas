@@ -4,6 +4,7 @@ import { createRoot } from 'react-dom/client';
 /* CSS */
 import './index.css';
 
+/* REACT ROUTER DOM */
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 /* PAGES */
