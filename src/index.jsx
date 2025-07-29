@@ -20,12 +20,12 @@ import AuthGoogleCallback from './pages/google';
 import ProtectRouterWrapper from './wrappers/ProtectRouterWrapper.jsx';
 
 /* APP */
-import App from './App';
+import AppWrapper from './wrappers/AppWrapper.jsx';
 
 let router = createBrowserRouter([
   {
     path: '/',
-    Component: App,
+    Component: AppWrapper,
     children: [
       {
         path: '/',
