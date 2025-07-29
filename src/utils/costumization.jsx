@@ -61,6 +61,10 @@ export const findFontKeyByValue = (value) => {
   return found?.[0] || null;
 };
 
+export const findFontValueByKey = (key) => {
+  return fontOptions[key]?.value || null;
+};
+
 export function getColorPalette(type, click) {
   return (
     <div className="costumization_div_palette">
@@ -153,14 +157,13 @@ function getColor(hex, type) {
 
 export function applyPreferencesToCSS(preferences) {
   const root = document.documentElement;
-
   root.style.setProperty('--background-color', preferences.backgroundColor);
   root.style.setProperty('--button-color', preferences.buttonColor);
   root.style.setProperty('--extra-color', preferences.extraColor);
-  root.style.setProperty('--font-one', preferences.fontOne);
+  root.style.setProperty('--font-one', findFontValueByKey(preferences.fontOne));
   root.style.setProperty('--font-one-size', `${preferences.fontOneSize}px`);
   root.style.setProperty('--font-one-spacing', `${preferences.fontOneSpacing}px`);
-  root.style.setProperty('--font-two', preferences.fontTwo);
+  root.style.setProperty('--font-two', findFontValueByKey(preferences.fontTwo));
   root.style.setProperty('--font-two-size', `${preferences.fontTwoSize}px`);
   root.style.setProperty('--font-two-spacing', `${preferences.fontTwoSpacing}px`);
   root.style.setProperty('--text-color', preferences.textColor);
