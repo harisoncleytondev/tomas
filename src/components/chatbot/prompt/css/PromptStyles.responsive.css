@@ -1,0 +1,45 @@
+@media (max-width: 768px) {
+  #component_prompt_container {
+    & > form {
+      width: 70%;
+      min-width: unset;
+      max-width: 500px;
+      padding: 12px 20px;
+
+      & > textarea {
+        font-size: 14px;
+
+        &::placeholder {
+          font-size: 14px;
+          color: var(--text-color);
+        }
+      }
+
+      & > button {
+        scale: 110%;
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  #component_prompt_container {
+    & > form {
+      width: 90%;
+      padding: 10px 15px;
+
+      & > textarea {
+        font-size: 13px;
+
+        &::placeholder {
+          font-size: 13px;
+          color: var(--text-color);
+        }
+      }
+
+      & > button {
+        scale: 100%;
+      }
+    }
+  }
+}

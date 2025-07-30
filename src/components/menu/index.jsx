@@ -16,6 +16,10 @@ import ChatMenu from '../../components/chatbot/chatmenu/index.jsx';
 import { getPayload, getToken } from '../../utils/auth.js';
 import { getURL } from '../../utils/api.js';
 
+/* CSS */
+import './css/MenuStyles.css'
+import './css/MenuStyles.responsive.css'
+
 export default function Menu() {
   const [isMenuActive, setMenuActive] = useState(false);
   const navigate = useNavigate();

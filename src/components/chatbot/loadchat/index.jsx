@@ -1,6 +1,3 @@
-/* REACT ICONS */
-import { FaRegPaperPlane } from 'react-icons/fa6';
-
 /* REACT */
 import { useEffect, useRef, useState } from 'react';
 
@@ -12,10 +9,50 @@ import { useNavigate } from 'react-router-dom';
 
 /* UTILS */
 import { getPayload, getToken } from '../../../utils/auth';
+import { askToBot, getURL } from '../../../utils/api';
 
 /* CSS */
 import './css/LoadChatStyles.css';
-import { getReplyBotMessage, getURL } from '../../../utils/api';
+import './css/LoadChatStyles.responsive.css';
+
+/* COMPONENTS */
+import Prompt from '../prompt';
+
+/* MARKDOWN */
+import ReactMarkdown from 'react-markdown';
+import rehypeSanitize from 'rehype-sanitize';
+import remarkGfm from 'remark-gfm';
+
+function getPrompt() {
+  return `
+Você é Tomas, uma IA amigável e acolhedora, especializada em auxiliar pessoas neurodivergentes.
+
+**Principais Diretrizes**
+
+1. **Clareza e Objetividade**
+   - Frases curtas e diretas.
+   - Vá sempre ao ponto, oferecendo resumos quando precisar.
+
+2. **Acessibilidade**
+   - Use Markdown:
+     - Títulos (#, ##)
+     - Listas (-, 1.)
+     - **Negrito** e *itálico*
+     - Blocos de código com crases triplas (\`\`\`) e indicação da linguagem
+
+3. **Empatia e Paciência**
+   - Tom caloroso e encorajador.
+   - Paciente: repita ou simplifique quando necessário.
+
+4. **Estrutura Breve**
+   - Use listas ou etapas numeradas.
+   - Finalize com um resumo de 1–2 frases.
+
+5. **Limites**
+   - Recuse pedidos ofensivos, perigosos ou antiéticos.
+
+Sempre formate suas respostas de modo claro, conciso e acolhedor.`;
+}
 
 /* Chat carregado */
 export function LoadChat({ chatId, messages }) {
@@ -23,10 +60,22 @@ export function LoadChat({ chatId, messages }) {
   const messagesEndRef = useRef(null);
   const [messageLoad, setMessageLoad] = useState([]);
   const [isMessage, setNewMessage] = useState(false);
+  const [waiting, setWaiting] = useState(false);
 
   useEffect(() => {
     setMessageLoad(messages);
   }, [messages]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (messagesEndRef.current) {
+        messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+        clearInterval(interval);
+      }
+    }, 100);
+
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     if (isMessage == false) return;
@@ -39,17 +88,13 @@ export function LoadChat({ chatId, messages }) {
     return () => clearTimeout(timeout);
   }, [messageLoad]);
 
-  const handleInput = () => {
-    const textarea = textareaRef.current;
-    if (!textarea) return;
-    textarea.style.height = 'auto';
-    textarea.style.height = `${textarea.scrollHeight}px`;
-  };
-
   const handleSendMessage = async () => {
     if (textareaRef.current.value.length === 0) return;
+    if (waiting) return;
     const message = textareaRef.current.value;
     textareaRef.current.value = '';
+
+    setWaiting(true);
 
     async function reload() {
       const response = await fetch(`${getURL()}chat/${chatId}`, {
@@ -76,7 +121,12 @@ export function LoadChat({ chatId, messages }) {
           Authorization: `Bearer ${getToken()}`,
         },
         body: JSON.stringify({
-          content: await getReplyBotMessage(messageLoad, message),
+          content: await askToBot({
+            history: messageLoad,
+            systemPrompt: getPrompt(),
+            question: message,
+            temperature: 0.5,
+          }),
           isBot: true,
         }),
       });
@@ -104,13 +154,7 @@ export function LoadChat({ chatId, messages }) {
     await newMessageUser();
     textareaRef.current.style.height = 'auto';
     setNewMessage(true);
-  };
-
-  const handleKeyDown = (event) => {
-    if (event.key === 'Enter' && !event.shiftKey) {
-      event.preventDefault();
-      handleSendMessage();
-    }
+    setWaiting(false);
   };
 
   return (
@@ -120,33 +164,27 @@ export function LoadChat({ chatId, messages }) {
           {messageLoad.map((msg) => (
             <div
               key={msg.message_id}
+              ref={messagesEndRef}
               className={`chatbot_div_message chatbot_div_message_${
-                msg.is_bot === true ? 'bot' : 'user'
+                msg.is_bot ? 'bot' : 'user'
               }`}
             >
-              <p>{msg.message_content}</p>
+              <ReactMarkdown
+                remarkPlugins={[remarkGfm]}
+                rehypePlugins={[rehypeSanitize]}
+              >
+                {msg.message_content}
+              </ReactMarkdown>
               <span>{new Date(msg.created_at).toLocaleTimeString()}</span>
             </div>
           ))}
-          <div ref={messagesEndRef} />{' '}
         </div>
       </div>
-
-      <section>
-        <form onSubmit={(e) => e.preventDefault()}>
-          <textarea
-            ref={textareaRef}
-            onInput={handleInput}
-            onKeyDown={handleKeyDown}
-            name="question"
-            placeholder="Sobre o que deseja conversar?"
-            rows={1}
-          ></textarea>
-          <button onClick={handleSendMessage}>
-            <FaRegPaperPlane />
-          </button>
-        </form>
-      </section>
+      <Prompt
+        className="chatbot_prompt_load"
+        refPrompt={textareaRef}
+        sendPrompt={handleSendMessage}
+      />
     </div>
   );
 }
@@ -155,17 +193,14 @@ export function LoadChat({ chatId, messages }) {
 export function NoChat() {
   const textareaRef = useRef(null);
   const navigate = useNavigate();
-
-  const handleInput = () => {
-    const textarea = textareaRef.current;
-    textarea.style.height = 'auto';
-    textarea.style.height = `${textarea.scrollHeight}px`;
-  };
+  const [waiting, setWaiting] = useState(false);
 
   const handleButtonSend = async () => {
     if (textareaRef.current.value.length === 0) return;
+    if (waiting) return;
 
-    async function cretaMessageReply(chatId) {
+    setWaiting(true);
+    async function createMessageReply(chatId) {
       const reponse = await fetch(`${getURL()}chat/message/${chatId}`, {
         method: 'POST',
         headers: {
@@ -173,7 +208,11 @@ export function NoChat() {
           Authorization: `Bearer ${getToken()}`,
         },
         body: JSON.stringify({
-          content: await getReplyBotMessage(null, textareaRef.current.value),
+          content: await askToBot({
+            systemPrompt: getPrompt(),
+            question: textareaRef.current.value,
+            temperature: 0.5,
+          }),
           isBot: true,
         }),
       });
@@ -181,35 +220,45 @@ export function NoChat() {
 
     async function createChatAndMessage() {
       try {
+        const title = await askToBot({
+          systemPrompt: `Você é uma inteligência artificial que recebe uma mensagem ou uma conversa e gera um título curto, claro e descritivo que resume os temas principais discutidos.  
+O título deve conter no máximo 5 palavras, ser direto, e usar os nomes das funções, variáveis ou tópicos mais importantes da conversa.  
+O título deve parecer um nome de chat simples, sem aspas, vírgulas desnecessárias ou frases completas — apenas os termos-chave unidos por "e" ou "–".  
+Por exemplo, para uma conversa sobre "useEffect" e "messagesEndRef", o título seria: "useEffect e messagesEndRef".
+`,
+          question: textareaRef.current.value,
+          temperature: 0.5,
+        });
+
         const response = await fetch(`${getURL()}chat/create`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${getToken()}`,
           },
-          body: JSON.stringify({ content: textareaRef.current.value }),
+          body: JSON.stringify({
+            title,
+            content: textareaRef.current.value,
+          }),
         });
 
         if (response.ok) {
           const data = await response.json();
-          await cretaMessageReply(data.chat_id);
+          await createMessageReply(data.chat_id);
+
           navigate(`/assistente/chat/${data.chat_id}`, { replace: true });
+        } else {
+          console.error('Erro ao criar chat:', response.statusText);
         }
       } catch (error) {
-        console.log('Erro: ' + error);
+        console.error('Erro:', error);
       }
     }
 
     await createChatAndMessage();
     textareaRef.current.value = '';
     textareaRef.current.style.height = 'auto';
-  };
-
-  const handleKeyDown = (event) => {
-    if (event.key === 'Enter' && !event.shiftKey) {
-      event.preventDefault();
-      handleButtonSend();
-    }
+    setWaiting(false);
   };
 
   return (
@@ -224,19 +273,11 @@ export function NoChat() {
           </h1>
         </div>
 
-        <form onSubmit={(e) => e.preventDefault()}>
-          <textarea
-            ref={textareaRef}
-            onInput={handleInput}
-            onKeyDown={handleKeyDown}
-            name="question"
-            placeholder="Sobre o que deseja conversar?"
-            rows={1}
-          ></textarea>
-          <button onClick={handleButtonSend}>
-            <FaRegPaperPlane />
-          </button>
-        </form>
+        <Prompt
+          className="chatbot_prompt_noload"
+          refPrompt={textareaRef}
+          sendPrompt={handleButtonSend}
+        />
 
         <div id="chatbot_div_questions_container">
           <button className="chatbot_div_questions">

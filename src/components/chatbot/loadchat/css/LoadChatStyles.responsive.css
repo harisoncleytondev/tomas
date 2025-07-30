@@ -1,0 +1,87 @@
+@media (max-width: 768px) {
+  #chatbot_div_container_load {
+    padding-top: 1rem;
+  }
+
+  #chatbot_div_container_load > #chatbot_div_message_container > #chatbot_div_message_background {
+    width: 85vw;
+    height: 75vh;
+  }
+
+  #chatbot_div_container_load > #chatbot_div_message_container > #chatbot_div_message_background > .chatbot_div_message_bot,
+  #chatbot_div_container_load > #chatbot_div_message_container > #chatbot_div_message_background > .chatbot_div_message_user {
+  }
+
+  .chatbot_prompt_load > form {
+    width: calc(100% - 40px);
+    max-width: 80%;
+    padding: 10px 20px;
+    box-sizing: border-box;
+  }
+
+  #chatbot_div_container > section {
+    gap: 1.5rem;
+  }
+
+  #chatbot_div_container > section > #chatbot_div_title {
+    gap: 1.5rem;
+  }
+
+  #chatbot_div_container > section > #chatbot_div_title > img {
+    height: 80px;
+    width: 80px;
+  }
+
+  #chatbot_div_container > section > #chatbot_div_title > h1 {
+    font-size: var(--font-one-size);
+    line-height: 1.2;
+    padding: 0 10px;
+    text-align: center;
+  }
+
+  #chatbot_div_container > section > #chatbot_div_questions_container {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    width: 90%;
+    max-width: 400px;
+  }
+
+  #chatbot_div_container > section > #chatbot_div_questions_container > .chatbot_div_questions {
+    padding: 10px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  #chatbot_div_container_load > #chatbot_div_message_container > #chatbot_div_message_background {
+    width: 95vw;
+    height: 70vh;
+    box-sizing: border-box;
+    overflow-x: hidden;
+  }
+
+  #chatbot_div_container_load > #chatbot_div_message_container > #chatbot_div_message_background > .chatbot_div_message_bot,
+  #chatbot_div_container_load > #chatbot_div_message_container > #chatbot_div_message_background > .chatbot_div_message_user {
+  }
+
+  .chatbot_prompt_load > form {
+    width: calc(100% - 20px);
+    padding: 8px 10px;
+    box-sizing: border-box;
+  }
+
+  #chatbot_div_container > section > #chatbot_div_title > h1 {
+    font-size: calc(var(--font-one-size) * 0.7);
+    padding: 0 5px;
+  }
+
+  #chatbot_div_container > section > #chatbot_div_questions_container {
+    width: 95%;
+    max-width: none;
+  }
+
+  #chatbot_div_container > section > #chatbot_div_questions_container > .chatbot_div_questions {
+    padding: 8px;
+    font-size: 12px;
+  }
+}

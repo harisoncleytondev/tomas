@@ -10,6 +10,7 @@ import './css/ChatBotStyles.responsive.css';
 
 /* UTILS */
 import { getPayload, getToken } from '../../utils/auth.js';
+import { applyPreferencesToCSS } from '../../utils/costumization.jsx';
 
 /* COMPONENTS */
 import { getURL } from '../../utils/api.js';
@@ -23,42 +24,48 @@ export default function ChatBot() {
   const [messages, setMessages] = useState({});
   const [isLoading, setLoading] = useState(true);
 
-  const getChat = useCallback(async () => {
+  useEffect(() => {
     if (chatId == null) {
       setChatData(null);
       setLoading(false);
       return;
     }
+    applyPreferencesToCSS(getPayload().preferences);
 
-    try {
-      const response = await fetch(`${getURL()}chat/${chatId}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${getToken()}`,
-        },
-      });
-      if (response.status === 402) {
-        return navigate('/assistente/pagamento', { replace: true });
-      }
-      if (response.status === 404)
-        return navigate('/assistente/chat', { replace: true });
-      if (response.status === 401)
-        return navigate('/entrar', { replace: true });
-      if (response.status === 403)
-        return navigate('/assistente/chat', { replace: true });
+    const fetchChat = async () => {
+      setLoading(true);
+      try {
+        const response = await fetch(`${getURL()}chat/${chatId}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${getToken()}`,
+          },
+        });
+        if (response.status === 402) {
+          return navigate('/assistente/pagamento', { replace: true });
+        }
+        if (response.status === 404)
+          return navigate('/assistente/chat', { replace: true });
+        if (response.status === 401)
+          return navigate('/entrar', { replace: true });
+        if (response.status === 403)
+          return navigate('/assistente/chat', { replace: true });
 
-      if (response.status === 200) {
-        const json = await response.json();
-        setMessages(json.messages);
-        setChatData(chatId);
+        if (response.status === 200) {
+          const json = await response.json();
+          setMessages(json.messages);
+          setChatData(chatId);
+        }
+      } catch (error) {
+        console.log('Erro: ' + error);
+      } finally {
+        setLoading(false);
       }
-    } catch (error) {
-      console.log('Erro: ' + error);
-    } finally {
-      setLoading(false);
-    }
-  });
+    };
+
+    fetchChat();
+  }, [chatId, navigate, getURL, getToken]);
 
   const payload = getPayload();
 
@@ -68,10 +75,6 @@ export default function ChatBot() {
       return;
     }
   }, []);
-
-  useEffect(() => {
-    getChat();
-  }, [getChat]);
 
   return (
     <div>
