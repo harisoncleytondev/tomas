@@ -25,12 +25,15 @@ export default function ChatBot() {
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
+    applyPreferencesToCSS(getPayload().preferences);
+  })
+
+  useEffect(() => {
     if (chatId == null) {
       setChatData(null);
       setLoading(false);
       return;
     }
-    applyPreferencesToCSS(getPayload().preferences);
 
     const fetchChat = async () => {
       setLoading(true);
