@@ -194,6 +194,31 @@ export function NoChat() {
   const textareaRef = useRef(null);
   const navigate = useNavigate();
   const [waiting, setWaiting] = useState(false);
+  const [questions, setQuestions] = useState([]);
+
+  useEffect(() => {
+    async function load() {
+      const systemPrompt = `Você gera perguntas muito curtas e simples para ajudar pessoas neurodivergentes no dia a dia. Só perguntas, sem respostas, no JSON:
+
+{
+  "message": [
+    {"question": "Pergunta aqui?"}
+  ]
+}
+
+Não envie texto fora do JSON.`;
+
+      const res = await askToBot({
+        systemPrompt: systemPrompt,
+        question: 'Mê dê 3 perguntas pequenas.',
+      });
+      const json = JSON.parse(res);
+      setQuestions(json.message);
+      console.log(questions);
+    }
+
+    load();
+  }, []);
 
   const handleButtonSend = async (message) => {
     if (message.length === 0) return;
@@ -280,24 +305,17 @@ Por exemplo, para uma conversa sobre "useEffect" e "messagesEndRef", o título s
         />
 
         <div id="chatbot_div_questions_container">
-          <button
-            className="chatbot_div_questions"
-            onClick={async (e) =>
-              await handleButtonSend(e.currentTarget.innerText)
-            }
-          >
-            Me ajude com meus estudos
-          </button>
-
-          <button className="chatbot_div_questions" onClick={async (e) =>
-              await handleButtonSend(e.currentTarget.innerText)
-            }>
-            Vamos conversar um pouco?
-          </button>
-
-          <button className="chatbot_div_questions" onClick={async (e) =>
-              await handleButtonSend(e.currentTarget.innerText)
-            }>Dicas para foco</button>
+          {questions.map((q, index) => (
+            <button
+              key={index}
+              className="chatbot_div_questions"
+              onClick={async (e) =>
+                await handleButtonSend(e.currentTarget.innerText)
+              }
+            >
+              {q.question}
+            </button>
+          ))}
         </div>
       </section>
     </div>
