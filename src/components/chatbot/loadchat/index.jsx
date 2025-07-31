@@ -195,8 +195,8 @@ export function NoChat() {
   const navigate = useNavigate();
   const [waiting, setWaiting] = useState(false);
 
-  const handleButtonSend = async () => {
-    if (textareaRef.current.value.length === 0) return;
+  const handleButtonSend = async (message) => {
+    if (message.length === 0) return;
     if (waiting) return;
 
     setWaiting(true);
@@ -210,7 +210,7 @@ export function NoChat() {
         body: JSON.stringify({
           content: await askToBot({
             systemPrompt: getPrompt(),
-            question: textareaRef.current.value,
+            question: message,
             temperature: 0.5,
           }),
           isBot: true,
@@ -226,7 +226,7 @@ O título deve conter no máximo 5 palavras, ser direto, e usar os nomes das fun
 O título deve parecer um nome de chat simples, sem aspas, vírgulas desnecessárias ou frases completas — apenas os termos-chave unidos por "e" ou "–".  
 Por exemplo, para uma conversa sobre "useEffect" e "messagesEndRef", o título seria: "useEffect e messagesEndRef".
 `,
-          question: textareaRef.current.value,
+          question: message,
           temperature: 0.5,
         });
 
@@ -238,7 +238,7 @@ Por exemplo, para uma conversa sobre "useEffect" e "messagesEndRef", o título s
           },
           body: JSON.stringify({
             title,
-            content: textareaRef.current.value,
+            content: message,
           }),
         });
 
@@ -276,19 +276,28 @@ Por exemplo, para uma conversa sobre "useEffect" e "messagesEndRef", o título s
         <Prompt
           className="chatbot_prompt_noload"
           refPrompt={textareaRef}
-          sendPrompt={handleButtonSend}
+          sendPrompt={() => handleButtonSend(textareaRef.current.value)}
         />
 
         <div id="chatbot_div_questions_container">
-          <button className="chatbot_div_questions">
+          <button
+            className="chatbot_div_questions"
+            onClick={async (e) =>
+              await handleButtonSend(e.currentTarget.innerText)
+            }
+          >
             Me ajude com meus estudos
           </button>
 
-          <button className="chatbot_div_questions">
+          <button className="chatbot_div_questions" onClick={async (e) =>
+              await handleButtonSend(e.currentTarget.innerText)
+            }>
             Vamos conversar um pouco?
           </button>
 
-          <button className="chatbot_div_questions">Dicas para foco</button>
+          <button className="chatbot_div_questions" onClick={async (e) =>
+              await handleButtonSend(e.currentTarget.innerText)
+            }>Dicas para foco</button>
         </div>
       </section>
     </div>

@@ -58,7 +58,7 @@
       & > .chatbot_div_questions {
         border: none;
         background: var(--background-color);
-        color: var(--extra-color);
+        color: var(--text-color);
         cursor: pointer;
         border: 1.5px solid var(--extra-color);
         padding: 8px;
