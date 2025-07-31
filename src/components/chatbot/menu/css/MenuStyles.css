@@ -10,7 +10,7 @@
   border-radius: 9px;
   left: 5%;
   top: 5%;
-  z-index: 300;
+  z-index: 99;
 
   & > button {
     padding-top: 2.5px;
@@ -57,7 +57,8 @@
       justify-content: space-between;
       padding: 10px 30px;
 
-      & > span, img {
+      & > span,
+      img {
         background-color: var(--background-color);
         display: flex;
         align-items: center;
@@ -185,6 +186,32 @@
 
       &::-webkit-scrollbar-thumb:hover {
         background-color: rgba(255, 255, 255, 0.5);
+      }
+    }
+
+    .chatbot_component_menu {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 95%;
+      background: var(--extra-color);
+      padding: 10px 15px;
+      color: var(--text-color);
+      font-size: 18px;
+      font-family: var(--font-two);
+      border-radius: 9px;
+      cursor: pointer;
+
+      & > button {
+        border: none;
+        background: transparent;
+        color: var(--text-color);
+        cursor: pointer;
+        transition: scale 0.6s ease;
+
+        &:hover {
+          scale: 110%;
+        }
       }
     }
   }

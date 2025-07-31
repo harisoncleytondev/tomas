@@ -2,6 +2,7 @@
 import { CiSettings } from 'react-icons/ci';
 import { IoIosSearch, IoIosMenu } from 'react-icons/io';
 import { IoCreateOutline, IoCloseSharp } from 'react-icons/io5';
+import { MdOutlineDelete } from 'react-icons/md';
 
 /* REACT ROUTER DOM */
 import { useNavigate } from 'react-router-dom';
@@ -9,22 +10,48 @@ import { useNavigate } from 'react-router-dom';
 /* REACT */
 import { useState } from 'react';
 
-/* COMPONENTS */
-import ChatMenu from '../../components/chatbot/chatmenu/index.jsx';
-
 /* UTILS */
-import { getPayload, getToken } from '../../utils/auth.js';
-import { getURL } from '../../utils/api.js';
+import { getPayload, getToken } from '../../../utils/auth.js';
+import { getURL } from '../../../utils/api.js';
 
 /* CSS */
-import './css/MenuStyles.css'
-import './css/MenuStyles.responsive.css'
+import './css/MenuStyles.css';
+import './css/MenuStyles.responsive.css';
+import PromptModal from '../../modal/promptModal/index.jsx';
 
 export default function Menu() {
   const [isMenuActive, setMenuActive] = useState(false);
   const navigate = useNavigate();
   const [chats, setChats] = useState([]);
   const [filter, setFilter] = useState([]);
+
+  const [confirm, setConfirm] = useState(false);
+  const [confirmId, setConfirmId] = useState(false);
+
+  const handleButtonDelete = async () => {
+    setConfirm(false);
+    try {
+      const response = await fetch(`${getURL()}chat/delete/${confirmId}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${getToken()}`,
+        },
+      });
+
+      if (response.ok) {
+        navigate('/assistente/temp', { replace: true });
+        setTimeout(() => navigate(`/assistente/chat/`), 0);
+      }
+    } catch (error) {
+      console.log('Erro ' + error);
+    }
+  };
+
+  const handleNavigate = (id) => {
+    navigate('/assistente/temp', { replace: true });
+    setTimeout(() => navigate(`/assistente/chat/${id}`), 0);
+  };
 
   const getChats = async () => {
     const response = await fetch(`${getURL()}chat/`, {
@@ -65,6 +92,16 @@ export default function Menu() {
     </div>
   ) : (
     <div>
+      {confirm === true ? (
+        <PromptModal
+          title="Confirmar exlusão"
+          description="Ao confirmar você irá perder toda a conversa."
+          confirmYes={handleButtonDelete}
+          confirmNo={() => setConfirm(false)}
+        />
+      ) : (
+        ''
+      )}
       <div id="chatbot_div_overlay" onClick={handleButtonMenu}></div>
       <div id="chatbot_div_menu_open">
         <section id="chatbot_menu_open_header">
@@ -111,20 +148,36 @@ export default function Menu() {
           <div id="chatbot_div_menu_open_chats">
             {filter.length !== 0
               ? filter.map((chat) => (
-                  <ChatMenu
-                    key={chat.chat_id}
-                    id={chat.chat_id}
-                    name={chat.chat_title}
-                  />
+                  <div key={chat.chat_id} className="chatbot_component_menu">
+                    <span>
+                      <h6>{chat.chat_title}</h6>
+                    </span>
+                    <button
+                      onClick={() => {
+                        setConfirmId(chat.chat_id);
+                        setConfirm(true);
+                      }}
+                    >
+                      <MdOutlineDelete />
+                    </button>
+                  </div>
                 ))
               : chats.length === 0
               ? ''
               : chats.map((chat) => (
-                  <ChatMenu
-                    key={chat.chat_id}
-                    id={chat.chat_id}
-                    name={chat.chat_title}
-                  />
+                  <div key={chat.chat_id} className="chatbot_component_menu">
+                    <span onClick={() => handleNavigate(chat.chat_id)}>
+                      <h6>{chat.chat_title}</h6>
+                    </span>
+                    <button
+                      onClick={() => {
+                        setConfirmId(chat.chat_id);
+                        setConfirm(true);
+                      }}
+                    >
+                      <MdOutlineDelete />
+                    </button>
+                  </div>
                 ))}
           </div>
         </section>

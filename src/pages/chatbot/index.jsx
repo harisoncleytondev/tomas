@@ -15,7 +15,7 @@ import { applyPreferencesToCSS } from '../../utils/costumization.jsx';
 /* COMPONENTS */
 import { getURL } from '../../utils/api.js';
 import { LoadChat, NoChat } from '../../components/chatbot/loadchat/index.jsx';
-import Menu from '../../components/menu/index.jsx';
+import Menu from '../../components/chatbot/menu/index.jsx';
 
 export default function ChatBot() {
   const { chatId } = useParams();
