@@ -3,29 +3,38 @@ import './css/CustomizationStyles.css';
 import './css/Customization.responsive.css';
 
 /* COMPONENTS */
-import ButtonBlue from '../../../components/buttons/buttonPrimary/index.jsx';
+import InfoModal from '../../../components/modal/infoModal/index.jsx';
+import { ScrollBar } from '../../../components/scrollbar/index.jsx';
 
 /* UTILS */
 import {
   findFontKeyByValue,
   fontOptions,
   getColorPalette,
+  applyPreferencesToCSS,
 } from '../../../utils/costumization.jsx';
-import { getURL } from '../../../utils/api.js';
+import { getURL, askToBot } from '../../../utils/api.js';
 
 /* REACT */
 import { useState, useEffect } from 'react';
 
 /* REACT ROUTER DOM */
-import { replace, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 /* REACT ICONS */
 import { MdOutlineColorLens } from 'react-icons/md';
-import { TbTextSize } from 'react-icons/tb';
+import { TbTextSize, TbTemplate } from 'react-icons/tb';
+import { IoIosSave } from "react-icons/io";
 
 /* TOAST */
 import toast, { Toaster } from 'react-hot-toast';
-import { getPayload, getToken, isTokenInLocalStorage, setTokenLocal, setTokenSession } from '../../../utils/auth.js';
+import {
+  getPayload,
+  getToken,
+  isTokenInLocalStorage,
+  setTokenLocal,
+  setTokenSession,
+} from '../../../utils/auth.js';
 
 export default function Costumization() {
   const payload = getPayload();
@@ -50,6 +59,10 @@ export default function Costumization() {
     }
   }, []);
 
+  useEffect(() => {
+    applyPreferencesToCSS(getPayload().preferences);
+  });
+
   const [fontSizeOneError, setFontSizeOneError] = useState('Tamanho da Fonte');
   const [fontSpaceOneError, setFontSpaceOneError] = useState(
     'Espaçamento entre Letras'
@@ -70,6 +83,8 @@ export default function Costumization() {
     getPayload().preferences.extraColor
   );
 
+  const [confirm, setConfirm] = useState(false);
+  const [confirmMessage, setConfirmMessage] = useState('');
   const navigate = useNavigate();
 
   const MIN_FONT_SIZE = 1;
@@ -162,6 +177,11 @@ export default function Costumization() {
     setFontSpaceTwoError('Espaçamento entre Letras');
   };
 
+  /* Botão modelos */
+  const handleButtonModels = async () => {
+    alert('Tem ainda n mane');
+  }
+
   /* Botão continuar */
   const handleButtonContinue = async () => {
     if (
@@ -184,7 +204,81 @@ export default function Costumization() {
       return;
     }
 
-    async function createAccount() {
+    const prompt = `
+Persona e Objetivo:
+
+Você é um assistente de IA especialista em acessibilidade e diretrizes de contraste de cores (WCAG). Sua função é analisar um conjunto de 4 cores e determinar se a combinação oferece legibilidade e acessibilidade visual adequadas para todos os usuários, com foco especial no público neurodivergente.
+
+Tarefa:
+
+Analise as quatro cores fornecidas abaixo, que correspondem a background, text, button e extra. Verifique as seguintes combinações de contraste:
+
+1.  A cor de "text" sobre a cor de "background".
+2.  A cor de "text" sobre a cor de "button" (assumindo que o texto principal também será usado no botão).
+3.  A cor de "extra" sobre a cor de "background".
+
+Regras de Análise:
+
+* **Foco na Visibilidade:** Sua única razão para rejeitar uma combinação é a falha em atender aos critérios mínimos de contraste que garantem a visibilidade (baseado nas diretrizes WCAG 2.1 nível AA, com uma taxa de contraste de pelo menos 4.5:1 para texto normal).
+* **Ignore a Estética:** NÃO rejeite combinações por serem "estranhas", "feias" ou não convencionais. O público final é neurodivergente, e preferências estéticas tradicionais não se aplicam. Se o contraste for suficiente, a combinação é válida.
+* **Mensagem para o Cliente:** A mensagem de retorno ("message") deve ser extremamente clara, simples e direta. Ela será lida pelo cliente final. Evite jargões técnicos como "taxa de contraste" ou "WCAG". Explique o problema de forma prática.
+
+Formato de Saída Obrigatório:
+
+Sua resposta deve ser **estritamente** um objeto JSON, sem nenhum texto ou explicação adicional fora dele. O objeto deve conter duas chaves:
+
+1.  "aprovado": um valor booleano (true ou false).
+2.  "mensagem": uma string explicando o status.
+
+Cores para Análise:
+
+* background: [cor de fundo em hexadecimal, ex: #FFFFFF]
+* text: [cor do texto em hexadecimal, ex: #000000]
+* button: [cor do botão em hexadecimal, ex: #007BFF]
+* extra: [cor extra em hexadecimal, ex: #FFC107]
+
+Exemplos de Saída:
+
+* Se for aprovado:
+    \`\`\`json
+    {
+      "validate": true,
+      "message": "Ótima escolha! Todas as cores são bem visíveis e fáceis de ler."
+    }
+    \`\`\`
+
+* Se for reprovado (exemplo 1: texto e fundo):
+    \`\`\`json
+    {
+      "validate": false,
+      "message": "A cor do texto está muito parecida com a cor de fundo. Isso pode dificultar a leitura para algumas pessoas. Tente usar um texto mais escuro ou um fundo mais claro."
+    }
+    \`\`\`
+
+* Se for reprovado (exemplo 2: texto no botão):
+    \`\`\`json
+    {
+      "validate": false,
+      "message": "O texto dentro do botão não ficará visível. Sugerimos escolher uma cor de texto ou de botão diferente para garantir que todos consigam ler."
+    }
+    \`\`\`
+`;
+
+    const verification = await askToBot({
+      systemPrompt: prompt,
+      question: `BACKGROUND: ${colorBackground} TEXT: ${colorText} BUTTON: ${colorButton} EXTRA(DETAILS): ${colorEmphasis}`,
+      temperature: 0,
+    });
+
+    const json = await JSON.parse(verification);
+
+    if (json.validate === false) {
+      setConfirm(true);
+      setConfirmMessage(json.message);
+      return;
+    }
+
+    async function updateAccount() {
       const object = {
         preferences: {
           backgroundColor: colorBackground,
@@ -203,7 +297,7 @@ export default function Costumization() {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${getToken()}`
+          Authorization: `Bearer ${getToken()}`,
         },
         body: JSON.stringify(object),
       });
@@ -221,7 +315,7 @@ export default function Costumization() {
       }
     }
 
-    const res = await createAccount();
+    const res = await updateAccount();
 
     if (res) {
       navigate('/assistente/chat', { replace: true });
@@ -319,13 +413,20 @@ export default function Costumization() {
 
   return (
     <div id="costumization_div">
+      {confirm === true ? (
+        <InfoModal
+          title="Ops!"
+          description={confirmMessage}
+          onClose={() => setConfirm(false)}
+        />
+      ) : (
+        ''
+      )}
+      <ScrollBar />
       <Toaster position="top-center" reverseOrder={false} />
       <div id="costumization_div_header">
         <h2>Personalize sua Experiência</h2>
-        <p>
-          As modificações só serão aplicadas no chat. Você poderá mudar isso
-          depois
-        </p>
+        <p>Pode mudar e deixar as cores do jeitinho que você mais gostar!</p>
       </div>
 
       <div id="costumization_div_content">
@@ -343,12 +444,6 @@ export default function Costumization() {
               preferências visuais.
             </p>
           </div>
-          <ButtonBlue
-            id="costumization_div_content_title_btn"
-            onClick={handleButtonContinue}
-          >
-            Continuar
-          </ButtonBlue>
         </div>
 
         <div className="costumization_div_space"></div>
@@ -514,9 +609,9 @@ export default function Costumization() {
               </label>
               <select
                 id="costumization_select_typography_two"
-                value={fontTwo} 
+                value={fontTwo}
                 onChange={(e) => {
-                  setFontTwo(e.target.value); 
+                  setFontTwo(e.target.value);
                 }}
               >
                 {Object.entries(fontOptions).map(([key, option]) => (
@@ -575,6 +670,11 @@ export default function Costumization() {
               />
             </div>
           </div>
+        </div>
+
+        <div id="costumization_div_button">
+          <button onClick={async () => await handleButtonModels()}><TbTemplate /> Ver modelos</button>
+          <button onClick={async () => await handleButtonContinue()}><IoIosSave /> Salvar</button>
         </div>
       </div>
     </div>

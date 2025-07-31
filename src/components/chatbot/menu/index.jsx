@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
 /* UTILS */
-import { getPayload, getToken } from '../../../utils/auth.js';
+import { deleteToken, getPayload, getToken } from '../../../utils/auth.js';
 import { getURL } from '../../../utils/api.js';
 
 /* CSS */
