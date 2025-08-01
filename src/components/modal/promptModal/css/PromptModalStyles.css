@@ -1,6 +1,8 @@
 #component_modal_prompt {
   width: 100%;
   height: 100%;
+  position: fixed;
+  z-index: 102;
 
   & > #component_modal_prompt_overlay {
     display: flex;

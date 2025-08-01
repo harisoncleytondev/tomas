@@ -46,7 +46,7 @@
   height: 100vh;
   background: var(--background-color);
   box-shadow: 2px 0 12px rgba(0, 0, 0, 0.2);
-  z-index: 9999;
+  z-index: 99;
 
   /* Cabeçario */
   & > #chatbot_menu_open_header {
@@ -134,7 +134,7 @@
           border: none;
           background: transparent;
           cursor: pointer;
-          font-size: 18px;
+          font-size: 22px;
 
           &:hover {
             scale: 105%;
@@ -213,10 +213,15 @@
         background: transparent;
         color: var(--text-color);
         cursor: pointer;
-        transition: scale 0.6s ease;
+        font-size: 16px;
+        transition: all 0.6s ease;
 
         &:hover {
-          scale: 110%;
+          transform: translateY(-5%) scale(1.05);
+        }
+
+        &:active {
+          transform: translateY(5%) scale(.9);
         }
       }
     }

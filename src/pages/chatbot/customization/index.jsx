@@ -35,11 +35,14 @@ import {
   setTokenLocal,
   setTokenSession,
 } from '../../../utils/auth.js';
+import Loading from '../../../components/loading/index.jsx';
 
 export default function Costumization() {
   const [payload, setPayload] = useState(null);
   const [fontOne, setFontOne] = useState('');
   const [fontTwo, setFontTwo] = useState('');
+  const [waiting, setWaiting] = useState(false);
+  const [error, setError] = useState(false);
 
   const [fontSizeOne, setFontSizeOne] = useState('');
   const [fontSpaceOne, setFontSpaceOne] = useState('');
@@ -186,6 +189,10 @@ export default function Costumization() {
 
   /* Botão continuar */
   const handleButtonContinue = async () => {
+    if (waiting === true) return;
+    setWaiting(true);
+    setError(false);
+
     if (
       fontSizeOne < MIN_FONT_SIZE ||
       fontSizeTwo < MIN_FONT_SIZE ||
@@ -282,49 +289,56 @@ Sua resposta deve ser **estritamente** um objeto JSON, sem nenhum texto ou expli
     }
 
     async function updateAccount() {
-      const object = {
-        preferences: {
-          backgroundColor: colorBackground,
-          textColor: colorText,
-          buttonColor: colorButton,
-          extraColor: colorEmphasis,
-          fontOne: fontOne,
-          fontOneSize: fontSizeOne,
-          fontOneSpacing: fontSpaceOne,
-          fontTwo: fontTwo,
-          fontTwoSize: fontSizeTwo,
-          fontTwoSpacing: fontSpaceTwo,
-        },
-      };
-      const token = await getToken();
-      const response = await fetch(`${getURL()}user/edit/preferences`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(object),
-      });
+      try {
+        const object = {
+          preferences: {
+            backgroundColor: colorBackground,
+            textColor: colorText,
+            buttonColor: colorButton,
+            extraColor: colorEmphasis,
+            fontOne: fontOne,
+            fontOneSize: fontSizeOne,
+            fontOneSpacing: fontSpaceOne,
+            fontTwo: fontTwo,
+            fontTwoSize: fontSizeTwo,
+            fontTwoSpacing: fontSpaceTwo,
+          },
+        };
+        const token = await getToken();
+        const response = await fetch(`${getURL()}user/edit/preferences`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(object),
+        });
 
-      if (response.ok) {
-        const data = await response.json();
+        if (response.ok) {
+          const data = await response.json();
 
-        if (isTokenInLocalStorage) {
-          setTokenLocal(data.token);
-        } else {
-          setTokenSession(data.token);
+          if (isTokenInLocalStorage) {
+            setTokenLocal(data.token);
+          } else {
+            setTokenSession(data.token);
+          }
+
+          return true;
         }
 
-        return true;
+        return null;
+      } catch (error) {
+        return null;
       }
     }
 
     const res = await updateAccount();
+    setWaiting(false);
 
-    if (res) {
+    if (res != null) {
       navigate('/assistente/chat', { replace: true });
     } else {
-      navigate('/assistente/chat', { replace: true });
+      setError(true);
     }
   };
 
@@ -423,6 +437,17 @@ Sua resposta deve ser **estritamente** um objeto JSON, sem nenhum texto ou expli
           description={confirmMessage}
           onClose={() => setConfirm(false)}
         />
+      ) : (
+        ''
+      )}
+      {error === true ? (
+        <InfoMOdal
+          title="Ops!"
+          description="Houve um erro ao salvar suas informações. Tente novamente."
+          onClose={() => setError(false)}
+        />
+      ) : waiting === true ? (
+        <Loading />
       ) : (
         ''
       )}

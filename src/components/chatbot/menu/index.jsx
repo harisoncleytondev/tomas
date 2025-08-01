@@ -186,10 +186,12 @@ export default function Menu() {
               ))
             ) : chats.length > 0 ? (
               chats.map((chat) => (
-                <div key={chat.chat_id} className="chatbot_component_menu">
-                  <span onClick={() => handleNavigate(chat.chat_id)}>
-                    <h6>{chat.chat_title}</h6>
-                  </span>
+                <div
+                  key={chat.chat_id}
+                  className="chatbot_component_menu"
+                  onClick={() => handleNavigate(chat.chat_id)}
+                >
+                  <h6>{chat.chat_title}</h6>
                   <button
                     onClick={() => {
                       setConfirmId(chat.chat_id);

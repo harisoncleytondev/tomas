@@ -5,10 +5,10 @@
       "name": "Noite Animada",
       "category": "dark",
       "colors": {
-        "background": "#121212",
-        "text": "#F5F5F5",
-        "button": "#3F51B5",
-        "extra": "#FFC107"
+        "background": "#000B3E",
+        "text": "#fff",
+        "button": "#374680",
+        "extra": "#142671"
       }
     },
     {
