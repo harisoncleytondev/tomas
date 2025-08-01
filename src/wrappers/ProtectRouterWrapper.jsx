@@ -7,6 +7,9 @@ import { useEffect, useState } from 'react';
 /* UTILS */
 import { getToken } from '../utils/auth.js';
 
+/* COMPONENTS */
+import Loading from '../components/loading/index.jsx';
+
 export default function ProtectRouterWrapper() {
   const [token, setToken] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -21,14 +24,15 @@ export default function ProtectRouterWrapper() {
     checkToken();
   }, []);
 
-  if (loading) {
-    //loading
-    return null; 
-  }
-
   return (
     <div>
-      {token != null ? <Outlet /> : <Navigate to="/criar-conta" replace />}
+      {loading === true ? (
+        <Loading />
+      ) : token != null ? (
+        <Outlet />
+      ) : (
+        <Navigate to="/criar-conta" replace />
+      )}
     </div>
   );
 }

@@ -17,11 +17,13 @@ import './css/LoadChatStyles.responsive.css';
 
 /* COMPONENTS */
 import Prompt from '../prompt';
+import InfoModal from '../../modal/infoModal';
+import Loading from '../../loading';
 
 /* MARKDOWN */
 import ReactMarkdown from 'react-markdown';
 import rehypeSanitize from 'rehype-sanitize';
-import remarkGfm from 'remark-gfm'; 
+import remarkGfm from 'remark-gfm';
 
 function getPrompt() {
   return `
@@ -61,6 +63,7 @@ export function LoadChat({ chatId, messages }) {
   const [messageLoad, setMessageLoad] = useState([]);
   const [isMessage, setNewMessage] = useState(false);
   const [waiting, setWaiting] = useState(false);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     setMessageLoad(messages);
@@ -89,77 +92,115 @@ export function LoadChat({ chatId, messages }) {
   }, [messageLoad]);
 
   const handleSendMessage = async () => {
-    if (textareaRef.current.value.length === 0) return;
+    if (!textareaRef.current || textareaRef.current.value.length === 0) return;
     if (waiting) return;
+
     const message = textareaRef.current.value;
     textareaRef.current.value = '';
 
     setWaiting(true);
+    setError(false);
+
     const token = await getToken();
 
     async function reload() {
-      const response = await fetch(`${getURL()}chat/${chatId}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      try {
+        const response = await fetch(`${getURL()}chat/${chatId}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
-      if (response.ok) {
-        const data = await response.json();
-        setMessageLoad(data === null ? messageLoad : data.messages);
+        if (response.ok) {
+          const data = await response.json();
+          setMessageLoad(data === null ? messageLoad : data.messages);
+        } else {
+          throw new Error('Falha no reload');
+        }
+      } catch {
+        setError(true);
       }
-
-      return null;
     }
 
     async function newMessageBot() {
-      const response = await fetch(`${getURL()}chat/message/${chatId}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          content: await askToBot({
-            history: messageLoad,
-            systemPrompt: getPrompt(),
-            question: message,
-            temperature: 0.5,
+      try {
+        const botContent = await askToBot({
+          history: messageLoad,
+          systemPrompt: getPrompt(),
+          question: message,
+          temperature: 0.5,
+        });
+
+        const response = await fetch(`${getURL()}chat/message/${chatId}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            content: botContent,
+            isBot: true,
           }),
-          isBot: true,
-        }),
-      });
+        });
+
+        if (!response.ok) throw new Error('Erro enviando mensagem do bot');
+      } catch {
+        setError(true);
+      }
     }
 
     async function newMessageUser() {
-      const response = await fetch(`${getURL()}chat/message/${chatId}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          content: message,
-          isBot: false,
-        }),
-      });
+      try {
+        const response = await fetch(`${getURL()}chat/message/${chatId}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            content: message,
+            isBot: false,
+          }),
+        });
 
-      if (response.ok) {
-        await newMessageBot();
-        reload();
+        if (response.ok) {
+          await newMessageBot();
+          await reload();
+        } else {
+          throw new Error('Erro enviando mensagem do usuário');
+        }
+      } catch {
+        setError(true);
       }
     }
 
     await newMessageUser();
-    textareaRef.current.style.height = 'auto';
+
+    if (textareaRef.current) {
+      textareaRef.current.style.height = 'auto';
+    }
     setNewMessage(true);
     setWaiting(false);
   };
 
   return (
     <div id="chatbot_div_container_load">
+      {error === true ? (
+        <InfoModal
+          title="Ops"
+          description="Não foi possivel realizar a pergunta, tente novamente."
+          onClose={() => {
+            setError(false);
+            window.location.reload();
+          }}
+        />
+      ) : waiting === true ? (
+        <Loading />
+      ) : (
+        ''
+      )}
       <div id="chatbot_div_message_container">
         <div id="chatbot_div_message_background">
           {messageLoad.map((msg) => (
@@ -197,6 +238,7 @@ export function NoChat() {
   const [waiting, setWaiting] = useState(false);
   const [questions, setQuestions] = useState([]);
   const [payload, setPayload] = useState(null);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     async function load() {
@@ -232,39 +274,66 @@ Não envie texto fora do JSON.`;
   const handleButtonSend = async (message) => {
     if (message.length === 0) return;
     if (waiting) return;
-    const token = await getToken();
 
+    const token = await getToken();
     setWaiting(true);
-    async function createMessageReply(chatId) {
-      const reponse = await fetch(`${getURL()}chat/message/${chatId}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          content: await askToBot({
-            systemPrompt: getPrompt(),
-            question: message,
-            temperature: 0.5,
-          }),
-          isBot: true,
-        }),
-      });
+
+    async function getMessageReply() {
+      try {
+        const msg = await askToBot({
+          systemPrompt: getPrompt(),
+          question: message,
+          temperature: 0.5,
+        });
+        return msg;
+      } catch {
+        return null;
+      }
     }
 
-    async function createChatAndMessage() {
+    async function createMessageReply(chatId) {
+      const m = await getMessageReply();
+      if (m === null) return null;
+
+      try {
+        const response = await fetch(`${getURL()}chat/message/${chatId}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            content: m,
+            isBot: true,
+          }),
+        });
+        return response.ok ? response : null;
+      } catch {
+        return null;
+      }
+    }
+
+    async function createTitle() {
       try {
         const title = await askToBot({
           systemPrompt: `Você é uma inteligência artificial que recebe uma mensagem ou uma conversa e gera um título curto, claro e descritivo que resume os temas principais discutidos.  
 O título deve conter no máximo 5 palavras, ser direto, e usar os nomes das funções, variáveis ou tópicos mais importantes da conversa.  
 O título deve parecer um nome de chat simples, sem aspas, vírgulas desnecessárias ou frases completas — apenas os termos-chave unidos por "e" ou "–".  
-Por exemplo, para uma conversa sobre "useEffect" e "messagesEndRef", o título seria: "useEffect e messagesEndRef".
-`,
+Por exemplo, para uma conversa sobre "useEffect" e "messagesEndRef", o título seria: "useEffect e messagesEndRef".`,
           question: message,
           temperature: 0.5,
         });
+        return title;
+      } catch {
+        return null;
+      }
+    }
 
+    async function createChatAndMessage() {
+      const title = await createTitle();
+      if (title == null) return null;
+
+      try {
         const response = await fetch(`${getURL()}chat/create`, {
           method: 'POST',
           headers: {
@@ -277,27 +346,46 @@ Por exemplo, para uma conversa sobre "useEffect" e "messagesEndRef", o título s
           }),
         });
 
-        if (response.ok) {
-          const data = await response.json();
-          await createMessageReply(data.chat_id);
+        if (!response.ok) return null;
 
-          navigate(`/assistente/chat/${data.chat_id}`, { replace: true });
-        } else {
-          console.error('Erro ao criar chat:', response.statusText);
-        }
-      } catch (error) {
-        console.error('Erro:', error);
+        const data = await response.json();
+
+        const msgResponse = await createMessageReply(data.chat_id);
+        if (msgResponse == null) return null;
+
+        navigate(`/assistente/chat/${data.chat_id}`, { replace: true });
+
+        return true; // Sucesso
+      } catch {
+        return null;
       }
     }
 
-    await createChatAndMessage();
-    textareaRef.current.value = '';
-    textareaRef.current.style.height = 'auto';
+    const success = await createChatAndMessage();
+    if (!success) {
+      setError(true);
+    }
+
+    if (textareaRef.current) {
+      textareaRef.current.value = '';
+      textareaRef.current.style.height = 'auto';
+    }
     setWaiting(false);
   };
 
   return (
     <div id="chatbot_div_container">
+      {error === true ? (
+        <InfoModal
+          title="Ops!"
+          description="Ocorreu um erro ao criar esse chat, Tente novamente."
+          onClose={() => setError(false)}
+        />
+      ) : waiting === true ? (
+        <Loading />
+      ) : (
+        ''
+      )}
       <section>
         <div id="chatbot_div_title">
           <img src={tomasIcon} alt="Tomas" />

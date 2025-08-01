@@ -18,6 +18,7 @@ import { getURL } from '../../../utils/api.js';
 import './css/MenuStyles.css';
 import './css/MenuStyles.responsive.css';
 import PromptModal from '../../modal/promptModal/index.jsx';
+import InfoModal from '../../modal/infoModal/index.jsx';
 
 export default function Menu() {
   const [isMenuActive, setMenuActive] = useState(false);
@@ -26,6 +27,7 @@ export default function Menu() {
   const [filter, setFilter] = useState([]);
 
   const [confirm, setConfirm] = useState(false);
+  const [error, setError] = useState(false);
   const [confirmId, setConfirmId] = useState(false);
   const [payload, setPayload] = useState(null);
 
@@ -39,6 +41,7 @@ export default function Menu() {
 
   const handleButtonDelete = async () => {
     setConfirm(false);
+    setError(false);
     const token = await getToken();
     try {
       const response = await fetch(`${getURL()}chat/delete/${confirmId}`, {
@@ -54,7 +57,7 @@ export default function Menu() {
         setTimeout(() => navigate(`/assistente/chat/`), 0);
       }
     } catch (error) {
-      console.log('Erro ' + error);
+      setError(true);
     }
   };
 
@@ -65,14 +68,18 @@ export default function Menu() {
 
   const getChats = async () => {
     const token = await getToken();
-    const response = await fetch(`${getURL()}chat/`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-    }).then((data) => data.json());
-    setChats(response.chat);
+    try {
+      const response = await fetch(`${getURL()}chat/`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      }).then((data) => data.json());
+      setChats(response.chat);
+    } catch (error) {
+      setChats([]);
+    }
   };
 
   const handleButtonMenu = () => {
@@ -110,6 +117,12 @@ export default function Menu() {
           confirmYes={handleButtonDelete}
           confirmNo={() => setConfirm(false)}
         />
+      ) : error === true ? (
+        <InfoModal
+          title="Ops!"
+          description="Houve um erro ao tentar excluir esse chat."
+          onClose={() => setError(false)}
+        />
       ) : (
         ''
       )}
@@ -124,16 +137,14 @@ export default function Menu() {
                 style={{ width: 40, height: 40, borderRadius: '50%' }}
               />
             ) : (
-              <span>
-                {payload.username.charAt(0).toUpperCase() || '?'}
-              </span>
+              <span>{payload.username.charAt(0).toUpperCase() || '?'}</span>
             )}
             <button onClick={handleButtonMenu}>
               <IoCloseSharp />
             </button>
           </div>
           <div>
-            <form action="">
+            <form onSubmit={(e) => e.preventDefault()}>
               <input
                 type="text"
                 name="search"
@@ -157,39 +168,41 @@ export default function Menu() {
 
         <section id="chatbot_menu_open_content">
           <div id="chatbot_div_menu_open_chats">
-            {filter.length !== 0
-              ? filter.map((chat) => (
-                  <div key={chat.chat_id} className="chatbot_component_menu">
-                    <span>
-                      <h6>{chat.chat_title}</h6>
-                    </span>
-                    <button
-                      onClick={() => {
-                        setConfirmId(chat.chat_id);
-                        setConfirm(true);
-                      }}
-                    >
-                      <MdOutlineDelete />
-                    </button>
-                  </div>
-                ))
-              : chats.length === 0
-              ? ''
-              : chats.map((chat) => (
-                  <div key={chat.chat_id} className="chatbot_component_menu">
-                    <span onClick={() => handleNavigate(chat.chat_id)}>
-                      <h6>{chat.chat_title}</h6>
-                    </span>
-                    <button
-                      onClick={() => {
-                        setConfirmId(chat.chat_id);
-                        setConfirm(true);
-                      }}
-                    >
-                      <MdOutlineDelete />
-                    </button>
-                  </div>
-                ))}
+            {filter.length > 0 ? (
+              filter.map((chat) => (
+                <div key={chat.chat_id} className="chatbot_component_menu">
+                  <span>
+                    <h6>{chat.chat_title}</h6>
+                  </span>
+                  <button
+                    onClick={() => {
+                      setConfirmId(chat.chat_id);
+                      setConfirm(true);
+                    }}
+                  >
+                    <MdOutlineDelete />
+                  </button>
+                </div>
+              ))
+            ) : chats.length > 0 ? (
+              chats.map((chat) => (
+                <div key={chat.chat_id} className="chatbot_component_menu">
+                  <span onClick={() => handleNavigate(chat.chat_id)}>
+                    <h6>{chat.chat_title}</h6>
+                  </span>
+                  <button
+                    onClick={() => {
+                      setConfirmId(chat.chat_id);
+                      setConfirm(true);
+                    }}
+                  >
+                    <MdOutlineDelete />
+                  </button>
+                </div>
+              ))
+            ) : (
+              <p>Nenhum chat</p>
+            )}
           </div>
         </section>
 

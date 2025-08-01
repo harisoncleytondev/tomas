@@ -7,6 +7,7 @@ import { getToken } from '../utils/auth.js';
 /* COMPONENTS */
 import Footer from '../components/footer/index.jsx';
 import { ScrollBar } from '../components/scrollbar';
+import Loading from '../components/loading/index.jsx';
 
 /* REACT */
 import { useEffect, useState } from 'react';
@@ -25,15 +26,16 @@ export default function AppWrapper() {
     checkToken();
   }, []);
 
-  if (loading) {
-    //loading
-    return null; 
-  }
-
   return (
     <>
       <ScrollBar />
-      {token == null ? <Outlet /> : <Navigate to="/assistente/chat" replace />}
+      {loading === true ? (
+        <Loading />
+      ) : token == null ? (
+        <Outlet />
+      ) : (
+        <Navigate to="/assistente/chat" replace />
+      )}
       <Footer />
     </>
   );

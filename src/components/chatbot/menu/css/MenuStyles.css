@@ -171,6 +171,12 @@
       flex-direction: column;
       gap: 0.8rem;
 
+      & > p {
+        text-align: center;
+        font-family: var(--font-one);
+        color: var(--text-color);
+      }
+
       &::-webkit-scrollbar {
         width: 2px;
       }
