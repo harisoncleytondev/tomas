@@ -8,7 +8,7 @@ import { MdOutlineDelete } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
 
 /* REACT */
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 /* UTILS */
 import { deleteToken, getPayload, getToken } from '../../../utils/auth.js';
@@ -27,15 +27,25 @@ export default function Menu() {
 
   const [confirm, setConfirm] = useState(false);
   const [confirmId, setConfirmId] = useState(false);
+  const [payload, setPayload] = useState(null);
+
+  useEffect(() => {
+    async function load() {
+      const p = await getPayload();
+      setPayload(p);
+    }
+    load();
+  }, [payload]);
 
   const handleButtonDelete = async () => {
     setConfirm(false);
+    const token = await getToken();
     try {
       const response = await fetch(`${getURL()}chat/delete/${confirmId}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${getToken()}`,
+          Authorization: `Bearer ${token}`,
         },
       });
 
@@ -54,11 +64,12 @@ export default function Menu() {
   };
 
   const getChats = async () => {
+    const token = await getToken();
     const response = await fetch(`${getURL()}chat/`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${getToken()}`,
+        Authorization: `Bearer ${token}`,
       },
     }).then((data) => data.json());
     setChats(response.chat);
@@ -106,15 +117,15 @@ export default function Menu() {
       <div id="chatbot_div_menu_open">
         <section id="chatbot_menu_open_header">
           <div id="chatbot_div_menu_button_close">
-            {getPayload().icon ? (
+            {payload.icon ? (
               <img
-                src={getPayload().icon}
-                alt={getPayload().username}
+                src={payload.icon}
+                alt={payload.username}
                 style={{ width: 40, height: 40, borderRadius: '50%' }}
               />
             ) : (
               <span>
-                {getPayload().username.charAt(0).toUpperCase() || '?'}
+                {payload.username.charAt(0).toUpperCase() || '?'}
               </span>
             )}
             <button onClick={handleButtonMenu}>

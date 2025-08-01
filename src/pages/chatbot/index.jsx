@@ -23,10 +23,16 @@ export default function ChatBot() {
   const [getChatData, setChatData] = useState(null);
   const [messages, setMessages] = useState({});
   const [isLoading, setLoading] = useState(true);
+  const [payload, setPayload] = useState('');
 
   useEffect(() => {
-    applyPreferencesToCSS(getPayload().preferences);
-  })
+    async function load() {
+      const p = await getPayload();
+      setPayload(p);
+      applyPreferencesToCSS(p.preferences);
+    }
+    load();
+  }, [payload]);
 
   useEffect(() => {
     if (chatId == null) {
@@ -37,12 +43,13 @@ export default function ChatBot() {
 
     const fetchChat = async () => {
       setLoading(true);
+      const token = await getToken();
       try {
         const response = await fetch(`${getURL()}chat/${chatId}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${getToken()}`,
+            Authorization: `Bearer ${token}`,
           },
         });
         if (response.status === 402) {
@@ -69,8 +76,6 @@ export default function ChatBot() {
 
     fetchChat();
   }, [chatId, navigate, getURL, getToken]);
-
-  const payload = getPayload();
 
   useEffect(() => {
     if (payload == null) {

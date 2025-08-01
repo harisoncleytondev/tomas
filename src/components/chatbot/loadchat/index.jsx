@@ -21,7 +21,7 @@ import Prompt from '../prompt';
 /* MARKDOWN */
 import ReactMarkdown from 'react-markdown';
 import rehypeSanitize from 'rehype-sanitize';
-import remarkGfm from 'remark-gfm';
+import remarkGfm from 'remark-gfm'; 
 
 function getPrompt() {
   return `
@@ -95,13 +95,14 @@ export function LoadChat({ chatId, messages }) {
     textareaRef.current.value = '';
 
     setWaiting(true);
+    const token = await getToken();
 
     async function reload() {
       const response = await fetch(`${getURL()}chat/${chatId}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${getToken()}`,
+          Authorization: `Bearer ${token}`,
         },
       });
 
@@ -118,7 +119,7 @@ export function LoadChat({ chatId, messages }) {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${getToken()}`,
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           content: await askToBot({
@@ -137,7 +138,7 @@ export function LoadChat({ chatId, messages }) {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${getToken()}`,
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           content: message,
@@ -195,6 +196,15 @@ export function NoChat() {
   const navigate = useNavigate();
   const [waiting, setWaiting] = useState(false);
   const [questions, setQuestions] = useState([]);
+  const [payload, setPayload] = useState(null);
+
+  useEffect(() => {
+    async function load() {
+      const p = await getPayload();
+      setPayload(p);
+    }
+    load();
+  }, [payload]);
 
   useEffect(() => {
     async function load() {
@@ -214,7 +224,6 @@ Não envie texto fora do JSON.`;
       });
       const json = JSON.parse(res);
       setQuestions(json.message);
-      console.log(questions);
     }
 
     load();
@@ -223,6 +232,7 @@ Não envie texto fora do JSON.`;
   const handleButtonSend = async (message) => {
     if (message.length === 0) return;
     if (waiting) return;
+    const token = await getToken();
 
     setWaiting(true);
     async function createMessageReply(chatId) {
@@ -230,7 +240,7 @@ Não envie texto fora do JSON.`;
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${getToken()}`,
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           content: await askToBot({
@@ -259,7 +269,7 @@ Por exemplo, para uma conversa sobre "useEffect" e "messagesEndRef", o título s
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${getToken()}`,
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
             title,
@@ -292,7 +302,7 @@ Por exemplo, para uma conversa sobre "useEffect" e "messagesEndRef", o título s
         <div id="chatbot_div_title">
           <img src={tomasIcon} alt="Tomas" />
           <h1>
-            Olá, {getPayload() == null ? '' : getPayload().username}.
+            Olá, {payload == null ? '' : payload.username}.
             <br />
             Como posso ajudar?
           </h1>

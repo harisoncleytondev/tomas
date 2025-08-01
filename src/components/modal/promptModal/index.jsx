@@ -9,7 +9,7 @@ export default function PromptModal({
 }) {
   return (
     <div id="component_modal_prompt">
-      <div id="component_modal_prompt_overlay" onClick={() => console.log('opa')}>
+      <div id="component_modal_prompt_overlay" onClick={confirmNo}>
         <div id="component_modal_prompt_container">
           <h4>{title}</h4>
           <p>{description}</p>

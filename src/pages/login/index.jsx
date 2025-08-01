@@ -58,7 +58,6 @@ export default function Login() {
       }
     } catch (err) {
       response = null;
-      console.log('Houve um erro ao requisitar o backend: ' + err);
     }
   };
 

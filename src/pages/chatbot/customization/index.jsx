@@ -24,7 +24,7 @@ import { useNavigate } from 'react-router-dom';
 /* REACT ICONS */
 import { MdOutlineColorLens } from 'react-icons/md';
 import { TbTextSize, TbTemplate } from 'react-icons/tb';
-import { IoIosSave } from "react-icons/io";
+import { IoIosSave } from 'react-icons/io';
 
 /* TOAST */
 import toast, { Toaster } from 'react-hot-toast';
@@ -37,8 +37,7 @@ import {
 } from '../../../utils/auth.js';
 
 export default function Costumization() {
-  const payload = getPayload();
-  const preferences = payload.preferences;
+  const [payload, setPayload] = useState(null);
   const [fontOne, setFontOne] = useState('');
   const [fontTwo, setFontTwo] = useState('');
 
@@ -47,21 +46,6 @@ export default function Costumization() {
 
   const [fontSizeTwo, setFontSizeTwo] = useState('');
   const [fontSpaceTwo, setFontSpaceTwo] = useState('');
-
-  useEffect(() => {
-    if (preferences) {
-      setFontOne(findFontKeyByValue(preferences.fontOne) || 'baloo');
-      setFontTwo(findFontKeyByValue(preferences.fontTwo) || 'lexend');
-      setFontSizeOne(preferences.fontOneSize || 45);
-      setFontSpaceOne(preferences.fontOneSpacing || 0.8);
-      setFontSizeTwo(preferences.fontTwoSize || 16);
-      setFontSpaceTwo(preferences.fontTwoSpacing || 0.8);
-    }
-  }, []);
-
-  useEffect(() => {
-    applyPreferencesToCSS(getPayload().preferences);
-  });
 
   const [fontSizeOneError, setFontSizeOneError] = useState('Tamanho da Fonte');
   const [fontSpaceOneError, setFontSpaceOneError] = useState(
@@ -72,25 +56,43 @@ export default function Costumization() {
     'Espaçamento entre Letras'
   );
 
-  const [colorBackground, setBackground] = useState(
-    getPayload().preferences.backgroundColor
-  );
-  const [colorText, setText] = useState(getPayload().preferences.textColor);
-  const [colorButton, setButton] = useState(
-    getPayload().preferences.buttonColor
-  );
-  const [colorEmphasis, setEmphasis] = useState(
-    getPayload().preferences.extraColor
-  );
+  const [colorBackground, setBackground] = useState('');
+  const [colorText, setText] = useState('');
+  const [colorButton, setButton] = useState('');
+  const [colorEmphasis, setEmphasis] = useState('');
 
   const [confirm, setConfirm] = useState(false);
   const [confirmMessage, setConfirmMessage] = useState('');
   const navigate = useNavigate();
 
+  useEffect(() => {
+    async function load() {
+      const p = await getPayload();
+      setPayload(p);
+      applyPreferencesToCSS(p.preferences);
+    }
+    load();
+  }, []);
+
+  useEffect(() => {
+    if (payload) {
+      setBackground(payload.preferences.backgroundColor);
+      setText(payload.preferences.textColor);
+      setButton(payload.preferences.buttonColor);
+      setEmphasis(payload.preferences.extraColor);
+      setFontOne(findFontKeyByValue(payload.preferences.fontOne) || 'baloo');
+      setFontTwo(findFontKeyByValue(payload.preferences.fontTwo) || 'lexend');
+      setFontSizeOne(payload.preferences.fontOneSize || 45);
+      setFontSpaceOne(payload.preferences.fontOneSpacing || 0.8);
+      setFontSizeTwo(payload.preferences.fontTwoSize || 16);
+      setFontSpaceTwo(payload.preferences.fontTwoSpacing || 0.8);
+    }
+  }, [payload]);
+
   const MIN_FONT_SIZE = 1;
-  const MAX_FONT_SIZE = 100;
+  const MAX_FONT_SIZE = 60;
   const MIN_FONT_SPACE = 0.1;
-  const MAX_FONT_SPACE = 10;
+  const MAX_FONT_SPACE = 4;
 
   /* Eventos input */
   const handleFontSizeOneChange = (e) => {
@@ -180,7 +182,7 @@ export default function Costumization() {
   /* Botão modelos */
   const handleButtonModels = async () => {
     alert('Tem ainda n mane');
-  }
+  };
 
   /* Botão continuar */
   const handleButtonContinue = async () => {
@@ -293,11 +295,12 @@ Exemplos de Saída:
           fontTwoSpacing: fontSpaceTwo,
         },
       };
+      const token = await getToken();
       const response = await fetch(`${getURL()}user/edit/preferences`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${getToken()}`,
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(object),
       });
@@ -673,8 +676,12 @@ Exemplos de Saída:
         </div>
 
         <div id="costumization_div_button">
-          <button onClick={async () => await handleButtonModels()}><TbTemplate /> Ver modelos</button>
-          <button onClick={async () => await handleButtonContinue()}><IoIosSave /> Salvar</button>
+          <button onClick={async () => await handleButtonModels()}>
+            <TbTemplate /> Ver modelos
+          </button>
+          <button onClick={async () => await handleButtonContinue()}>
+            <IoIosSave /> Salvar
+          </button>
         </div>
       </div>
     </div>
