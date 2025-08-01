@@ -1,0 +1,37 @@
+{
+  "themes": [
+    {
+      "id": "dark-theme-1",
+      "name": "Noite Animada",
+      "category": "dark",
+      "colors": {
+        "background": "#121212",
+        "text": "#F5F5F5",
+        "button": "#3F51B5",
+        "extra": "#FFC107"
+      }
+    },
+    {
+      "id": "fun-theme-1",
+      "name": "Picolé de Mirtilo",
+      "category": "fun",
+      "colors": {
+        "background": "#E8F0F8",
+        "text": "#212121",
+        "button": "#6A5ACD",
+        "extra": "#FFD700"
+      }
+    },
+    {
+      "id": "fun-theme-2",
+      "name": "Festa na Piscina",
+      "category": "fun",
+      "colors": {
+        "background": "#F0FFF0",
+        "text": "#333333",
+        "button": "#00CED1",
+        "extra": "#FFFF00"
+      }
+    }
+  ]
+}
