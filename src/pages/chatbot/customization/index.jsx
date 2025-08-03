@@ -5,6 +5,7 @@ import './css/Customization.responsive.css';
 /* COMPONENTS */
 import InfoModal from '../../../components/modal/infoModal/index.jsx';
 import { ScrollBar } from '../../../components/scrollbar/index.jsx';
+import Loading from '../../../components/loading/index.jsx';
 
 /* UTILS */
 import {
@@ -13,7 +14,15 @@ import {
   getColorPalette,
   applyPreferencesToCSS,
 } from '../../../utils/costumization.jsx';
+import {
+  getPayload,
+  getToken,
+  isTokenInLocalStorage,
+  setTokenLocal,
+  setTokenSession,
+} from '../../../utils/auth.js';
 import { getURL, askToBot } from '../../../utils/api.js';
+import themes from '../../../utils/themes.json';
 
 /* REACT */
 import { useState, useEffect } from 'react';
@@ -25,17 +34,10 @@ import { useNavigate } from 'react-router-dom';
 import { MdOutlineColorLens } from 'react-icons/md';
 import { TbTextSize, TbTemplate } from 'react-icons/tb';
 import { IoIosSave } from 'react-icons/io';
+import { IoCloseSharp } from 'react-icons/io5';
 
 /* TOAST */
 import toast, { Toaster } from 'react-hot-toast';
-import {
-  getPayload,
-  getToken,
-  isTokenInLocalStorage,
-  setTokenLocal,
-  setTokenSession,
-} from '../../../utils/auth.js';
-import Loading from '../../../components/loading/index.jsx';
 
 export default function Costumization() {
   const [payload, setPayload] = useState(null);
@@ -66,6 +68,8 @@ export default function Costumization() {
 
   const [confirm, setConfirm] = useState(false);
   const [confirmMessage, setConfirmMessage] = useState('');
+  const [showTheme, setShowTheme] = useState(false);
+  const [showThemeCategory, setShowThemeCategory] = useState('all');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -91,6 +95,20 @@ export default function Costumization() {
       setFontSpaceTwo(payload.preferences.fontTwoSpacing || 0.8);
     }
   }, [payload]);
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape' && showTheme === true) {
+        setShowTheme(false);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [showTheme]);
 
   const MIN_FONT_SIZE = 1;
   const MAX_FONT_SIZE = 60;
@@ -184,14 +202,59 @@ export default function Costumization() {
 
   /* Botão modelos */
   const handleButtonModels = async () => {
-    alert('Tem ainda n mane');
+    setShowTheme(true);
+  };
+
+  /* Update */
+  const updateAccount = async () => {
+    setWaiting(true);
+    setError(false);
+    try {
+      const object = {
+        preferences: {
+          backgroundColor: colorBackground,
+          textColor: colorText,
+          buttonColor: colorButton,
+          extraColor: colorEmphasis,
+          fontOne: fontOne,
+          fontOneSize: fontSizeOne,
+          fontOneSpacing: fontSpaceOne,
+          fontTwo: fontTwo,
+          fontTwoSize: fontSizeTwo,
+          fontTwoSpacing: fontSpaceTwo,
+        },
+      };
+      const token = await getToken();
+      const response = await fetch(`${getURL()}user/edit/preferences`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(object),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+
+        if (isTokenInLocalStorage) {
+          setTokenLocal(data.token);
+        } else {
+          setTokenSession(data.token);
+        }
+
+        return true;
+      }
+
+      return null;
+    } catch (error) {
+      return null;
+    }
   };
 
   /* Botão continuar */
   const handleButtonContinue = async () => {
     if (waiting === true) return;
-    setWaiting(true);
-    setError(false);
 
     if (
       fontSizeOne < MIN_FONT_SIZE ||
@@ -286,50 +349,6 @@ Sua resposta deve ser **estritamente** um objeto JSON, sem nenhum texto ou expli
       setConfirm(true);
       setConfirmMessage(json.message);
       return;
-    }
-
-    async function updateAccount() {
-      try {
-        const object = {
-          preferences: {
-            backgroundColor: colorBackground,
-            textColor: colorText,
-            buttonColor: colorButton,
-            extraColor: colorEmphasis,
-            fontOne: fontOne,
-            fontOneSize: fontSizeOne,
-            fontOneSpacing: fontSpaceOne,
-            fontTwo: fontTwo,
-            fontTwoSize: fontSizeTwo,
-            fontTwoSpacing: fontSpaceTwo,
-          },
-        };
-        const token = await getToken();
-        const response = await fetch(`${getURL()}user/edit/preferences`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(object),
-        });
-
-        if (response.ok) {
-          const data = await response.json();
-
-          if (isTokenInLocalStorage) {
-            setTokenLocal(data.token);
-          } else {
-            setTokenSession(data.token);
-          }
-
-          return true;
-        }
-
-        return null;
-      } catch (error) {
-        return null;
-      }
     }
 
     const res = await updateAccount();
@@ -429,8 +448,91 @@ Sua resposta deve ser **estritamente** um objeto JSON, sem nenhum texto ou expli
     }
   };
 
+  const applyTheme = async (theme) => {
+    setBackground(theme.colors.background);
+    setButton(theme.colors.button);
+    setEmphasis(theme.colors.extra);
+    setText(theme.colors.text);
+    setShowTheme(false);
+  };
+
+  const themeJSX = (theme) => {
+    return (
+      <>
+        <div
+          style={{ background: theme.colors.background }}
+          onClick={async () => await applyTheme(theme)}
+        >
+          <div id="costumization_div_themes_select">
+            <span style={{ color: theme.colors.text }}>Selecionar agora</span>
+          </div>
+          <p style={{ color: theme.colors.text }}>{theme.name}</p>
+          <button
+            style={{
+              background: theme.colors.button,
+              color: theme.colors.text,
+            }}
+          >
+            Botão
+          </button>
+          <h4
+            style={{
+              background: theme.colors.button,
+              color: theme.colors.extra,
+            }}
+          >
+            Texto de destaque
+          </h4>
+        </div>
+      </>
+    );
+  };
+
   return (
     <div id="costumization_div">
+      {showTheme === true ? (
+        <>
+          <div
+            id="costumization_div_themes_overlay"
+            onClick={() => setShowTheme(false)}
+          ></div>
+          <div id="costumization_div_themes">
+            <div id="costumization_div_themes_title">
+              <h2>Temas</h2>
+              <p>Escolha entre temas já predefinidos.</p>
+            </div>
+            <button id="costumization_div_themes_close" onClick={() => setShowTheme(false)}>
+              {' '}
+              <IoCloseSharp />{' '}
+            </button>
+            <div id="costumization_div_themes_button">
+              <button onClick={() => setShowThemeCategory('all')}>Todos</button>
+              <button onClick={() => setShowThemeCategory('dark')}>
+                Escuros
+              </button>
+              <button onClick={() => setShowThemeCategory('light')}>
+                Claros
+              </button>
+            </div>
+            <div id="costumization_div_themes_space"></div>
+
+            <div id="costumization_div_themes_container">
+              {themes.themes
+                .filter((theme) =>
+                  showThemeCategory === 'all'
+                    ? true
+                    : theme.category.includes(showThemeCategory)
+                )
+                .map((theme) => (
+                  <div key={theme.id}>{themeJSX(theme)}</div>
+                ))}
+            </div>
+          </div>
+        </>
+      ) : (
+        ''
+      )}
+
       {confirm === true ? (
         <InfoModal
           title="Ops!"

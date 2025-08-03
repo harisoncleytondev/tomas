@@ -38,6 +38,11 @@
 }
 
 @media (max-width: 755px) {
+  #costumization_div {
+    & > #costumization_div_themes {
+      top: 0;
+    }
+  }
   #costumization_div > #costumization_div_content {
     #costumization_div_content_color {
       padding: 10px;
@@ -91,6 +96,24 @@
 
   .costumization_div_space {
     width: 300px;
+  }
+}
+
+@media (max-width: 460px) {
+  #costumization_div {
+    & > #costumization_div_themes {
+      top: 0;
+
+      & > #costumization_div_themes_close {
+        left: 80%;
+        top: 2%;
+      }
+
+      & > #costumization_div_themes_container {
+        display: flex;
+        flex-direction: column;
+      }
+    }
   }
 }
 

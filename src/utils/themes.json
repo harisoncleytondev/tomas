@@ -2,7 +2,7 @@
   "themes": [
     {
       "id": "dark-theme-1",
-      "name": "Noite Animada",
+      "name": "Azul Profundo",
       "category": "dark",
       "colors": {
         "background": "#000B3E",
@@ -12,25 +12,25 @@
       }
     },
     {
-      "id": "fun-theme-1",
-      "name": "Picolé de Mirtilo",
-      "category": "fun",
+      "id": "light-theme-1",
+      "name": "Espuma de Hortelã",
+      "category": "light",
       "colors": {
-        "background": "#E8F0F8",
-        "text": "#212121",
-        "button": "#6A5ACD",
-        "extra": "#FFD700"
+        "background": "#e6f8f5",
+        "text": "#000",
+        "button": "#caebe2",
+        "extra": "#fff"
       }
     },
     {
-      "id": "fun-theme-2",
-      "name": "Festa na Piscina",
-      "category": "fun",
+      "id": "dark-theme-2",
+      "name": "Asfalto Frio",
+      "category": "dark",
       "colors": {
-        "background": "#F0FFF0",
-        "text": "#333333",
-        "button": "#00CED1",
-        "extra": "#FFFF00"
+        "background": "#000804",
+        "text": "#fff",
+        "button": "#282828",
+        "extra": "#fff"
       }
     }
   ]

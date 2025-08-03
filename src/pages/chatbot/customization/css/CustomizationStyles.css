@@ -7,6 +7,173 @@
   min-height: 100vh;
   background: var(--background-color);
 
+  /* Temas */
+  & > #costumization_div_themes_overlay {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    background: rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(2px);
+    z-index: 101;
+  }
+
+  & > #costumization_div_themes {
+    position: absolute;
+    z-index: 102;
+    padding: 30px;
+    width: 80vw;
+    background: var(--background-color);
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 9px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 1.5rem;
+
+    & > #costumization_div_themes_close {
+      position: absolute;
+      left: 90%;
+      top: 5%;
+      font-size: 32px;
+      background: transparent;
+      border: none;
+      color: var(--text-color);
+      cursor: pointer;
+      transition: all ease .4s;
+
+      &:hover {
+        transform: translateY(-5px) scale(1.05);
+        border-bottom: 1px solid var(--text-colorn);
+      }
+    }
+
+    & > #costumization_div_themes_title {
+      color: var(--text-color);
+      text-align: center;
+      font-family: var(--font-one);
+      letter-spacing: var(--font-one-spacing);
+      padding: 0;
+      margin: 0;
+      
+      & > h2 {
+        font-size: var(--font-one-size);
+        letter-spacing: var(--font-one-spacing);
+      }
+    }
+
+    & > #costumization_div_themes_button {
+      display: flex;
+      gap: 0.8rem;
+
+      & > button {
+        border: none;
+        background: var(--button-color);
+        color: var(--text-color);
+        padding: 8px;
+        cursor: pointer;
+        border-radius: 9px;
+        transition: all ease 0.4s;
+
+        &:hover {
+          transform: translateY(-5px) scale(1.05);
+          box-shadow: 0 0 10px var(--extra-color);
+        }
+
+        &:active {
+          transform: scale(0.95);
+        }
+      }
+    }
+
+    & > #costumization_div_themes_space {
+      width: 80%;
+      height: 2px;
+      border-bottom: 5px solid var(--extra-color);
+      margin-bottom: 10px;
+    }
+
+    & > #costumization_div_themes_container {
+      display: grid;
+      width: 80%;
+      grid-template-columns: repeat(2, 1fr);
+      justify-content: space-between;
+      grid-gap: 2rem;
+
+      & > div > div {
+        position: relative;
+        transition: all ease 0.4s;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        border-radius: 16px;
+        padding: 20px;
+        box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
+        gap: 0.8rem;
+        cursor: pointer;
+
+        & > #costumization_div_themes_select {
+          position: absolute; 
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(0, 0, 0, 0.25);
+          backdrop-filter: blur(2px);
+          border-radius: inherit; 
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          cursor: pointer;
+          visibility: hidden;
+          z-index: 100;
+          pointer-events: none;
+
+          & > span {
+            font-size: 22px;
+            font-family: var(--font-one);
+            text-transform: uppercase;
+            font-weight: bold;
+          }
+        }
+
+        & > p {
+          font-size: 22px;
+          font-family: var(--font-one);
+          letter-spacing: var(--font-one-spacing);
+        }
+
+        & > button {
+          cursor: pointer;
+          padding: 8px;
+          width: 80%;
+          border: none;
+          border-radius: 9px;
+        }
+
+        & > h4 {
+          padding: 4px 8px;
+          border-radius: 9px;
+        }
+
+        &:hover {
+          border: 1px solid var(--extra-color);
+          transform: translateY(-5px) scale(1.05);
+          & > #costumization_div_themes_select {
+            visibility: visible;
+          }
+        }
+
+        &:active {
+          border: 3px solid var(--extra-color);
+          transform: translateY(+5px) scale(.90);
+        }
+      }
+    }
+  }
+
   /* Titulo da pagina */
   & > #costumization_div_header {
     & > h2 {
@@ -220,7 +387,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 2rem; 
+      gap: 2rem;
 
       > button {
         display: flex;
@@ -243,10 +410,7 @@
 
         &:hover {
           transform: scale(1.15);
-          background-color: var(
-            --button-color-hover,
-            #555
-          ); 
+          background-color: var(--button-color-hover, #555);
         }
 
         &:active {
