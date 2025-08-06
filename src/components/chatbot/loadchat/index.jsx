@@ -64,12 +64,44 @@ export function LoadChat({ chatId, messages }) {
   const [isMessage, setNewMessage] = useState(false);
   const [waiting, setWaiting] = useState(false);
   const [error, setError] = useState(false);
+  const [fullText, setFullText] = useState();
+  const [fullTextMsg, setFullTextMsg] = useState();
+  const [displayedText, setDisplayedText] = useState('');
+  const indexRef = useRef(0);
+  const intervalRef = useRef(null);
+
+  useEffect(() => {
+    setDisplayedText('');
+    indexRef.current = 0;
+
+    if (!fullText) return;
+
+    intervalRef.current = setInterval(() => {
+      indexRef.current += 1;
+      setDisplayedText(fullText.slice(0, indexRef.current));
+      if (indexRef.current >= fullText.length) {
+        clearInterval(intervalRef.current);
+      }
+    }, 15);
+
+    return () => clearInterval(intervalRef.current);
+  }, [fullText]);
+
+  useEffect(() => {
+    if (messageLoad.length === 0) return;
+
+    const lastMsg = messageLoad[messageLoad.length - 1];
+    if (lastMsg.is_bot) {
+      setFullText(lastMsg.message_content);
+    }
+  }, [messageLoad]);
 
   useEffect(() => {
     setMessageLoad(messages);
   }, [messages]);
 
   useEffect(() => {
+    if (waiting) return;
     const interval = setInterval(() => {
       if (messagesEndRef.current) {
         messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
@@ -79,6 +111,18 @@ export function LoadChat({ chatId, messages }) {
 
     return () => clearInterval(interval);
   }, []);
+
+  useEffect(() => {
+    if (!waiting) return;
+    const interval = setInterval(() => {
+      if (messagesEndRef.current) {
+        messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+        clearInterval(interval);
+      }
+    }, 100);
+
+    return () => clearInterval(interval);
+  }, [waiting]);
 
   useEffect(() => {
     if (isMessage == false) return;
@@ -96,6 +140,7 @@ export function LoadChat({ chatId, messages }) {
     if (waiting) return;
 
     const message = textareaRef.current.value;
+    setFullTextMsg(message);
     textareaRef.current.value = '';
 
     setWaiting(true);
@@ -182,6 +227,7 @@ export function LoadChat({ chatId, messages }) {
       textareaRef.current.style.height = 'auto';
     }
     setNewMessage(true);
+    setFullTextMsg();
     setWaiting(false);
   };
 
@@ -196,30 +242,69 @@ export function LoadChat({ chatId, messages }) {
             window.location.reload();
           }}
         />
-      ) : waiting === true ? (
-        <Loading />
       ) : (
         ''
       )}
       <div id="chatbot_div_message_container">
         <div id="chatbot_div_message_background">
-          {messageLoad.map((msg) => (
-            <div
-              key={msg.message_id}
-              ref={messagesEndRef}
-              className={`chatbot_div_message chatbot_div_message_${
-                msg.is_bot ? 'bot' : 'user'
-              }`}
-            >
-              <ReactMarkdown
-                remarkPlugins={[remarkGfm]}
-                rehypePlugins={[rehypeSanitize]}
+          {messageLoad.map((msg, index) => {
+            const isLast = index === messageLoad.length - 1;
+            const isBotTyping = isLast && msg.is_bot;
+
+            return (
+              <div
+                key={msg.message_id}
+                ref={messagesEndRef}
+                className={`chatbot_div_message chatbot_div_message_${
+                  msg.is_bot ? 'bot' : 'user'
+                }`}
               >
-                {msg.message_content}
-              </ReactMarkdown>
-              <span>{new Date(msg.created_at).toLocaleTimeString()}</span>
-            </div>
-          ))}
+                {isBotTyping ? (
+                  <ReactMarkdown
+                    remarkPlugins={[remarkGfm]}
+                    rehypePlugins={[rehypeSanitize]}
+                  >
+                    {displayedText}
+                  </ReactMarkdown>
+                ) : (
+                  <ReactMarkdown
+                    remarkPlugins={[remarkGfm]}
+                    rehypePlugins={[rehypeSanitize]}
+                  >
+                    {msg.message_content}
+                  </ReactMarkdown>
+                )}
+                <span>{new Date(msg.created_at).toLocaleTimeString()}</span>
+              </div>
+            );
+          })}
+          {waiting === true ? (
+            <>
+              <div className={`chatbot_div_message chatbot_div_message_user`}>
+                <ReactMarkdown
+                  remarkPlugins={[remarkGfm]}
+                  rehypePlugins={[rehypeSanitize]}
+                >
+                  {fullTextMsg}
+                </ReactMarkdown>
+
+                <span>{new Date().toLocaleTimeString()}</span>
+              </div>
+              <div
+                ref={messagesEndRef}
+                className={`chatbot_div_message chatbot_div_message_bot`}
+              >
+                <div id="typing-indicator">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+              </div>
+            </>
+          ) : (
+            ''
+          )}
+          <div />
         </div>
       </div>
       <Prompt
