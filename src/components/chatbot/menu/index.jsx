@@ -17,11 +17,15 @@ import { getURL } from '../../../utils/api.js';
 /* CSS */
 import './css/MenuStyles.css';
 import './css/MenuStyles.responsive.css';
+
+/* COMPONENTS */
 import PromptModal from '../../modal/promptModal/index.jsx';
 import InfoModal from '../../modal/infoModal/index.jsx';
+import Settings from '../settings/index.jsx';
 
 export default function Menu() {
   const [isMenuActive, setMenuActive] = useState(false);
+  const [isSettingsActive, setSettingsActive] = useState(false);
   const navigate = useNavigate();
   const [chats, setChats] = useState([]);
   const [filter, setFilter] = useState([]);
@@ -104,12 +108,27 @@ export default function Menu() {
       <button onClick={handleButtonMenu}>
         <IoIosMenu />
       </button>
-      <button>
+      <button
+        onClick={() => {
+          setSettingsActive(true);
+          setMenuActive(true);
+        }}
+      >
         <CiSettings />
       </button>
     </div>
   ) : (
     <div>
+      {isSettingsActive ? (
+        <Settings
+          onClose={() => {
+            setSettingsActive(false);
+            setMenuActive(false);
+          }}
+        />
+      ) : (
+        ''
+      )}
       {confirm === true ? (
         <PromptModal
           title="Confirmar exlusão"
