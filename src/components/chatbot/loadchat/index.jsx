@@ -76,13 +76,16 @@ export function LoadChat({ chatId, messages }) {
 
     if (!fullText) return;
 
+    const step = 5; 
+
     intervalRef.current = setInterval(() => {
-      indexRef.current += 1;
+      indexRef.current += step;
       setDisplayedText(fullText.slice(0, indexRef.current));
+
       if (indexRef.current >= fullText.length) {
         clearInterval(intervalRef.current);
       }
-    }, 15);
+    }, 5); 
 
     return () => clearInterval(intervalRef.current);
   }, [fullText]);
