@@ -10,7 +10,7 @@ import { getPayload } from '../../../utils/auth';
 import { useEffect, useState } from 'react';
 
 /* REACT ROUTER DOM */
-import { replace, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 /* CSS */
 import './css/SettingsStyles.css';

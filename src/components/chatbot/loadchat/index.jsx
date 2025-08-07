@@ -65,6 +65,7 @@ export function LoadChat({ chatId, messages }) {
   const [waiting, setWaiting] = useState(false);
   const [error, setError] = useState(false);
   const [fullText, setFullText] = useState();
+  const [images, setImages] = useState([]);
   const [fullTextMsg, setFullTextMsg] = useState();
   const [displayedText, setDisplayedText] = useState('');
   const indexRef = useRef(0);
@@ -76,7 +77,7 @@ export function LoadChat({ chatId, messages }) {
 
     if (!fullText) return;
 
-    const step = 5; 
+    const step = 8;
 
     intervalRef.current = setInterval(() => {
       indexRef.current += step;
@@ -85,7 +86,7 @@ export function LoadChat({ chatId, messages }) {
       if (indexRef.current >= fullText.length) {
         clearInterval(intervalRef.current);
       }
-    }, 5); 
+    }, 5);
 
     return () => clearInterval(intervalRef.current);
   }, [fullText]);
@@ -146,6 +147,7 @@ export function LoadChat({ chatId, messages }) {
     setFullTextMsg(message);
     textareaRef.current.value = '';
 
+    setImages([]);
     setWaiting(true);
     setError(false);
 
@@ -314,6 +316,8 @@ export function LoadChat({ chatId, messages }) {
         className="chatbot_prompt_load"
         refPrompt={textareaRef}
         sendPrompt={handleSendMessage}
+        images={images}
+        setImages={setImages}
       />
     </div>
   );
@@ -327,6 +331,7 @@ export function NoChat() {
   const [questions, setQuestions] = useState([]);
   const [payload, setPayload] = useState(null);
   const [error, setError] = useState(false);
+  const [images, setImages] = useState([]);
 
   useEffect(() => {
     async function load() {
@@ -338,7 +343,9 @@ export function NoChat() {
 
   useEffect(() => {
     async function load() {
-      const systemPrompt = `Você gera perguntas muito curtas e simples para ajudar pessoas neurodivergentes no dia a dia. Só perguntas, sem respostas, no JSON:
+      const systemPrompt = `Você é uma IA especializada em gerar assuntos simples, claras e acessíveis para ajudar pessoas neurodivergentes no dia a dia.
+
+Sua tarefa é gerar apenas assuntos curtos, fáceis de entender, voltadas para organização, tomada de decisões e bem-estar. no JSON:
 
 {
   "message": [
@@ -350,7 +357,7 @@ Não envie texto fora do JSON.`;
 
       const res = await askToBot({
         systemPrompt: systemPrompt,
-        question: 'Mê dê 3 perguntas pequenas.',
+        question: 'Mê dê 3 assuntos de ate 30 caracteres.',
       });
       const json = JSON.parse(res);
       setQuestions(json.message);
@@ -365,6 +372,7 @@ Não envie texto fora do JSON.`;
 
     const token = await getToken();
     setWaiting(true);
+    setImages([]);
 
     async function getMessageReply() {
       try {
@@ -443,7 +451,7 @@ Por exemplo, para uma conversa sobre "useEffect" e "messagesEndRef", o título s
 
         navigate(`/assistente/chat/${data.chat_id}`, { replace: true });
 
-        return true; // Sucesso
+        return true; 
       } catch {
         return null;
       }
@@ -488,6 +496,8 @@ Por exemplo, para uma conversa sobre "useEffect" e "messagesEndRef", o título s
           className="chatbot_prompt_noload"
           refPrompt={textareaRef}
           sendPrompt={() => handleButtonSend(textareaRef.current.value)}
+          images={images}
+          setImages={setImages}
         />
 
         <div id="chatbot_div_questions_container">
