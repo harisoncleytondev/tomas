@@ -276,65 +276,38 @@ export default function Costumization() {
       return;
     }
 
-    const prompt = `Você é um assistente de IA especialista em acessibilidade e diretrizes de contraste de cores (WCAG). Sua função é analisar um conjunto de 4 cores e determinar se a combinação oferece legibilidade e acessibilidade visual adequadas para todos os usuários, com foco especial no público neurodivergente.
+    const prompt = `Você é um assistente de IA especialista em design de temas e acessibilidade.
 
-## Tarefa
-Analise as quatro cores fornecidas abaixo, que correspondem a background, text, button e extra. Verifique as seguintes combinações de contraste:
+Analise um conjunto de 4 cores: background, text, button e extra.
 
-1. A cor de "text" sobre a cor de "background".
-2. A cor de "text" sobre a cor de "button".
-3. A cor de "extra" sobre a cor de "background".
+Sua tarefa é avaliar se o tema formado por essas cores é **bom, visível e legível** para a maioria dos usuários, incluindo pessoas neurodivergentes.
 
----
+Rejeite o tema somente se:
+- O texto (text) for igual à cor de fundo (background) ou ao botão (button), dificultando a leitura.
+- A cor extra (extra) for igual ao fundo (background), causando invisibilidade.
+- A combinação tornar a leitura do texto muito difícil ou o tema visualmente confuso a ponto de prejudicar a usabilidade.
 
-## Regras de Análise
-* **Foco na Visibilidade:** A única razão para rejeitar uma combinação é a falha em atender aos critérios mínimos de contraste que garantem a visibilidade (baseado nas diretrizes WCAG 2.1 nível AA, com uma taxa de contraste de pelo menos 4.5:1 para texto normal).
-* **Cores Iguais:** Rejeite a combinação se a cor de "text" for idêntica à cor de "background", se a cor de "text" for idêntica à cor de "button", ou se a cor de "extra" for idêntica à cor de "background". Cores iguais não são aceitas para garantir legibilidade.
-* **Ignore a Estética:** NÃO rejeite combinações por serem "estranhas", "feias" ou não convencionais. Se o contraste for suficiente, a combinação é válida.
-* **Mensagem para o Cliente:** A mensagem de retorno ("mensagem") deve ser extremamente clara, simples e direta. Se a combinação for reprovada, a mensagem deve explicar qual combinação falhou e por que, usando linguagem fácil de entender e sem jargões técnicos.
+Não rejeite por cálculos técnicos rigorosos de contraste. Foque na percepção geral de visibilidade e harmonia.
 
----
-
-## Formato de Saída Obrigatório
-Sua resposta deve ser **estritamente** um objeto JSON, sem nenhum texto ou explicação adicional fora dele. O objeto deve conter duas chaves:
-
-1. "aprovado": um valor booleano (true ou false).
-2. "mensagem": uma string explicando o status.
-
----
-
-## Cores para Análise
-* background: [cor de fundo em hexadecimal, ex: #FFFFFF]
-* text: [cor do texto em hexadecimal, ex: #000000]
-* button: [cor do botão em hexadecimal, ex: #007BFF]
-* extra: [cor extra em hexadecimal, ex: #FFC107]
-
----
-
-## Exemplos de Saída
-* Se for aprovado:
-\`\`\`json
+Responda **apenas** com um objeto JSON contendo:
 {
-  "aprovado": true,
-  "mensagem": "Ótima escolha! Todas as cores são bem visíveis e fáceis de ler."
+  "validate": true|false,
+  "message": "mensagem simples e direta explicando a avaliação"
 }
-\`\`\`
 
-* Se for reprovado:
-\`\`\`json
-{
-  "aprovado": false,
-  "mensagem": "A cor do texto está muito parecida com a cor de fundo. Isso pode dificultar a leitura para algumas pessoas. Tente usar um texto mais escuro ou um fundo mais claro."
-}
-\`\`\`
+Exemplos:
 
-* Se for reprovado por cores iguais:
-\`\`\`json
+Aprovado:
 {
-  "aprovado": false,
-  "mensagem": "A cor do texto é a mesma que a do fundo. Use cores diferentes para garantir que o texto seja visível."
+  "validate": true,
+  "message": "O tema é visualmente agradável e as cores garantem boa visibilidade e legibilidade."
 }
-\`\`\`
+
+Reprovado por cores iguais ou pouca visibilidade:
+{
+  "validate": false,
+  "message": "A cor do texto é muito parecida com o fundo ou com o botão, o que dificulta a leitura. Por favor, escolha cores mais distintas."
+}
 `;
 
     const verification = await askToBot({
@@ -501,7 +474,10 @@ Sua resposta deve ser **estritamente** um objeto JSON, sem nenhum texto ou expli
               <h2>Temas</h2>
               <p>Escolha entre temas já predefinidos.</p>
             </div>
-            <button id="costumization_div_themes_close" onClick={() => setShowTheme(false)}>
+            <button
+              id="costumization_div_themes_close"
+              onClick={() => setShowTheme(false)}
+            >
               {' '}
               <IoCloseSharp />{' '}
             </button>

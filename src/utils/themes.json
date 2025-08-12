@@ -30,7 +30,95 @@
         "background": "#000804",
         "text": "#fff",
         "button": "#282828",
-        "extra": "#fff"
+        "extra": "#1E3A8A"
+      }
+    },
+    {
+      "id": "dark-theme-3",
+      "name": "Crepúsculo Roxo",
+      "category": "dark",
+      "colors": {
+        "background": "#2E004F",
+        "text": "#E0D9FF",
+        "button": "#5C2A9D",
+        "extra": "#9B59B6"
+      }
+    },
+    {
+      "id": "light-theme-2",
+      "name": "Areia Dourada",
+      "category": "light",
+      "colors": {
+        "background": "#FFF8E1",
+        "text": "#5D4037",
+        "button": "#FFD54F",
+        "extra": "#FFB300"
+      }
+    },
+    {
+      "id": "dark-theme-4",
+      "name": "Floresta Noturna",
+      "category": "dark",
+      "colors": {
+        "background": "#001F13",
+        "text": "#B2D8C0",
+        "button": "#136F63",
+        "extra": "#32936F"
+      }
+    },
+    {
+      "id": "light-theme-3",
+      "name": "Céu da Manhã",
+      "category": "light",
+      "colors": {
+        "background": "#D7EFFF",
+        "text": "#223344",
+        "button": "#81B3D2",
+        "extra": "#4A90E2"
+      }
+    },
+    {
+      "id": "dark-theme-5",
+      "name": "Noite Carmesim",
+      "category": "dark",
+      "colors": {
+        "background": "#3B0000",
+        "text": "#FFDCDC",
+        "button": "#7A1212",
+        "extra": "#C0392B"
+      }
+    },
+    {
+      "id": "light-theme-4",
+      "name": "Brisa Tropical",
+      "category": "light",
+      "colors": {
+        "background": "#DFF6F0",
+        "text": "#1A4D37",
+        "button": "#4CAF50",
+        "extra": "#2E7D32"
+      }
+    },
+    {
+      "id": "dark-theme-6",
+      "name": "Vulcão de Cinzas",
+      "category": "dark",
+      "colors": {
+        "background": "#1C1C1C",
+        "text": "#E0E0E0",
+        "button": "#555555",
+        "extra": "#9E9E9E"
+      }
+    },
+    {
+      "id": "light-theme-5",
+      "name": "Pôr do Sol Suave",
+      "category": "light",
+      "colors": {
+        "background": "#FFE5D9",
+        "text": "#5A3E36",
+        "button": "#FF8C61",
+        "extra": "#E86F5A"
       }
     }
   ]

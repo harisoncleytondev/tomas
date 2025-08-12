@@ -14,6 +14,7 @@ import brain from './assets/brain.png';
 import ButtonBlue from '../../components/buttons/buttonPrimary';
 import CardHome from '../../components/home/cardHome';
 import PlansCard from '../../components/home/plans';
+import Footer from '../../components/footer';
 
 /* REACT ICONS */
 import { GrFormNextLink } from 'react-icons/gr';
@@ -236,6 +237,7 @@ export default function Home() {
         </motion.div>
       </section>
 
+      <Footer />
     </div>
   );
 }

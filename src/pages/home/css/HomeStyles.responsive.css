@@ -3,6 +3,9 @@
     & > #home_index_div_cards {
       gap: 8rem;
       scale: 130%;
+      flex-wrap: wrap;
+      max-width: 80%; 
+      margin: 0 auto; 
     }
   }
 }
@@ -15,6 +18,9 @@
       justify-content: center;
       gap: 6rem;
       scale: 120%;
+      flex-wrap: wrap;
+      max-width: 80%; 
+      margin: 0 auto; 
     }
   }
 }
@@ -22,12 +28,15 @@
 @media (min-width: 1200px) and (max-width: 1599px) {
   #home_index {
     & > #home_index_div_cards {
-      gap: 4rem;
-      scale: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 3rem;
+      scale: 95%;
+      max-width: 80%; 
+      margin: 0 auto;
     }
-  }
-  #home_technology > section > #home_technology_div_info {
-    padding: 0 5%;
   }
 }
 
@@ -36,6 +45,8 @@
     & > #home_index_div_cards {
       gap: 3rem;
       scale: 90%;
+      max-width: 90%;
+      margin: 0 auto;
     }
   }
   #home_technology > section > #home_technology_div_info {

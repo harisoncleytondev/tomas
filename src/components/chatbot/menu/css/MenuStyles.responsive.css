@@ -118,3 +118,124 @@
     }
   }
 }
+@media (max-width: 768px) {
+  #chatbot_div_menu {
+    top: 2%;
+    left: 2%;
+    padding: 10px 20px;
+    gap: 1rem;
+
+    & > button {
+      scale: 200%;
+    }
+  }
+
+  #chatbot_div_menu_open {
+    width: 300px;
+    max-width: 90%;
+
+    & > #chatbot_menu_open_header {
+      & > #chatbot_div_menu_button_close {
+        padding: 8px 20px;
+      }
+
+      & > div:nth-child(2) {
+        & > form {
+          width: 90%;
+          padding: 6px 10px;
+
+          & > input {
+            font-size: 14px;
+          }
+
+          & > button {
+            font-size: 16px;
+          }
+        }
+
+        & > button {
+          width: 95%;
+          font-size: 14px;
+        }
+      }
+    }
+
+    & > #chatbot_menu_open_content {
+      & > #chatbot_div_menu_open_chats {
+        padding: 25px 15px;
+        max-height: 20rem;
+      }
+    }
+
+    & > #chatbot_menu_open_footer {
+      width: 90%;
+      padding: 12px 15px;
+      font-size: 14px;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  #chatbot_div_menu {
+    top: 1%;
+    left: 1%;
+    padding: 8px 15px;
+    gap: 0.8rem;
+
+    & > button {
+      scale: 180%;
+    }
+  }
+
+  #chatbot_div_menu_open {
+    width: 95%;
+    max-width: 95%;
+
+    & > #chatbot_menu_open_header {
+      & > #chatbot_div_menu_button_close {
+        padding: 5px 15px;
+        & > span, img {
+          width: 28px;
+          height: 28px;
+          font-size: 14px;
+        }
+        & > button {
+          font-size: 28px;
+        }
+      }
+
+      & > div:nth-child(2) {
+        & > form {
+          width: 95%;
+          padding: 5px 8px;
+
+          & > input {
+            font-size: 12px;
+          }
+
+          & > button {
+            font-size: 14px;
+          }
+        }
+
+        & > button {
+          width: 98%;
+          font-size: 12px;
+        }
+      }
+    }
+
+    & > #chatbot_menu_open_content {
+      & > #chatbot_div_menu_open_chats {
+        padding: 15px 10px;
+        max-height: calc(100vh - 200px);
+      }
+    }
+
+    & > #chatbot_menu_open_footer {
+      width: 95%;
+      padding: 10px 10px;
+      font-size: 12px;
+    }
+  }
+}
