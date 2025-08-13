@@ -1,16 +1,3 @@
-/* Animação home_index_div_deslize */
-@keyframes floatArrow {
-  0% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-  100% {
-    transform: translateY(0);
-  }
-}
-
 /* Seção Inicial */
 #home_index {
   width: 100%;
@@ -57,7 +44,7 @@
     grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
     gap: 0.8rem;
     justify-items: center;
-    padding-bottom: 1.8rem;
+    padding-bottom: 0.6rem;
   }
 
   /* Texto deslizando */
@@ -76,8 +63,6 @@
     & > #home_index_icon_deslize {
       font-size: 20px;
     }
-
-    animation: floatArrow 2.5s ease-in-out infinite;
   }
 }
 
