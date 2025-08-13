@@ -141,14 +141,9 @@ export default function Home() {
           />
         </motion.div>
 
-        <motion.div
-          id="home_index_div_deslize"
-          {...fadeProps}
-          transition={{ duration: 0.6, delay: 0.4 }}
-        >
-          <span>Deslize</span>
-          <SlArrowDown id="home_index_icon_deslize" />
-        </motion.div>
+        <div id="home_index_div_deslize">
+          <span></span>
+        </div>
       </section>
 
       <section id="home_technology">
