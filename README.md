@@ -82,7 +82,6 @@ Para construir o Tomas, utilizamos um conjunto de tecnologias modernas e eficien
     Responsável pela modelagem do banco de dados da aplicação, definindo a estrutura das tabelas, relacionamentos e integridade dos dados.
   </p>
 </div>
----
 
 ## Links e Recursos
 
