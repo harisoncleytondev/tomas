@@ -57,7 +57,7 @@
     grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
     gap: 0.8rem;
     justify-items: center;
-    padding-bottom: 0.6rem;
+    padding-bottom: 1.8rem;
   }
 
   /* Texto deslizando */
