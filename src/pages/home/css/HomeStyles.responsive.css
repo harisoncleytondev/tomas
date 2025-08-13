@@ -1,11 +1,12 @@
 @media (min-width: 1920px) {
   #home_index {
     & > #home_index_div_cards {
-      gap: 8rem;
-      scale: 130%;
+      gap: 6rem;
+      scale: 120%;
       flex-wrap: wrap;
       max-width: 80%; 
       margin: 0 auto; 
+      padding-bottom: 2rem;
     }
   }
 }
