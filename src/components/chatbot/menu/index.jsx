@@ -168,17 +168,9 @@ export default function Menu() {
               <div id="chatbot_div_menu_open">
                 <section id="chatbot_menu_open_header">
                   <div id="chatbot_div_menu_button_close">
-                    {payload.icon ? (
-                      <img
-                        src={payload.icon}
-                        alt={payload.username}
-                        style={{ width: 40, height: 40, borderRadius: '50%' }}
-                      />
-                    ) : (
-                      <span>
-                        {payload.username.charAt(0).toUpperCase() || '?'}
-                      </span>
-                    )}
+                    <span>
+                      {payload.username.charAt(0).toUpperCase() || '?'}
+                    </span>
                     <button onClick={handleButtonMenu}>
                       <IoCloseSharp />
                     </button>

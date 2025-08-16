@@ -30,7 +30,10 @@ export default function Settings({ onClose }) {
   return (
     <div id="component_settings_div">
       <div id="component_settings_div_overlay" onClick={() => onClose()}>
-        <div id="component_settings_div_content" onClick={(e) => e.stopPropagation()}>
+        <div
+          id="component_settings_div_content"
+          onClick={(e) => e.stopPropagation()}
+        >
           <div id="component_settings_div_title">
             <h2>Configurações</h2>
             <button onClick={() => onClose()}>
@@ -40,11 +43,7 @@ export default function Settings({ onClose }) {
 
           <div id="component_settings_div_perfil">
             <div>
-              {payload.icon ? (
-                <img src={payload.icon} alt={payload.username} />
-              ) : (
-                <span>{payload.username?.charAt(0)?.toUpperCase() || '?'}</span>
-              )}
+              <span>{payload.username?.charAt(0)?.toUpperCase() || '?'}</span>
             </div>
 
             <section>

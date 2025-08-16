@@ -174,9 +174,9 @@ export default function Home() {
                   texto para respostas mais precisas.
                 </span>
                 <span>
-                  Desenvolvida em Python e treinada com dados de pessoas
-                  neurodivergentes, ela entende diferentes formas de pensar e se
-                  comunica de forma empática e adaptada.
+                  Ela foi treinada com dados de pessoas neurodivergentes,
+                  entende diferentes formas de pensar e se comunica de forma
+                  empática e adaptada.
                 </span>
                 <span>
                   A IA busca informações relevantes, processa com sensibilidade
