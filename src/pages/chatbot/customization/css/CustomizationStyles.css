@@ -7,7 +7,6 @@
   min-height: 100vh;
   background: var(--background-color);
 
-  /* Temas */
   & > #costumization_div_themes_overlay {
     position: fixed;
     width: 100vw;
@@ -177,7 +176,6 @@
     }
   }
 
-  /* Titulo da pagina */
   & > #costumization_div_header {
     & > h2 {
       color: var(--text-color);
@@ -195,7 +193,6 @@
     }
   }
 
-  /* Fundo do menu */
   & > #costumization_div_content {
     min-width: 65vw;
     max-width: 95vw;
@@ -203,8 +200,8 @@
     background: var(--background-color);
     box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.25);
     padding: 30px;
+    margin: 0 auto;
 
-    /* Escolha das cores */
     & > #costumization_div_content_title {
       display: flex;
       align-items: center;
@@ -245,11 +242,11 @@
     }
     & > #costumization_div_content_color {
       padding: 10px 50px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
       gap: 1rem;
 
-      /* Fundo */
       & > .costumization_color_selected {
         padding-top: 20px;
 
@@ -275,7 +272,6 @@
       }
     }
 
-    /* Escolha dos textos */
     & > #costumization_div_content_title2 {
       & > div {
         display: flex;
@@ -336,6 +332,10 @@
     & > #costumization_div_content_typography {
       padding-block: 10px;
       padding: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
       & .costumization_div_content_typography_input {
         display: flex;
         flex-direction: column;
@@ -374,17 +374,17 @@
         }
       }
 
-      /* Fontes */
       & > #costumization_div_content_typography_one,
       #costumization_div_content_typography_two {
         padding-block: 10px;
         display: flex;
         align-items: center;
         gap: 2rem;
+        flex-wrap: wrap;
+        justify-content: center;
       }
     }
 
-    /* Botões */
     & > #costumization_div_button {
       padding-top: 20px;
       display: flex;
@@ -424,7 +424,6 @@
   }
 }
 
-/* Detalhes da paleta já predefinida */
 .costumization_div_palette {
   display: flex;
   flex-wrap: wrap;
